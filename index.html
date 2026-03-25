@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adam Benenson</title>
+
+  <!-- Variable font: Fraunces (headline) + Inter (metadata) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@300..500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #111111;
+      --surface: #1a1a1a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --muted-2: #b8b8b8;
+      --accent: #a8c4e8;
+      --accent-hover: #d4e4f8;
+      --border: #2a2a2a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Custom cursor */
+    html { cursor: none; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.72;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    /* ── Scroll progress bar ── */
+    #progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 1px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 1000;
+      transition: width 0.05s linear;
+    }
+
+    /* ── Magnetic cursor ── */
+    #cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      mix-blend-mode: screen;
+      opacity: 0.7;
+    }
+    #cursor.hovering {
+      width: 20px; height: 20px;
+      opacity: 0.4;
+    }
+
+    /* ── Headline: variable font kinetics ── */
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 300;
+      font-variation-settings: 'wght' 300, 'opsz' 72, 'WONK' 0;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      animation: name-resolve 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes name-resolve {
+      from {
+        font-variation-settings: 'wght' 100, 'opsz' 9, 'WONK' 1;
+        opacity: 0.4;
+      }
+      to {
+        font-variation-settings: 'wght' 300, 'opsz' 72, 'WONK' 0;
+        opacity: 1;
+      }
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 0.93rem;
+      margin-bottom: 60px;
+      font-style: italic;
+    }
+
+    /* ── Section reveal ── */
+    section {
+      margin-bottom: 52px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      font-size: 0.75rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 22px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .item { margin-bottom: 26px; }
+
+    .item-title {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    /* Variable weight on essay title hover */
+    .item-title a {
+      color: var(--text);
+      text-decoration: none;
+      font-family: 'Fraunces', Georgia, serif;
+      font-variation-settings: 'wght' 300, 'opsz' 12;
+      transition: font-variation-settings 0.2s ease, color 0.15s ease;
+    }
+    .item-title a:hover {
+      color: var(--accent-hover);
+      font-variation-settings: 'wght' 500, 'opsz' 12;
+    }
+
+    /* Plain titles (no link) */
+    .item-title-plain {
+      font-family: 'Fraunces', Georgia, serif;
+      font-variation-settings: 'wght' 300, 'opsz' 12;
+    }
+
+    .item-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 5px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    .item-desc {
+      font-size: 0.91rem;
+      color: var(--muted-2);
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 7px;
+      border-radius: 2px;
+      margin-right: 4px;
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.83rem;
+      color: var(--muted);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 300;
+    }
+
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.15s ease;
+    }
+    .footer a:hover { color: var(--text); }
+
+    .footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress"></div>
+  <div id="cursor"></div>
+
+  <h1>Adam Benenson</h1>
+  <p class="tagline">Founder/CEO at Forethink. Formal methods, agent orchestration, Lean 4, Rust.</p>
+
+  <!-- Writing -->
+  <section>
+    <h2>Writing</h2>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank">
+          The Proof Is the Program
+        </a>
+      </div>
+      <div class="item-meta">January 2026 · Medium</div>
+      <div class="item-desc">What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank">
+          The Compiler Is the Harness
+        </a>
+      </div>
+      <div class="item-meta">January 2026 · Medium</div>
+      <div class="item-desc">Why Rust's strictness makes it the optimal substrate for agentic coding. The compiler as an unambiguous oracle.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://medium.com/@ashbenen" target="_blank">
+          The Cost of Cognitive Fragmentation
+        </a>
+      </div>
+      <div class="item-meta">2024 · Medium</div>
+      <div class="item-desc">On the attention tax of context reconstruction and the case for anticipatory AI tooling.</div>
+    </div>
+  </section>
+
+  <!-- Working Papers -->
+  <section>
+    <h2>Working Papers</h2>
+
+    <div class="item">
+      <div class="item-title item-title-plain">The Constitution Needs a Compiler</div>
+      <div class="item-meta">In preparation · 2026</div>
+      <div class="item-desc">
+        Alignment research has effective systems and no formal account of legitimacy.
+        H. Peyton Young's equity axioms — consistency, solidarity, monotonicity — provide the missing formal backend.
+        Constitutional AI is the right instinct with the wrong substrate.
+        <br><span class="tag">alignment</span><span class="tag">governance</span><span class="tag">formal methods</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title item-title-plain">Stigmergic Governance: A Common Formal Object</div>
+      <div class="item-meta">In preparation · 2026</div>
+      <div class="item-desc">
+        Four systems — formal field theory, agent orchestration, self-modeling, and prediction markets — are related by
+        kernel isomorphisms that preserve promotion logic. A transfer theorem: results in one domain hold across all four.
+        <br><span class="tag">formal methods</span><span class="tag">agent systems</span><span class="tag">information geometry</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section>
+    <h2>Projects</h2>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://forethink.ai" target="_blank">Forethink</a>
+      </div>
+      <div class="item-meta">Rust · TypeScript · pre-seed · active</div>
+      <div class="item-desc">
+        AI-native browser layer for knowledge workers. Thesis: attention fragmentation and context reconstruction
+        are the primary productivity bottlenecks in professional AI-augmented work. The harder questions —
+        when should the system act, how does it accumulate authority, what makes an autonomous decision legitimate —
+        motivated the formal work below.
+        <br><span class="tag">Rust</span><span class="tag">TypeScript</span><span class="tag">WASM</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/stigmergic-field-theory" target="_blank">
+          Stigmergic Field Theory
+        </a>
+      </div>
+      <div class="item-meta">Lean 4 · active</div>
+      <div class="item-desc">
+        Formal investigation into how information organizes itself into structure.
+        Starting from a single constraint (absolute indifference is unrepresentable), derives
+        a three-component tensor decomposition (ICU), a variational principle, and a discharge architecture.
+        Built on Mathlib; key results proven sorry-free.
+        <br><span class="tag">Lean 4</span><span class="tag">Mathlib</span><span class="tag">information geometry</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/cencov-petz" target="_blank">cencov-petz</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
+      <div class="item-desc">
+        The finite Čencov–Petz uniqueness theorem: any continuous monotone metric family on the
+        probability simplex is a scalar multiple of the Fisher information metric.
+        Proved via splitting invariance at rational points + density argument.
+        <br><span class="tag">Lean 4</span><span class="tag">information geometry</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/compact-spectral" target="_blank">compact-spectral</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
+      <div class="item-desc">
+        The spectral theorem for compact self-adjoint operators on Hilbert spaces:
+        a Hilbert basis of eigenvectors exists.
+        <br><span class="tag">Lean 4</span><span class="tag">functional analysis</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/rellich-kondrachov" target="_blank">rellich-kondrachov</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
+      <div class="item-desc">
+        Rellich–Kondrachov compact embedding: H¹ → L² is compact on compact Riemannian manifolds.
+        Euclidean heart via Fréchet–Kolmogorov; manifold glue via finite chart decomposition.
+        <br><span class="tag">Lean 4</span><span class="tag">Sobolev spaces</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title item-title-plain">Connectome</div>
+      <div class="item-meta">Rust · governance-first agent orchestration</div>
+      <div class="item-desc">
+        Self-evolving control plane for autonomous agent dispatch, verification, and learning.
+        Evidence-gated authority ratchet, mandatory rollback contracts, nine enforced architecture invariants.
+        The Eudaimon program: a system whose capability expands only through the same evidence-gated mechanism that governs everything it does.
+        <br><span class="tag">Rust</span><span class="tag">agent systems</span><span class="tag">governance</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://github.com/abenenson">GitHub</a>
+      <a href="https://medium.com/@ashbenen">Medium</a>
+      <a href="mailto:adam@forethink.ai">adam@forethink.ai</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll progress bar ──
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+      progress.style.width = Math.min(pct, 100) + '%';
+    }, { passive: true });
+
+    // ── Section reveal (IntersectionObserver) ──
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    sections.forEach(s => observer.observe(s));
+
+    // ── Magnetic cursor ──
+    const cursor = document.getElementById('cursor');
+    let mx = -100, my = -100;
+    let cx = -100, cy = -100;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    // Smooth follow
+    function animateCursor() {
+      cx += (mx - cx) * 0.18;
+      cy += (my - cy) * 0.18;
+      cursor.style.left = cx + 'px';
+      cursor.style.top  = cy + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Magnetic pull toward interactive elements
+    const magnets = document.querySelectorAll('a, button');
+    magnets.forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const ex = r.left + r.width / 2;
+        const ey = r.top  + r.height / 2;
+        const dx = (e.clientX - ex) * 0.28;
+        const dy = (e.clientY - ey) * 0.28;
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+        cursor.classList.add('hovering');
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+        cursor.classList.remove('hovering');
+      });
+    });
+  </script>
+
+</body>
+</html>
