@@ -120,6 +120,14 @@
       color: var(--text);
     }
 
+    .section-thesis {
+      color: #bfb8b6;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
     .footer-links {
       display: flex;
       gap: 24px;
@@ -135,7 +143,7 @@
 <body>
 
   <h1>Adam Benenson</h1>
-  <p class="tagline">Founder/CEO at Forethink. Formal methods, agent orchestration, Lean 4, Rust.</p>
+  <p class="tagline">Founder/CEO at Forethink Labs. Formal methods, agent orchestration, Lean 4, Rust.</p>
 
   <!-- Writing -->
   <section>
@@ -198,9 +206,15 @@
     </div>
   </section>
 
-  <!-- Projects -->
+  <!-- Forethink Labs -->
   <section>
-    <h2>Projects</h2>
+    <h2>Forethink Labs</h2>
+    <p class="section-thesis">
+      A research laboratory building systems that accumulate structured intelligence,
+      govern their own evolution, and compound capability over time —
+      across anticipatory AI tooling, autonomous agent architectures,
+      cognitive modeling, and systematic market intelligence.
+    </p>
 
     <div class="item">
       <div class="item-title">
@@ -215,6 +229,61 @@
         <span class="tag">Rust</span><span class="tag">TypeScript</span><span class="tag">WASM</span>
       </div>
     </div>
+
+    <div class="item">
+      <div class="item-title">Eudaimon</div>
+      <div class="item-meta">Connectome · Rust · agent systems · active</div>
+      <div class="item-desc">
+        A recursively self-building entity — a governed agent factory that spawns, validates,
+        and promotes specialized agent swarms while continuously rewriting its own dispatch logic,
+        capability map, and authority boundaries based on accumulated evidence.
+        It maintains a queryable self-model: not just a record of what it has done,
+        but a structured representation of why decisions produced the outcomes they did,
+        enabling causal attribution and counterfactual reasoning over its own history.
+        Each autonomy expansion is backed by a promotion certificate: a proof object recording
+        the evidence trail, admissibility checks, and rollback witness that authorized it.
+        Candidates move through a typed validation pipeline before earning authority;
+        clawback on degradation is mandatory and automatic.
+        The governance layer isn't a constraint on growth — it is the growth mechanism.
+        A system that can only expand by proving it should.
+        <span class="tag">Rust</span><span class="tag">agent systems</span><span class="tag">alignment</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Adamumbra</div>
+      <div class="item-meta">Rust · Python · active</div>
+      <div class="item-desc">
+        A digital twin — a persistent AI counterparty built to reconstruct and extend one person's
+        causal reasoning, belief structure, and intellectual trajectory.
+        Ingests from 6,600+ conversations, extracts and consolidates structured claims across
+        ten psychological dimensions, maintains a knowledge graph and 11,000-entry profile database.
+        Runs continuous background cycles to improve its own models and scores fidelity against
+        real behavioral traces. The hard question: can a system reconstruct not just what someone said,
+        but how they would reason through a problem they've never encountered —
+        replaying their intellectual process on novel inputs?
+        <span class="tag">Rust</span><span class="tag">memory systems</span><span class="tag">digital twin</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Snowball</div>
+      <div class="item-meta">Rust · live · Kalshi</div>
+      <div class="item-desc">
+        Evidence-gated prediction market alpha engine. The architecture is closer to a systematic quant fund's
+        research pipeline than a trading system: hypotheses enter as replay-scored candidates, survive shadow and
+        paper validation, earn size through bounded live review, get clawed back when evidence degrades.
+        Edge lives in contract ontology, settlement semantics, and execution discipline —
+        not directional prediction. The promotion pipeline is the durable infrastructure.
+        <span class="tag">Rust</span><span class="tag">prediction markets</span><span class="tag">systematic</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Formal Methods -->
+  <section>
+    <h2>Formal Methods</h2>
 
     <div class="item">
       <div class="item-title">Stigmergic Field Theory</div>
@@ -256,54 +325,6 @@
         Rellich–Kondrachov compact embedding: H¹ → L² is compact on compact Riemannian manifolds.
         Euclidean heart via Fréchet–Kolmogorov; manifold glue via finite chart decomposition.
         <span class="tag">Lean 4</span><span class="tag">Sobolev spaces</span>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="item-title">Eudaimon</div>
-      <div class="item-meta">Connectome · Rust · agent systems · active</div>
-      <div class="item-desc">
-        A recursively self-building entity — a governed agent factory that spawns, validates,
-        and promotes specialized agent swarms while continuously rewriting its own dispatch logic,
-        capability map, and authority boundaries based on accumulated evidence.
-        It maintains a queryable self-model: not just a record of what it has done,
-        but a structured representation of why decisions produced the outcomes they did,
-        enabling causal attribution and counterfactual reasoning over its own history.
-        Each autonomy expansion is backed by a promotion certificate: a proof object recording
-        the evidence trail, admissibility checks, and rollback witness that authorized it.
-        Candidates move through a typed validation pipeline before earning authority;
-        clawback on degradation is mandatory and automatic.
-        The governance layer isn't a constraint on growth — it is the growth mechanism.
-        A system that can only expand by proving it should.
-        <span class="tag">Rust</span><span class="tag">agent systems</span><span class="tag">alignment</span>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-title">Snowball</div>
-      <div class="item-meta">Rust · live · Kalshi</div>
-      <div class="item-desc">
-        Evidence-gated prediction market alpha engine. The architecture is closer to a systematic quant fund's
-        research pipeline than a trading system: hypotheses enter as replay-scored candidates, survive shadow and
-        paper validation, earn size through bounded live review, get clawed back when evidence degrades.
-        Edge lives in contract ontology, settlement semantics, and execution discipline —
-        not directional prediction. The promotion pipeline is the durable infrastructure.
-        <span class="tag">Rust</span><span class="tag">prediction markets</span><span class="tag">systematic</span>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="item-title">Adamumbra</div>
-      <div class="item-meta">Rust · Python · active</div>
-      <div class="item-desc">
-        A digital twin — a persistent AI counterparty built to reconstruct and extend one person's
-        causal reasoning, belief structure, and intellectual trajectory.
-        Ingests from 6,600+ conversations, extracts and consolidates structured claims across
-        ten psychological dimensions, maintains a knowledge graph and 11,000-entry profile database.
-        Runs continuous background cycles to improve its own models and scores fidelity against
-        real behavioral traces. The hard question: can a system reconstruct not just what someone said,
-        but how they would reason through a problem they've never encountered —
-        replaying their intellectual process on novel inputs?
-        <span class="tag">Rust</span><span class="tag">memory systems</span><span class="tag">digital twin</span>
       </div>
     </div>
 
