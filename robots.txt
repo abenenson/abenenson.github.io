@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://abenenson.github.io/sitemap.xml
+Sitemap: https://adambenenson.com/sitemap.xml
