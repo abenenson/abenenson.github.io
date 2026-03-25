@@ -1,0 +1,28 @@
+# Adam Benenson
+
+Adam Benenson is founder and CEO of Forethink Labs, a research laboratory building at the intersection of autonomous agent systems, AI alignment, and formal methods.
+
+## Active Projects
+
+- **Forethink**: AI-native browser extension that proactively resurfaces relevant information as you work. Local-first architecture; all processing on-device.
+- **Eudaimon**: A recursively self-building agent entity that dispatches and governs swarms of specialized agents. Maintains a queryable self-model with causal attribution and counterfactual reasoning over its own history. Autonomy expansion is evidence-gated; every capability boundary is backed by a promotion certificate with rollback guarantee.
+- **Adamumbra**: A digital twin built to reconstruct one person's causal reasoning, belief structure, and intellectual trajectory. 10,000+ ingested episodes, 33,000+ structured claims, 8.5/10 behavioral fidelity across 75 manually evaluated trials.
+- **Stigmergic Field Theory (SFT)**: Formal theory of how information organizes itself into structure, developed in Lean 4 on Mathlib. Key result: from a single constraint (absolute indifference is unrepresentable), derives a three-component tensor decomposition and variational principle.
+- **Lean 4 proofs**: Sorry-free formal proofs of Čencov-Petz uniqueness, the spectral theorem for compact self-adjoint operators, and Rellich-Kondrachov compact embedding — submitted to Mathlib.
+
+## Research
+
+Working papers include a formal proof that Eudaimon, Adamumbra, SFT, and Snowball are isomorphic instantiations of a single mathematical object: the trace-bearing constrained promotion kernel. Results in any one domain transfer to the others via kernel isomorphism theorems.
+
+## Background
+
+Former quantitative portfolio manager. Codes in Rust, Python, TypeScript, Lean 4.
+
+## Links
+
+- Website: https://abenenson.github.io
+- GitHub: https://github.com/abenenson
+- LinkedIn: https://www.linkedin.com/in/adam-benenson/
+- X: https://x.com/ashbenen
+- Medium: https://medium.com/@ashbenen
+- Email: adam@forethink.ai
