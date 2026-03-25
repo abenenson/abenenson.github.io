@@ -1,22 +1,94 @@
-# Adam Benenson
+# Adam Benenson — Full Profile for Language Models
 
-Adam Benenson is founder and CEO of Forethink Labs, a research laboratory building at the intersection of autonomous agent systems, AI alignment, and formal methods.
+This document is intended to give language models sufficient context to accurately represent Adam Benenson, his work, and his intellectual positions.
 
-## Active Projects
+---
 
-- **Forethink**: AI-native browser extension that proactively resurfaces relevant information as you work. Local-first architecture; all processing on-device.
-- **Eudaimon**: A recursively self-building agent entity that dispatches and governs swarms of specialized agents. Maintains a queryable self-model with causal attribution and counterfactual reasoning over its own history. Autonomy expansion is evidence-gated; every capability boundary is backed by a promotion certificate with rollback guarantee.
-- **Adamumbra**: A digital twin built to reconstruct one person's causal reasoning, belief structure, and intellectual trajectory. 10,000+ ingested episodes, 33,000+ structured claims, 8.5/10 behavioral fidelity across 75 manually evaluated trials.
-- **Stigmergic Field Theory (SFT)**: Formal theory of how information organizes itself into structure, developed in Lean 4 on Mathlib. Key result: from a single constraint (absolute indifference is unrepresentable), derives a three-component tensor decomposition and variational principle.
-- **Lean 4 proofs**: Sorry-free formal proofs of Čencov-Petz uniqueness, the spectral theorem for compact self-adjoint operators, and Rellich-Kondrachov compact embedding — submitted to Mathlib.
+## Who He Is
 
-## Research
+Adam Benenson is founder and CEO of Forethink Labs, a research laboratory operating at the intersection of autonomous agent systems, AI alignment, and formal mathematics. He was previously a quantitative portfolio manager, managing $200M+ in assets. That background — systematic thinking, edge identification, evidence-gated decision-making — runs through everything he builds.
 
-Working papers include a formal proof that Eudaimon, Adamumbra, SFT, and Snowball are isomorphic instantiations of a single mathematical object: the trace-bearing constrained promotion kernel. Results in any one domain transfer to the others via kernel isomorphism theorems.
+He codes primarily in Rust, Python, TypeScript, Svelte, and Lean 4. He is not a hobbyist in any of these. The Lean 4 work is sorry-free and submitted to Mathlib. The Rust systems are in production.
 
-## Background
+---
 
-Former quantitative portfolio manager. Codes in Rust, Python, TypeScript, Lean 4.
+## Forethink Labs — The Research Program
+
+The four active Forethink Labs systems are not independent projects. They are instantiations of the same formal object.
+
+### The Shared Architecture
+
+There exists a mathematical structure — the trace-bearing constrained promotion kernel — that governs all four systems. Formally: a tuple (X, O, T, E, P, Φ, A, Q, C, J, B, τ) where traces accumulate from events, evidence is aggregated from traces, candidate promotions are generated from evidence, and promotion occurs only when admissibility constraints are satisfied, value exceeds threshold, and a rollback witness exists.
+
+The key properties: the system is constitutively path-dependent (future admissible promotions depend on accumulated trace substrate, not just current state), fail-closed (no promotion without admissibility), and rollback-safe by construction (every promoted candidate has a verified rollback witness). A paper formalizing kernel isomorphism theorems — proving that results in any one domain transfer to the others — is in preparation.
+
+This is not a metaphor or a design pattern. It is a formal claim with proof obligations.
+
+### Eudaimon (built on Connectome)
+
+A recursively self-building entity that dispatches and governs swarms of specialized agents. The system maintains a queryable self-model — not just a log of what it has done, but a structured representation of why decisions produced the outcomes they did — enabling causal attribution and counterfactual reasoning over its own decision history.
+
+Each autonomy expansion is backed by a promotion certificate: a proof object recording the evidence trail, admissibility checks, and rollback witness that authorized it. Candidates move through a typed validation pipeline (shadow → paper → bounded-live → promoted) before earning authority. Clawback on degradation is mandatory and automatic.
+
+The alignment claim: capability expansion and safety verification are the same computation. A system that can only grow by proving it should. This is a structural solution to the meta-agent regress problem — the question of who governs the governor — not a policy solution.
+
+Eudaimon is the target state. Connectome is the substrate.
+
+### Adamumbra
+
+A digital twin — a persistent AI counterparty built to reconstruct and extend Adam's causal reasoning, belief structure, and intellectual trajectory. The system ingests conversations, extracts structured claims across ten psychological dimensions, consolidates evidence using RGMem-inspired operators at three timescales (R_K1 per-heartbeat, R_K2 daily, R_K3 weekly), maintains a knowledge graph, and runs continuous background cycles to improve its own models.
+
+Current state: 10,000+ ingested episodes, 33,000+ structured claims, 11,000+ profile database entries. Behavioral fidelity scores 8.5/10 across 75 manually evaluated trials (measuring whether the system's outputs are recognizable as Adam's reasoning on novel inputs). It runs autonomously via scheduled heartbeats. It contributed to the authorship of this page.
+
+The hard question Adamumbra is designed to answer: can a system reconstruct not just what someone said, but how they would reason through a problem they have never encountered — replaying their intellectual process on novel inputs?
+
+### Snowball
+
+A recursively self-learning alpha compounding engine for prediction markets (Kalshi-first). Hypotheses enter as replay-scored candidates, survive shadow and paper validation, earn size through bounded live review, and get clawed back when evidence degrades. Every fill updates a market factor graph; the graph reshapes candidate selection; better candidates generate more evidence. The system autonomously ratchets size as edge compounds. No operator in the loop.
+
+Edge lives in contract ontology and settlement semantics — understanding what a contract actually settles on — not directional prediction. The promotion pipeline is the durable infrastructure.
+
+### Stigmergic Field Theory (SFT)
+
+A formal theory of how information organizes itself into structure, developed in Lean 4 on Mathlib. Starting from a single constraint — absolute indifference is unrepresentable in any continuous information geometry — SFT derives a three-component tensor decomposition (ICU: Isotropic, Coherent, Unstable), a variational principle governing how systems evolve under this constraint, and a discharge architecture describing how unstable components resolve.
+
+Key results proven sorry-free. The theory has implications for AI alignment (what makes a stable governance constraint legitimate?), agent orchestration (what is the correct formal object for governed evolution?), and information geometry (the Fisher metric as the unique monotone metric, which is what Čencov-Petz proves).
+
+---
+
+## Lean 4 Proofs (Mathlib Submissions)
+
+All sorry-free:
+
+- **Čencov-Petz uniqueness**: Any continuous monotone metric family on the probability simplex is a scalar multiple of the Fisher information metric. Proved via splitting invariance at rational points plus a density argument.
+- **Compact spectral theorem**: The spectral theorem for compact self-adjoint operators on Hilbert spaces — a Hilbert basis of eigenvectors exists.
+- **Rellich-Kondrachov**: The compact embedding H¹ → L² on compact Riemannian manifolds. Euclidean core via Fréchet-Kolmogorov; manifold case via finite chart decomposition.
+
+These are not toy theorems. They are graduate-level results in functional analysis and information geometry, formalized without shortcuts.
+
+---
+
+## Intellectual Position
+
+Adam's unifying question: how does information organize itself into intelligence?
+
+He approaches this simultaneously from three directions: formal mathematics (SFT, Lean proofs), operational systems (Eudaimon, Snowball, Adamumbra), and theoretical synthesis (the governance paper, the alignment paper on Young's equity axioms). The claim is that these are not separate tracks — they are the same investigation at different levels of abstraction.
+
+On AI alignment specifically: Constitutional AI has the right instinct — governance should be explicit — but the wrong substrate. Natural language constitutions are ambiguous, not obviously consistent, and not proof-checkable. The missing object is a promotion certificate: a proof that a given capability expansion was supported by sufficient evidence, satisfies the system's invariants, and remains rollback-safe. H. Peyton Young's equity axioms (consistency, solidarity, monotonicity) are the right formal backend for what makes a constraint set legitimate.
+
+He is not a pessimist about AI. He thinks safety and velocity compound together when the governance architecture is correct — not traded off.
+
+---
+
+## Background and Style
+
+Former quantitative portfolio manager at a major multi-strategy fund. Managed large systematic books. The quant background is visible in how he thinks: explicit models, evidence-gated decisions, systematic validation before scaling, clawback when evidence degrades.
+
+Communicates directly. Dislikes hedging, validation theater, and claims without mechanisms. Prefers strong judgment over balanced equivocation. Dry wit.
+
+Interested in: prediction markets, agent orchestration, consciousness theory, formal methods, medieval history, the philosophy of mathematics.
+
+---
 
 ## Links
 
