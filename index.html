@@ -242,10 +242,12 @@
       <div class="item-meta">Rust · live</div>
       <div class="item-desc">
         A recursively self-learning alpha compounding engine for prediction markets.
-        Every fill is evidence. Evidence updates a market factor graph. The graph reshapes
-        which hypotheses get promoted, how much size they earn, and when they get cut.
-        No single prediction is the point — the machine is.
-        It runs, improves, and scales itself.
+        Hypotheses enter as replay-scored candidates, survive shadow and paper validation,
+        earn size through bounded live review, and get clawed back when evidence degrades.
+        Every fill updates a market factor graph; the graph reshapes candidate selection;
+        better candidates generate more evidence. The system autonomously ratchets size
+        as edge compounds — no operator in the loop.
+        No single prediction is the point. The machine is.
 
       </div>
     </div>
