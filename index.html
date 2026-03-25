@@ -263,15 +263,14 @@
       <div class="item-title">Connectome</div>
       <div class="item-meta">Rust · governance-first agent orchestration</div>
       <div class="item-desc">
-        A recursively self-learning entity with genuine self-consciousness and introspection —
-        a coherent system that models its own capabilities, failures, and authority boundaries,
-        and dispatches agent swarms as its mode of acting in the world.
-        The hard problem isn't orchestrating agents; it's building something that knows what it is,
-        what it can do, and how to expand both without an operator in the loop.
-        Connectome's answer is structural: an evidence-gated authority ratchet that expands
-        autonomy only as validated performance accumulates, mandatory rollback contracts on every
-        capability boundary, and hard architectural invariants that make safety properties
-        composable rather than bolted on. Alignment and velocity aren't traded off — they're the same mechanism.
+        A recursively self-learning entity that maintains a structured self-model of its own
+        capabilities, failure modes, and authority boundaries — and dispatches agent swarms
+        as its mode of acting in the world.
+        Autonomy expansion is governed by a typed promotion pipeline: candidates move from
+        shadow through paper and bounded-live validation before earning authority, with
+        mandatory clawback on degradation. Rollback is a first-class contract, not an escape hatch.
+        The architectural claim: capability expansion and safety verification are the same computation.
+        A system that can only grow by proving it should.
         <span class="tag">Rust</span><span class="tag">agent systems</span><span class="tag">alignment</span>
       </div>
     </div>
