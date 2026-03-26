@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" fill="#1a1a1e"/>
-  <!-- Alchemical air: upward triangle with horizontal line -->
-  <polygon points="16,4 28,26 4,26" fill="none" stroke="#ff8c7a" stroke-width="2.2" stroke-linejoin="round"/>
-  <line x1="9" y1="19" x2="23" y2="19" stroke="#ff8c7a" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Alchemical air 🜁: upward triangle, horizontal line at midpoint extending past edges -->
+  <polygon points="16,3 29,27 3,27" fill="none" stroke="#ff8c7a" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="1" y1="15" x2="31" y2="15" stroke="#ff8c7a" stroke-width="2" stroke-linecap="round"/>
 </svg>
