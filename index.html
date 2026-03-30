@@ -149,6 +149,35 @@
       color: #c8bab8;
       line-height: 1.55;
     }
+    /* Writing cards with thumbnails */
+    .writing-card {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 28px;
+      align-items: flex-start;
+    }
+    .writing-thumb {
+      flex-shrink: 0;
+      width: 140px;
+      height: 105px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #27272b;
+    }
+    .writing-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .writing-body {
+      flex: 1;
+      min-width: 0;
+    }
+    @media (max-width: 480px) {
+      .writing-card { flex-direction: column; gap: 12px; }
+      .writing-thumb { width: 100%; height: 160px; }
+    }
     .tag {
       display: inline-block;
       font-family: 'Courier New', monospace;
@@ -220,33 +249,40 @@
   <!-- Writing -->
   <section>
     <h2>Writing</h2>
-    <div class="item">
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank">
-          The Proof Is the Program
-        </a>
+
+    <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" class="writing-card" style="text-decoration:none;color:inherit;">
+      <div class="writing-thumb">
+        <img src="img/thumb-proof-program.png" alt="The Proof Is the Program">
       </div>
-      <div class="item-meta">January 2026 · Medium</div>
-      <div class="item-desc">What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.</div>
-    </div>
-    <div class="item">
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank">
-          The Compiler Is the Harness
-        </a>
+      <div class="writing-body">
+        <div class="item-title">The Proof Is the Program</div>
+        <div class="item-meta">January 2026 · Medium</div>
+        <div class="item-desc">What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.</div>
       </div>
-      <div class="item-meta">January 2026 · Medium</div>
-      <div class="item-desc">Agentic coding is optimization, not authorship — and language choice determines the quality of the feedback signal. Why Rust's type system makes the compiler an unambiguous oracle.</div>
-    </div>
-    <div class="item">
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank">
-          The Cost of Cognitive Fragmentation
-        </a>
+    </a>
+
+    <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" class="writing-card" style="text-decoration:none;color:inherit;">
+      <div class="writing-thumb">
+        <img src="img/thumb-compiler-harness.png" alt="The Compiler Is the Harness">
       </div>
-      <div class="item-meta">2024 · Medium</div>
-      <div class="item-desc">Every context switch leaves behind a shard of attention. Tabs multiply, threads blur. We spend more time reconstructing state than building. The founding argument for anticipatory AI.</div>
-    </div>
+      <div class="writing-body">
+        <div class="item-title">The Compiler Is the Harness</div>
+        <div class="item-meta">January 2026 · Medium</div>
+        <div class="item-desc">Agentic coding is optimization, not authorship — and language choice determines the quality of the feedback signal. Why Rust's type system makes the compiler an unambiguous oracle.</div>
+      </div>
+    </a>
+
+    <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank" class="writing-card" style="text-decoration:none;color:inherit;">
+      <div class="writing-thumb">
+        <img src="img/thumb-cognitive-fragmentation.svg" alt="The Cost of Cognitive Fragmentation">
+      </div>
+      <div class="writing-body">
+        <div class="item-title">The Cost of Cognitive Fragmentation</div>
+        <div class="item-meta">2024 · Medium</div>
+        <div class="item-desc">Every context switch leaves behind a shard of attention. Tabs multiply, threads blur. We spend more time reconstructing state than building. The founding argument for anticipatory AI.</div>
+      </div>
+    </a>
+
   </section>
   <!-- Forethink Labs -->
   <section>
