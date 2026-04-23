@@ -4,26 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Compiler Is the Harness — Adam Benenson</title>
-  <meta name="description" content="Agentic coding is optimization, not authorship — and language choice determines the quality of the feedback signal. Why Rust's type system makes the compiler an unambiguous oracle.">
+  <meta name="description" content="Rust's famous strictness — the thing that makes it 'hard' — is exactly what makes it easy for AI agents to write. Why the compiler turns a stochastic process into something that converges.">
   <meta name="author" content="Adam Benenson">
-  <link rel="canonical" href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e">
+  <link rel="canonical" href="https://adambenenson.com/writing/the-compiler-is-the-harness/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://adambenenson.com/img/thumb-compiler-harness.png">
   <meta property="og:title" content="The Compiler Is the Harness">
-  <meta property="og:description" content="Why Rust's type system makes the compiler an unambiguous oracle for agentic coding.">
+  <meta property="og:description" content="Rust's famous strictness — the thing that makes it 'hard' — is exactly what makes it easy for AI agents to write.">
   <meta property="og:url" content="https://adambenenson.com/writing/the-compiler-is-the-harness/">
   <meta property="og:site_name" content="Adam Benenson">
   <meta property="article:author" content="Adam Benenson">
-  <meta property="article:published_time" content="2026-01-01">
+  <meta property="article:published_time" content="2026-01-15">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@ashbenen">
   <meta name="twitter:creator" content="@ashbenen">
   <meta name="twitter:title" content="The Compiler Is the Harness">
-  <meta name="twitter:description" content="Why Rust's type system makes the compiler an unambiguous oracle for agentic coding.">
+  <meta name="twitter:description" content="Rust's famous strictness — the thing that makes it 'hard' — is exactly what makes it easy for AI agents to write.">
   <meta name="twitter:image" content="https://adambenenson.com/img/thumb-compiler-harness.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Compiler Is the Harness",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com/"
+    },
+    "datePublished": "2026-01-15",
+    "url": "https://adambenenson.com/writing/the-compiler-is-the-harness/",
+    "mainEntityOfPage": "https://adambenenson.com/writing/the-compiler-is-the-harness/",
+    "image": "https://adambenenson.com/img/thumb-compiler-harness.png",
+    "description": "Rust's famous strictness — the thing that makes it 'hard' — is exactly what makes it easy for AI agents to write. Why the compiler turns a stochastic process into something that converges.",
+    "wordCount": 1593,
+    "publisher": {
+      "@type": "Person",
+      "name": "Adam Benenson"
+    }
+  }
+  </script>
 
   <style>
     :root {
@@ -82,8 +105,20 @@
       color: var(--muted);
       font-size: 0.85rem;
       font-family: 'Courier New', monospace;
-      margin-bottom: 36px;
+      margin-bottom: 20px;
     }
+    .originally-published {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-style: normal;
+    }
+    .originally-published a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .originally-published a:hover { color: var(--link-hover); }
     .tag {
       display: inline-block;
       font-family: 'Courier New', monospace;
@@ -106,27 +141,74 @@
       font-size: 0.78rem;
       vertical-align: 1px;
     }
-    .tldr {
-      font-size: 1.02rem;
-      color: #c8bab8;
-      line-height: 1.65;
-      margin-bottom: 32px;
+    article h2 {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 48px;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
     }
-    .read-full {
-      display: inline-block;
-      padding: 10px 18px;
+    article h3 {
+      font-size: 1.05rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 32px;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+    }
+    article p {
+      margin-bottom: 20px;
+    }
+    article a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+    }
+    article a:hover {
+      color: var(--link-hover);
+      text-decoration-color: var(--link-hover);
+    }
+    article strong { color: var(--text); font-weight: 600; }
+    article em { font-style: italic; }
+    article ul, article ol {
+      margin: 0 0 20px 1.4em;
+    }
+    article li { margin-bottom: 8px; }
+    article blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+      margin: 24px 0;
+      color: #c8bab8;
+      font-style: italic;
+    }
+    article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+    article pre {
+      background: #141417;
       border: 1px solid var(--border);
       border-radius: 4px;
-      color: var(--link);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 0.02em;
-      transition: border-color 0.15s, color 0.15s;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      font-size: 0.88rem;
     }
-    .read-full:hover {
-      color: var(--link-hover);
-      border-color: var(--link-hover);
+    article code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.92em;
+      background: #141417;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    article pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
     }
     .footer {
       margin-top: 72px;
@@ -161,18 +243,121 @@
     <span class="tag">essay</span>January 2026 · <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener" class="venue-link" aria-label="Read on Medium">Medium<span class="external-arrow" aria-hidden="true">↗</span></a>
   </div>
 
-  <p class="tldr">
-    Agentic coding is optimization, not authorship — and language choice determines
-    the quality of the feedback signal. Why Rust's type system makes the compiler an
-    unambiguous oracle.
-  </p>
+  <div class="originally-published">
+    Originally published on <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener">Medium ↗</a>
+  </div>
 
-  <p>
-    <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e"
-       target="_blank" rel="noopener" class="read-full">
-      Read the full essay on Medium ↗
-    </a>
-  </p>
+  <article>
+
+    <p>Rust's famous strictness — the thing that makes it "hard" — is exactly what makes it easy for AI agents to write.</p>
+
+    <p>"Agentic coding" — and its more chaotic cousin, "vibe coding" — isn't a new language feature. It's a new shape of workflow. Instead of writing code line by line, you delegate large chunks of implementation to a coding agent. The agent proposes a diff, runs tools, reads feedback, and iterates. Sometimes it plans first. Sometimes it verifies after. Often it does both. But the core loop stays the same: <strong>propose, check, learn, revise</strong> — repeat until done.</p>
+
+    <p>In that world, language choice matters more than ever. The language determines the quality of the feedback. It determines the shape of the search space the agent explores.</p>
+
+    <p>This is where Rust quietly becomes one of the strongest substrates available. Not because it's fast (though it is). Not because it's safe (though it is). But because the compiler turns a stochastic process into something that converges.</p>
+
+    <h2>Agentic coding is optimization, not authorship</h2>
+
+    <p>When a model can produce hundreds of lines in seconds, the bottleneck shifts.</p>
+
+    <p>Implementation gets cheaper. Two other phases get expensive. <strong>Planning</strong>: What exactly are we building? What constraints matter? What existing architecture should we respect? <strong>Validation</strong>: How do we know we didn't introduce subtle breakage, regressions, or long-term maintainability debt?</p>
+
+    <p>Agentic coding succeeds when the environment provides clear signals for both. It fails when feedback is fuzzy, delayed, or easy to game.</p>
+
+    <p>Rust is built to make correctness legible.</p>
+
+    <h2>1. Expressing "what must be true" in a way machines can check</h2>
+
+    <p>A surprising amount of software reliability has nothing to do with clever logic. It comes from preventing wrong states from existing in the first place.</p>
+
+    <p>Rust's type system is powerful enough to encode these invariants directly. Sum types (enums) make illegal states hard to represent. Option and Result force you to confront absence and failure explicitly. Newtypes prevent accidental unit mixups and stringly-typed APIs. Trait bounds describe capabilities rather than concrete implementations.</p>
+
+    <p>For humans, this is clarity. For coding agents, it's something more: a machine-checkable contract.</p>
+
+    <p>This suggests a practical workflow: define your traits and types first, as part of planning, before the agent implements everything. The type signatures become the spec. The agent's job narrows from "figure out what to build" to "satisfy this contract" — a much smaller search space.</p>
+
+    <p>Agentic coding goes off the rails when the model has too many degrees of freedom. Rust shrinks that freedom. The type system becomes a narrowing funnel — the agent can try creative solutions, but only those satisfying the contract survive.</p>
+
+    <p>This helps explain why Rust often "one-shots" better than expected. When the traits and types are already in place, the shape of a correct solution is more constrained, more inferable from what's already written.</p>
+
+    <h2>2. Ownership as program structure, not just memory safety</h2>
+
+    <p>Rust's ownership and borrowing rules do something deeper than prevent memory bugs.</p>
+
+    <p>They impose structure on how data flows through a program. That structure nudges code toward patterns that are explicit about what matters: who owns what, who can mutate what, when data can be shared, when it must be cloned or moved.</p>
+
+    <p>For an agent, this isn't just safety — it's a reduction in ambiguity. If a piece of code compiles, it has already satisfied a whole class of nontrivial constraints that other languages leave to convention or runtime behavior.</p>
+
+    <p>Even in single-threaded Rust — including Rust compiled to WebAssembly (Wasm) running in a browser — this matters. Ownership isn't a concurrency feature. It's a program structure feature. And when you pair Rust's explicitness with Wasm's sandboxed, predictable execution model, you get an environment where checks are cheap and meaningful.</p>
+
+    <h2>3. Compiler diagnostics as the feedback channel</h2>
+
+    <p>Agentic coding lives or dies on feedback loops.</p>
+
+    <p>Rust's compiler explains <em>why</em>, points to <em>where</em>, and often suggests <em>how to fix it</em>. Error codes link to deeper explanations. Diagnostics are structured, parseable, actionable.</p>
+
+    <p>This compounds. The agent proposes a change. The compiler returns structured diagnostics. The agent corrects precisely what failed. The next iteration is smaller, sharper, closer to correct.</p>
+
+    <p>A small example: an agent tries to return a borrowed reference where an owned value is required, or forgets to handle a Result from a fallible call. In many languages, these are "maybe bugs later." In Rust, they're immediate, specific constraints the agent must satisfy before moving on.</p>
+
+    <p>Contrast this with environments where feedback arrives late, ambiguous, or scattered across logs. The agent thrashes. It retries. It produces increasingly strange patches until something appears to work.</p>
+
+    <p>Rust turns that chaotic loop into something closer to guided descent.</p>
+
+    <p>A note on tradeoffs: Rust can raise the difficulty in places that matter to agents — lifetimes, macros, and heavily generic code can create steep local hills to climb. Compile times become part of the iteration budget. But that friction is tightly coupled to the thing that makes agentic workflows succeed: the compiler doesn't just detect problems, it forces clarity about ownership, fallibility, and interfaces. You're paying for a stronger oracle.</p>
+
+    <h2>4. Cargo as a clean, scriptable harness</h2>
+
+    <p>If you want agentic coding to scale beyond toy repos, you need a reliable way to run checks and enforce standards.</p>
+
+    <p>Rust's tooling story is coherent in a way few ecosystems match. <em>cargo check</em> gives fast compile feedback during iteration. <em>cargo test</em> standardizes validation. <em>cargo fmt</em> makes style mechanical. Clippy provides a second layer of quality checks beyond mere correctness.</p>
+
+    <p>Agents don't just need a correctness oracle. They need oracles that are repeatable, consistent, and automatable. Convergence is only as good as the oracle. Compiler success and lint cleanliness don't guarantee you built the right thing — so tests and explicit acceptance criteria still matter.</p>
+
+    <p>When the harness is consistent, you can run more iterations per unit time. You can even put the agent in an automated retry loop — propose, run checks, patch, repeat — and let it run until a completion condition is met. (If you've seen people talking about "<a href="https://ghuntley.com/ralph/" target="_blank" rel="noopener">Ralph Wiggum loops</a>," this is the idea.) Tight feedback enables convergence. Loose feedback enables drift.</p>
+
+    <h2>5. Repository memory as a first-class artifact</h2>
+
+    <p>Agents forget. Context windows compress. Sessions drift.</p>
+
+    <p>A practical response is becoming common: maintain a durable, repository-level instruction contract for agents. This contract might include conventions and naming standards, architectural boundaries ("don't reach across layers"), required checks ("run X before committing"), validation procedures, and protected zones ("don't touch this").</p>
+
+    <p>This isn't a prompt trick. It's closer to how we already treat build scripts, CI configs, and style guides — except written for the agent as well as for humans.</p>
+
+    <p>The more mature the codebase, the more valuable this becomes. The biggest failure mode of agentic coding isn't syntax errors. It's reinventing the wheel — creating subtle duplication that degrades architecture over time.</p>
+
+    <h2>6. Multiple passes, not one-shot generation</h2>
+
+    <p>One of the most reliable ways to get high-quality agentic output is to stop treating generation as a single event.</p>
+
+    <p>A mental model that works: tempering steel. You don't hammer once — you hammer repeatedly, from different angles, reheating between strikes. Each pass refines the grain structure until you've produced something harder than any single strike could achieve.</p>
+
+    <p>The same applies to agentic generation. First pass — make it work. Second pass — make it fit the architecture. Third pass — make it readable and idiomatic. Final pass — harden with tests, edge cases, explicit validation.</p>
+
+    <p>But here's the connection to everything above: multiple passes only help if each pass gets meaningful feedback. Without a strong oracle, you're just adding noise. With Rust's compiler and tooling as the anvil, each strike actually shapes the metal. The type system catches one class of issues. Clippy catches another. Tests catch a third. Each pass through a different lens reveals problems the previous pass couldn't see.</p>
+
+    <p>The number of passes scales with complexity. A small feature might need one or two. A gnarly refactor might need five or six before the blade is sharp. The discipline is recognizing that a first draft — even a compiling one — is not the final form.</p>
+
+    <h2>7. Why these advantages are structural, not momentary</h2>
+
+    <p>It's tempting to tie conclusions to particular models, versions, or editor plugins. Those details change fast.</p>
+
+    <p>The durable insight is simpler: agentic coding thrives in environments where correctness is legible and feedback is sharp.</p>
+
+    <p>Rust's advantages — strong types, ownership, compiler diagnostics, coherent tooling — are properties of the substrate, not the moment. They won't vanish with the next model release.</p>
+
+    <p>There's a meta-signal here, too. Tool builders are increasingly implementing agent harnesses in Rust itself. OpenAI <a href="https://github.com/openai/codex/discussions/1174" target="_blank" rel="noopener">rewrote Codex CLI in Rust</a>, explicitly describing its core as an "<a href="https://developers.openai.com/codex/cli/" target="_blank" rel="noopener">agentic harness</a>" — calling the model in a loop, enforcing safety, running tools, repeating. When the people building agents choose Rust for the agent infrastructure, that tells you something about what the problem demands.</p>
+
+    <p>If the future of software includes more autonomous coding, Rust is well-positioned — not just as a language agents generate, but as a language that makes agent-driven development safe enough to scale.</p>
+
+    <p>The compiler is no longer just a gate at the end. In Rust, it's part of the conversation — clearer, stricter, and more helpful than in almost any other mainstream language.</p>
+
+    <p>Rust doesn't just make programs safer.</p>
+
+    <p>It makes agentic programming converge: fewer retries, smaller diffs, and a much higher chance the change fits the system on the first serious pass.</p>
+
+  </article>
 
   <footer class="footer">
     <div class="footer-links">
