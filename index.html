@@ -191,6 +191,23 @@
       border-radius: 2px;
       margin-right: 4px;
     }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover {
+      color: var(--text);
+    }
+    .topnav a.current {
+      color: var(--text);
+    }
     .footer {
       margin-top: 72px;
       padding-top: 24px;
@@ -247,6 +264,11 @@
   any single project. It is that one person built all of them, and
   they are provably the same architecture.
 -->
+  <nav class="topnav">
+    <a href="/" class="current">Home</a>
+    <a href="/writing/">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
   <h1>Adam Benenson</h1>
   <p class="tagline">Founder/CEO at Forethink Labs. Former quant PM, product leader. Anticipatory AI, agent orchestration, formal methods, Rust.</p>
   <!-- Writing -->
