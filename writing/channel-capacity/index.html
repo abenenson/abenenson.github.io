@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>channel-capacity — Shannon capacity-achieving prior uniqueness in Lean 4</title>
+  <meta name="description" content="An exposition of the channel-capacity Lean 4 library: three aligned uniqueness theorems for capacity-achieving input priors on Markov kernels. Finite-alphabet, compact-Polish discharged, and general measure-theoretic packaging.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/writing/channel-capacity/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:title" content="channel-capacity — Shannon capacity-achieving prior uniqueness in Lean 4">
+  <meta property="og:description" content="Three layered uniqueness theorems for capacity-achieving priors on Markov kernels, formalized in Lean 4 against Mathlib.">
+  <meta property="og:url" content="https://adambenenson.com/writing/channel-capacity/">
+  <meta property="og:site_name" content="Adam Benenson">
+  <meta property="article:author" content="Adam Benenson">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ashbenen">
+  <meta name="twitter:creator" content="@ashbenen">
+  <meta name="twitter:title" content="channel-capacity — Shannon capacity-achieving prior uniqueness in Lean 4">
+  <meta name="twitter:description" content="Three layered uniqueness theorems for capacity-achieving priors on Markov kernels, formalized in Lean 4.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "channel-capacity — Shannon capacity-achieving prior uniqueness in Lean 4",
+    "url": "https://adambenenson.com/writing/channel-capacity/",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com"
+    },
+    "inLanguage": "en",
+    "about": ["information theory", "channel capacity", "Shannon", "Lean 4", "Mathlib", "formal methods", "Markov kernels"],
+    "isBasedOn": "https://github.com/abenenson/channel-capacity"
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+      line-height: 1.3;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .article-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 36px;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    p {
+      color: #c8bab8;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    p a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    p a:hover { color: var(--link-hover); }
+    ul {
+      color: #c8bab8;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 18px;
+      padding-left: 22px;
+    }
+    ul li { margin-bottom: 8px; }
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.86em;
+      background: #27272b;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #e8e0de;
+    }
+    pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      background: #14141a;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      line-height: 1.5;
+      color: #d8d0ce;
+      margin-bottom: 22px;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+      font-size: inherit;
+      color: inherit;
+    }
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 14px;
+      margin: 18px 0 22px;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+      pre { font-size: 0.76rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/" class="current">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
+
+  <div class="breadcrumb"><a href="/writing/">Writing</a> / channel-capacity</div>
+  <h1>channel-capacity</h1>
+  <p class="subtitle">Shannon capacity-achieving prior uniqueness in Lean&nbsp;4.</p>
+  <p class="article-meta">
+    <span class="tag">paper</span><span class="tag">lean 4</span><span class="tag">information theory</span>
+    &nbsp;·&nbsp; April 2026 &nbsp;·&nbsp;
+    <a href="https://github.com/abenenson/channel-capacity" style="color: var(--link); text-decoration: none;">repository</a>
+  </p>
+
+  <p>
+    <a href="https://github.com/abenenson/channel-capacity" target="_blank" rel="noopener">channel-capacity</a>
+    is a Lean 4 library that formalizes Shannon capacity-achieving prior uniqueness for Markov kernels.
+    For a Markov kernel <code>k : α ⇝ β</code> between measurable spaces, Shannon's channel capacity is
+    the supremum of the mutual information <code>I(p, k)</code> taken over probability measures on the
+    input alphabet. Three classical questions follow: when is the supremum attained, when is the
+    attaining input unique, and what structural hypothesis on <code>k</code> is both sufficient and
+    honest? The library gives three aligned answers.
+  </p>
+
+  <h2>Three layers</h2>
+
+  <p>
+    In the finite-alphabet setting the answer is textbook. The input simplex is compact, the
+    mutual-information functional is continuous and concave, and uniqueness holds whenever the channel
+    is structurally non-degenerate enough to rule out two distinct inputs inducing the same output
+    distribution. In the general measure-theoretic setting the picture is less uniform: compactness of
+    <code>P(α)</code>, continuity or upper semicontinuity of <code>p ↦ I(p, k)</code> in a useful
+    topology, and the right analogue of "full-rank rows" each require work, and different regularity
+    packages produce different theorems.
+  </p>
+
+  <p>
+    The library brackets the answer with three layers:
+  </p>
+
+  <ul>
+    <li>
+      A <strong>finite-alphabet theorem</strong> with compactness, continuity, and strict concavity
+      discharged internally on Mathlib's canonical weak topology for <code>ProbabilityMeasure</code>.
+    </li>
+    <li>
+      A <strong>concrete discharged theorem</strong> for compact-Polish channels with a common
+      strictly positive jointly continuous density against a finite reference measure.
+    </li>
+    <li>
+      A broader <strong>measure-theoretic packaging theorem</strong> that isolates the abstract
+      hypotheses needed for future upstream generalization.
+    </li>
+  </ul>
+
+  <p>
+    Lean <code>v4.29.1</code>, Mathlib only, warning-free build, zero <code>sorry</code> / <code>admit</code> / axiom.
+  </p>
+
+  <h2>The finite theorem</h2>
+
+  <p>
+    The cleanest statement in the library. Its signature uses only Mathlib vocabulary and the proof
+    depends only on Mathlib-native lemmas, which is why it is the natural upstream candidate.
+  </p>
+
+<pre><code>theorem exists_unique_capacity_achieving_prior_of_finite
+    {α β : Type*}
+    [Fintype α] [Finite β]
+    [MeasurableSpace α] [MeasurableSpace β]
+    [MeasurableSingletonClass α] [MeasurableSingletonClass β]
+    [Nonempty α]
+    (k : Kernel α β) [IsMarkovKernel k]
+    (h : Kernel.RowMatrixFullRank k) :
+    ∃! p : ProbabilityMeasure α, mutualInformation p k = channelCapacity k</code></pre>
+
+  <p>
+    The only non-degeneracy hypothesis is that the real linear map induced by the kernel's row
+    matrix is injective. No topology, compactness, semicontinuity, or abstract bundle hypothesis
+    appears in the statement: they are all discharged inside the proof. The assembly uses four
+    Mathlib-native ingredients — a finite entropy formula that reduces mutual information to the
+    discrete Shannon expression, strict concavity of output entropy via
+    <code>Real.strictConcaveOn_negMulLog</code>, compactness of <code>ProbabilityMeasure α</code> via
+    <code>MeasureTheory.Measure.Prokhorov</code>, and continuity of <code>p ↦ I(p, k)</code> — plus
+    one bridge lemma converting row-matrix full rank into injectivity of the prior pushforward.
+  </p>
+
+  <h2>The compact-Polish theorem</h2>
+
+  <p>
+    Real channel models are rarely finite, and most tractable continuous channel models come with a
+    positive continuous density against a natural reference measure. The discharged theorem packages
+    that regularity as a structure class <code>Kernel.ContinuousPositiveDensity</code> — all rows
+    share a strictly positive jointly continuous density against a finite reference <code>ν</code> —
+    and proves uniqueness on compact-Polish alphabets.
+  </p>
+
+<pre><code>theorem exists_unique_capacity_achieving_prior_discharged
+    (k : Kernel α β) [IsMarkovKernel k]
+    (ν : Measure β) [IsFiniteMeasure ν]
+    (hDensity : Kernel.ContinuousPositiveDensity k ν)
+    (hInj : Kernel.InjectivePriorPushforward k) :
+    ∃! p : ProbabilityMeasure α, mutualInformation p k = channelCapacity k</code></pre>
+
+  <p>
+    Four of the five <code>ContinuousPositiveDensity</code> fields are discharged from density data:
+    absolute continuity of rows, uniform density bounds on the compact product (producing a
+    reference KL bound via the elementary inequality <code>x log x + 1 − x ≤ x² + 1</code>),
+    finiteness of the reference KL, and the chain rule. The fifth — upper semicontinuity of the
+    mutual-information functional — is <em>carried</em> rather than discharged. For finite alphabets
+    this is populated mechanically from the finite continuity result; for general compact-Polish
+    alphabets with a positive continuous density, a derived theorem has not yet been proved. The
+    library calls this out explicitly so users of the discharged theorem are not misled.
+  </p>
+
+  <h2>The general packaging</h2>
+
+  <p>
+    The packaging theorem <code>exists_unique_capacity_achieving_prior</code> takes an injectivity
+    hypothesis, a <code>WellConditionedForCapacity</code> bundle, nonemptiness and compactness of
+    <code>P(α)</code>, and upper semicontinuity of the mutual-information functional, and returns
+    existence-and-uniqueness. Users with their own regularity framework — a different density class,
+    a topological input constraint, bounded-information hypotheses — can apply it directly and
+    supply their own discharge for the abstract hypotheses without coupling their work to
+    <code>ContinuousPositiveDensity</code>. The compact-Polish theorem is then an instance of how
+    to use it.
+  </p>
+
+  <h2>Sharpness: row separation is not enough</h2>
+
+  <p>
+    The library includes an opt-in <code>Fin 6 → Fin 3</code> permutation-channel counterexample
+    whose rows are the six permutations of <code>(1/2, 1/3, 1/6)</code>. The file proves that all
+    six rows are pairwise distinct as probability measures on the output alphabet
+    (<code>RowSeparating</code>), but that the prior pushforward map is <em>not</em> injective — the
+    prior uniformly supported on <code>{0, 3, 4}</code> and the prior uniformly supported on
+    <code>{1, 2, 5}</code> both push forward to the uniform distribution on <code>{0, 1, 2}</code>.
+  </p>
+
+  <p>
+    This is the load-bearing sharpness content. A naive reading of "full-rank rows" in the
+    measure-theoretic setting would try <code>RowSeparating</code>. The counterexample shows this is
+    strictly weaker than <code>InjectivePriorPushforward</code>: pairwise-distinct rows can admit
+    distinct priors with the same output marginal. The uniqueness theorems need the stronger form,
+    and no uniqueness result along these lines can be stated at the weaker hypothesis.
+  </p>
+
+  <h2>Why three layers</h2>
+
+  <p>
+    The layered structure is deliberate. The finite theorem exists to be upstream-ready: clean
+    Mathlib vocabulary, a single linear-algebra hypothesis, no bundle machinery in the signature.
+    The compact-Polish theorem exists to be the strongest concrete measure-theoretic result: the
+    minimum structural bundle under which the absolute-continuity and chain-rule machinery close,
+    honestly labeled with the one field still carried. The general theorem exists as the packaging:
+    an abstract interface that other regularity frameworks can specialize without adopting
+    <code>ContinuousPositiveDensity</code>.
+  </p>
+
+  <p>
+    The motivating application is a Shannon-correspondence for governance channels in the
+    <a href="/projects/legitimacy/">legitimacy framework</a>; that development consumes this library
+    as a dependency and is documented in its own paper. The present library stands on its own
+    information-theoretic terms.
+  </p>
+
+  <blockquote>
+    For the full exposition — hypothesis-by-hypothesis accounting of what is discharged vs carried,
+    worked examples, and the proof outlines — see
+    <a href="https://github.com/abenenson/channel-capacity/blob/main/docs/overview.md" target="_blank" rel="noopener"><code>docs/overview.md</code></a>
+    in the repository.
+  </blockquote>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/writing/">Back to writing</a>
+      <a href="/projects/channel-capacity/">Project page</a>
+      <a href="/projects/legitimacy/">Legitimacy thread</a>
+      <a href="https://github.com/abenenson/channel-capacity" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </footer>
+</body>
+</html>
