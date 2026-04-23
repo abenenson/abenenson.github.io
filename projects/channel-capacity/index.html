@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>channel-capacity — Adam Benenson</title>
+  <meta name="description" content="A Lean 4 formalization of Shannon capacity-achieving prior uniqueness for Markov kernels. Three layered theorems: finite-alphabet, compact-Polish discharged, and general measure-theoretic packaging. Mathlib only, sorry-free.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/projects/channel-capacity/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:title" content="channel-capacity — Adam Benenson">
+  <meta property="og:description" content="Shannon capacity-achieving prior uniqueness in Lean 4. Three layered theorems, Mathlib only, sorry-free.">
+  <meta property="og:url" content="https://adambenenson.com/projects/channel-capacity/">
+  <meta property="og:site_name" content="Adam Benenson">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ashbenen">
+  <meta name="twitter:creator" content="@ashbenen">
+  <meta name="twitter:title" content="channel-capacity — Adam Benenson">
+  <meta name="twitter:description" content="Shannon capacity-achieving prior uniqueness in Lean 4. Three layered theorems, Mathlib only, sorry-free.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "channel-capacity",
+    "url": "https://adambenenson.com/projects/channel-capacity/",
+    "codeRepository": "https://github.com/abenenson/channel-capacity",
+    "programmingLanguage": "Lean 4",
+    "license": ["https://opensource.org/licenses/MIT", "https://opensource.org/licenses/Apache-2.0"],
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com"
+    },
+    "description": "Lean 4 formalization of Shannon capacity-achieving prior uniqueness for Markov kernels, with three aligned theorem layers: finite-alphabet, compact-Polish discharged, and general measure-theoretic packaging."
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+    section { margin-bottom: 36px; }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    p {
+      color: #c8bab8;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    p a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    p a:hover { color: var(--link-hover); }
+    ul {
+      color: #c8bab8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      padding-left: 22px;
+    }
+    ul li { margin-bottom: 8px; }
+    ul li a { color: var(--link); text-decoration: none; }
+    ul li a:hover { color: var(--link-hover); }
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.86em;
+      background: #27272b;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #e8e0de;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    .meta-line {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .meta-line a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    .meta-line a:hover { color: var(--link-hover); }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/">Writing</a>
+    <a href="/projects/" class="current">Projects</a>
+  </nav>
+
+  <div class="breadcrumb"><a href="/projects/">Projects</a> / channel-capacity</div>
+  <h1>channel-capacity</h1>
+  <p class="tagline">Shannon capacity-achieving prior uniqueness, formalized in Lean&nbsp;4.</p>
+
+  <div class="meta-line">
+    <span class="tag">lean 4</span><span class="tag">mathlib</span><span class="tag">sorry-free</span>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/abenenson/channel-capacity" target="_blank" rel="noopener">github.com/abenenson/channel-capacity</a>
+  </div>
+
+  <section>
+    <p>
+      A Lean 4 library proving that capacity-achieving input priors for Markov kernels are unique
+      under the right non-degeneracy hypothesis. Lean <code>v4.29.1</code>, Mathlib only,
+      warning-free build, zero <code>sorry</code> / <code>admit</code> / axiom.
+    </p>
+    <p>
+      For the mathematical exposition — why the theorems are shaped the way they are and where the
+      analytic content lives — see <a href="https://github.com/abenenson/channel-capacity/blob/main/docs/overview.md" target="_blank" rel="noopener"><code>docs/overview.md</code></a>
+      in the repository, or the <a href="/writing/channel-capacity/">writing entry</a> on this site.
+    </p>
+  </section>
+
+  <section>
+    <h2>Three aligned theorems</h2>
+    <p>
+      The library gives three uniqueness theorems that bracket the classical question of when the
+      supremum defining channel capacity is attained at a unique input:
+    </p>
+    <ul>
+      <li>
+        <strong>A finite-alphabet theorem</strong> that discharges compactness, continuity, and strict
+        concavity internally on Mathlib's canonical weak topology for <code>ProbabilityMeasure</code>.
+        The only external hypothesis is that the kernel's row matrix has trivial real kernel
+        (<code>Kernel.RowMatrixFullRank</code>).
+      </li>
+      <li>
+        <strong>A concrete discharged theorem</strong> for compact-Polish channels with a common
+        strictly positive, jointly continuous density against a finite reference measure.
+      </li>
+      <li>
+        <strong>A general measure-theoretic packaging theorem</strong> that isolates the abstract
+        hypotheses needed for future upstream generalization, letting callers with their own
+        regularity framework discharge them independently.
+      </li>
+    </ul>
+    <p>
+      The finite theorem is the most immediate Mathlib upstream candidate; the discharged theorem is
+      the strongest concrete measure-theoretic result in the repository; the general theorem is the
+      abstract packaging both specialize.
+    </p>
+  </section>
+
+  <section>
+    <h2>Counterexample</h2>
+    <p>
+      The library includes a <code>Fin 6 → Fin 3</code> permutation-channel counterexample showing
+      that pairwise distinctness of rows (<code>RowSeparating</code>) is strictly weaker than the
+      injectivity of the prior pushforward map that the uniqueness theorems actually need. Two
+      distinct input priors can push forward to the same output marginal; the non-degeneracy
+      hypothesis cannot be relaxed to mere row separation.
+    </p>
+  </section>
+
+  <section>
+    <h2>Role in the legitimacy thread</h2>
+    <p>
+      The motivating application is a Shannon-correspondence for governance channels in the
+      <a href="/projects/legitimacy/">legitimacy framework</a>; that development consumes this
+      library as a dependency and is documented in its own paper. The present library stands on its
+      own information-theoretic terms.
+    </p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/projects/">Back to projects</a>
+      <a href="/projects/legitimacy/">Legitimacy thread</a>
+      <a href="/writing/channel-capacity/">Writing entry</a>
+      <a href="https://github.com/abenenson/channel-capacity" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </footer>
+</body>
+</html>
