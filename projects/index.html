@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Adam Benenson</title>
+  <meta name="description" content="Projects by Adam Benenson: Forethink Labs (anticipatory AI), Eudaimon (self-building agent architecture), Adamumbra (digital twin infrastructure), channel-capacity (Lean 4), legitimacy (machine-checked AI governance).">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/projects/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:title" content="Projects — Adam Benenson">
+  <meta property="og:description" content="Forethink Labs, Eudaimon, Adamumbra, channel-capacity, legitimacy framework.">
+  <meta property="og:url" content="https://adambenenson.com/projects/">
+  <meta property="og:site_name" content="Adam Benenson">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ashbenen">
+  <meta name="twitter:creator" content="@ashbenen">
+  <meta name="twitter:title" content="Projects — Adam Benenson">
+  <meta name="twitter:description" content="Forethink Labs, Eudaimon, Adamumbra, channel-capacity, legitimacy framework.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Projects — Adam Benenson",
+    "url": "https://adambenenson.com/projects/",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 56px;
+      font-style: italic;
+    }
+    section { margin-bottom: 48px; }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .item { margin-bottom: 26px; }
+    .item-title { font-size: 1rem; margin-bottom: 3px; }
+    .item-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .item-title a:hover { color: var(--link-hover); }
+    .item-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      font-family: 'Courier New', monospace;
+    }
+    .item-desc {
+      font-size: 0.92rem;
+      color: #c8bab8;
+      line-height: 1.55;
+    }
+    .item-desc a { color: var(--link); text-decoration: none; }
+    .item-desc a:hover { color: var(--link-hover); }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/">Writing</a>
+    <a href="/projects/" class="current">Projects</a>
+  </nav>
+
+  <h1>Projects</h1>
+  <p class="tagline">Systems, libraries, research threads. Most active first.</p>
+
+  <section>
+    <h2>Systems</h2>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://forethink.ai" target="_blank" rel="noopener">Forethink Labs</a>
+      </div>
+      <div class="item-meta">Rust · WASM · TypeScript</div>
+      <div class="item-desc">
+        A research laboratory building systems that accumulate structured intelligence and compound
+        capability over time. The flagship is an ambient AI layer for the browser that resurfaces
+        relevant information before you know you need it — all processing on-device, no centralized
+        indexing.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Eudaimon</div>
+      <div class="item-meta">Rust</div>
+      <div class="item-desc">
+        A recursively self-building factory for autonomous agent swarms. Every autonomy expansion is
+        backed by a promotion certificate: evidence trail, admissibility check, rollback witness.
+        The governance layer is the growth mechanism — a system that can only expand by proving it should.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Adamumbra</div>
+      <div class="item-meta">Python · Rust · JavaScript</div>
+      <div class="item-desc">
+        A personal digital twin built to reconstruct and extend causal reasoning, belief structure, and
+        intellectual trajectory. Maintains an 18,000-episode store, 12,000-entry profile database, and
+        a queryable knowledge graph. Context engineering formalized as a DT-MDP with a contrastive IRL
+        retrieval policy.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Research threads</h2>
+
+    <div class="item">
+      <div class="item-title">
+        <span class="tag">hub</span>
+        <a href="/projects/legitimacy/">Legitimacy framework</a>
+      </div>
+      <div class="item-meta">Rust · Lean 4 · papers in preparation</div>
+      <div class="item-desc">
+        An Arrow-lineage impossibility theorem for AI governance, a machine-checked constitutional
+        kernel, and the Shannon-correspondence companion library. A research thread in active development —
+        see the <a href="/projects/legitimacy/">hub page</a> for current state.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <span class="tag">library</span>
+        <a href="/projects/channel-capacity/">channel-capacity</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib · sorry-free</div>
+      <div class="item-desc">
+        A Lean 4 formalization of Shannon capacity-achieving prior uniqueness for Markov kernels.
+        Three layered theorems: a finite-alphabet result, a compact-Polish discharged result, and a
+        general measure-theoretic packaging result. Consumed by the legitimacy framework as a
+        dependency.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Formal methods</h2>
+
+    <div class="item">
+      <div class="item-title">Stigmergic Field Theory</div>
+      <div class="item-meta">Lean 4</div>
+      <div class="item-desc">
+        A formal theory of the relationship between information and energy, and how organized structure
+        emerges from their interaction. Derives a variational principle and a three-component tensor
+        decomposition (Integration, Complexity, Uncertainty) from a single information-geometric constraint.
+        Key theorems sorry-free.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/cencov-petz" target="_blank" rel="noopener">cencov-petz</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
+      <div class="item-desc">
+        The finite Čencov–Petz uniqueness theorem: any continuous monotone metric family on the
+        probability simplex is a scalar multiple of the Fisher information metric.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/compact-spectral" target="_blank" rel="noopener">compact-spectral</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
+      <div class="item-desc">
+        The spectral theorem for compact self-adjoint operators on Hilbert spaces: a Hilbert basis of
+        eigenvectors exists.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="https://github.com/abenenson/rellich-kondrachov" target="_blank" rel="noopener">rellich-kondrachov</a>
+      </div>
+      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
+      <div class="item-desc">
+        Rellich–Kondrachov compact embedding: H¹ → L² is compact on compact Riemannian manifolds.
+        Euclidean heart via Fréchet–Kolmogorov; manifold glue via finite chart decomposition.
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://github.com/abenenson">GitHub</a>
+      <a href="https://www.linkedin.com/in/adam-benenson/">LinkedIn</a>
+      <a href="https://x.com/ashbenen">X</a>
+      <a href="https://medium.com/@ashbenen">Medium</a>
+      <a href="mailto:adam@forethink.ai">adam@forethink.ai</a>
+    </div>
+  </footer>
+</body>
+</html>
