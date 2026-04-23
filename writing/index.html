@@ -129,6 +129,45 @@
       margin-right: 10px;
       text-transform: lowercase;
     }
+    /* Writing cards with thumbnails */
+    .writing-card {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .writing-thumb {
+      flex-shrink: 0;
+      width: 140px;
+      height: 105px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #27272b;
+      display: block;
+      margin-top: 4px;
+    }
+    .writing-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .writing-thumb-placeholder {
+      flex-shrink: 0;
+      width: 140px;
+      height: 105px;
+      border-radius: 6px;
+      background: #22222a;
+      border: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .writing-body {
+      flex: 1;
+      min-width: 0;
+    }
+    @media (max-width: 480px) {
+      .writing-card { flex-direction: column; gap: 12px; }
+      .writing-thumb, .writing-thumb-placeholder { width: 100%; height: 160px; }
+    }
     .footer {
       margin-top: 72px;
       padding-top: 24px;
@@ -165,68 +204,90 @@
 
   <div class="writing-list">
 
-    <div class="item">
-      <div class="item-meta">
-        <span class="tag">paper</span>2026-04
-      </div>
-      <div class="item-title">
-        <a href="/writing/channel-capacity/">channel-capacity — Shannon capacity-achieving prior uniqueness in Lean&nbsp;4</a>
-      </div>
-      <div class="item-desc">
-        A Lean 4 formalization proving that capacity-achieving input priors are unique for finite-alphabet
-        Markov kernels with full-rank row matrices, together with a compact-Polish discharged theorem and
-        a measure-theoretic packaging theorem. Three layered results; sorry-free; Mathlib-only.
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="item-meta">
-        <span class="tag">essay</span>2026-03 · Medium
-      </div>
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener">When the Forecast Becomes the Cause<span class="external-icon" aria-hidden="true">↗</span></a>
-      </div>
-      <div class="item-desc">
-        Prediction markets work best when the future doesn't care what the market thinks. An
-        incompleteness result: the more powerful they become, the larger the class of events they cannot price.
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta">
+          <span class="tag">paper</span>2026-04
+        </div>
+        <div class="item-title">
+          <a href="/writing/channel-capacity/">channel-capacity — Shannon capacity-achieving prior uniqueness in Lean&nbsp;4</a>
+        </div>
+        <div class="item-desc">
+          A Lean 4 formalization proving that capacity-achieving input priors are unique for finite-alphabet
+          Markov kernels with full-rank row matrices, together with a compact-Polish discharged theorem and
+          a measure-theoretic packaging theorem. Three layered results; sorry-free; Mathlib-only.
+        </div>
       </div>
     </div>
 
-    <div class="item">
-      <div class="item-meta">
-        <span class="tag">essay</span>2026-01 · Medium
-      </div>
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener">The Proof Is the Program<span class="external-icon" aria-hidden="true">↗</span></a>
-      </div>
-      <div class="item-desc">
-        What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="item-meta">
-        <span class="tag">essay</span>2026-01 · Medium
-      </div>
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener">The Compiler Is the Harness<span class="external-icon" aria-hidden="true">↗</span></a>
-      </div>
-      <div class="item-desc">
-        Agentic coding is optimization, not authorship — and language choice determines the quality of the
-        feedback signal. Why Rust's type system makes the compiler an unambiguous oracle.
+    <div class="item writing-card">
+      <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener" class="writing-thumb">
+        <img src="/img/thumb-forecast-cause.png" alt="When the Forecast Becomes the Cause">
+      </a>
+      <div class="writing-body">
+        <div class="item-meta">
+          <span class="tag">essay</span>2026-03 · Medium
+        </div>
+        <div class="item-title">
+          <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener">When the Forecast Becomes the Cause<span class="external-icon" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="item-desc">
+          Prediction markets work best when the future doesn't care what the market thinks. An
+          incompleteness result: the more powerful they become, the larger the class of events they cannot price.
+        </div>
       </div>
     </div>
 
-    <div class="item">
-      <div class="item-meta">
-        <span class="tag">essay</span>2024 · Medium
+    <div class="item writing-card">
+      <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener" class="writing-thumb">
+        <img src="/img/thumb-proof-program.png" alt="The Proof Is the Program">
+      </a>
+      <div class="writing-body">
+        <div class="item-meta">
+          <span class="tag">essay</span>2026-01 · Medium
+        </div>
+        <div class="item-title">
+          <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener">The Proof Is the Program<span class="external-icon" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="item-desc">
+          What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.
+        </div>
       </div>
-      <div class="item-title">
-        <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank" rel="noopener">The Cost of Cognitive Fragmentation<span class="external-icon" aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="item writing-card">
+      <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener" class="writing-thumb">
+        <img src="/img/thumb-compiler-harness.png" alt="The Compiler Is the Harness">
+      </a>
+      <div class="writing-body">
+        <div class="item-meta">
+          <span class="tag">essay</span>2026-01 · Medium
+        </div>
+        <div class="item-title">
+          <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener">The Compiler Is the Harness<span class="external-icon" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="item-desc">
+          Agentic coding is optimization, not authorship — and language choice determines the quality of the
+          feedback signal. Why Rust's type system makes the compiler an unambiguous oracle.
+        </div>
       </div>
-      <div class="item-desc">
-        Every context switch leaves behind a shard of attention. Tabs multiply, threads blur. We spend more
-        time reconstructing state than building. The founding argument for anticipatory AI.
+    </div>
+
+    <div class="item writing-card">
+      <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank" rel="noopener" class="writing-thumb">
+        <img src="/img/thumb-cognitive-fragmentation.jpg" alt="The Cost of Cognitive Fragmentation">
+      </a>
+      <div class="writing-body">
+        <div class="item-meta">
+          <span class="tag">essay</span>2024 · Medium
+        </div>
+        <div class="item-title">
+          <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank" rel="noopener">The Cost of Cognitive Fragmentation<span class="external-icon" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="item-desc">
+          Every context switch leaves behind a shard of attention. Tabs multiply, threads blur. We spend more
+          time reconstructing state than building. The founding argument for anticipatory AI.
+        </div>
       </div>
     </div>
 
