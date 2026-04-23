@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legitimacy framework — Adam Benenson</title>
+  <meta name="description" content="The legitimacy research thread: an Arrow-lineage impossibility theorem for AI governance, a machine-checked constitutional kernel in Rust and Lean 4, and the Shannon-correspondence companion library channel-capacity.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/projects/legitimacy/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://adambenenson.com/og-image.png">
+  <meta property="og:title" content="Legitimacy framework — Adam Benenson">
+  <meta property="og:description" content="Arrow-lineage impossibility for AI governance, machine-checked constitutional kernel, Shannon-correspondence companion library.">
+  <meta property="og:url" content="https://adambenenson.com/projects/legitimacy/">
+  <meta property="og:site_name" content="Adam Benenson">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ashbenen">
+  <meta name="twitter:creator" content="@ashbenen">
+  <meta name="twitter:title" content="Legitimacy framework — Adam Benenson">
+  <meta name="twitter:description" content="Arrow-lineage impossibility for AI governance, machine-checked constitutional kernel, Shannon-correspondence companion library.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Legitimacy framework",
+    "url": "https://adambenenson.com/projects/legitimacy/",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com"
+    },
+    "about": ["AI governance", "legitimacy", "formal methods", "Lean 4", "Rust", "information theory"],
+    "hasPart": [
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "legitimacy",
+        "url": "https://github.com/abenenson/legitimacy",
+        "programmingLanguage": ["Rust", "Lean 4"]
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "channel-capacity",
+        "url": "https://github.com/abenenson/channel-capacity",
+        "programmingLanguage": "Lean 4"
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+    section { margin-bottom: 40px; }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    p {
+      color: #c8bab8;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    p a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    p a:hover { color: var(--link-hover); }
+    .item { margin-bottom: 22px; }
+    .item-title { font-size: 1rem; margin-bottom: 3px; }
+    .item-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .item-title a:hover { color: var(--link-hover); }
+    .item-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      font-family: 'Courier New', monospace;
+    }
+    .item-desc {
+      font-size: 0.92rem;
+      color: #c8bab8;
+      line-height: 1.55;
+    }
+    .item-desc a { color: var(--link); text-decoration: none; }
+    .item-desc a:hover { color: var(--link-hover); }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .status {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: #ff8c7a;
+      border: 1px solid #ff8c7a;
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/">Writing</a>
+    <a href="/projects/" class="current">Projects</a>
+  </nav>
+
+  <div class="breadcrumb"><a href="/projects/">Projects</a> / Legitimacy</div>
+  <h1>Legitimacy framework</h1>
+  <p class="tagline">Impossibility, machine-checked governance, and the Shannon correspondence.</p>
+
+  <section>
+    <p>
+      Mainstream AI "governance" in 2026 is a runtime-enforcement plane: rate limits, PII guards,
+      prompt-injection detection, audit logs. Necessary work, but upstream of an unasked question —
+      <em>is the rule being enforced actually coherent?</em>
+    </p>
+    <p>
+      The legitimacy thread pursues that question across three layers: an impossibility theorem in
+      the Arrow lineage, a machine-checked constitutional kernel that makes the theorem executable,
+      and a Shannon-correspondence companion library connecting governance channels to
+      information-theoretic uniqueness results.
+    </p>
+  </section>
+
+  <section>
+    <h2>The impossibility</h2>
+    <p>
+      No peer-relative governance system can jointly satisfy consistency, solidarity, monotonicity,
+      and strategyproofness. Every deployed system sacrifices at least one — typically without
+      declaring which, bounding how much, or specifying a monitor for the sacrificed axiom. The
+      impossibility theorem and its Young-style graph diagnostics make that sacrifice explicit and
+      checkable.
+    </p>
+  </section>
+
+  <section>
+    <h2>Artifacts</h2>
+
+    <div class="item">
+      <div class="item-title">
+        <span class="status">in preparation</span>
+        Paper 1 — legitimacy foundational results
+      </div>
+      <div class="item-meta">manuscript · target 2026</div>
+      <div class="item-desc">
+        The foundational paper for the thread: the impossibility theorem, the five-axiom constitutional
+        kernel, and the capacity / critical-capability / RG-flow results. An Arrow-compact presentation
+        targeting ASI governance. Will be linked from <a href="/writing/">Writing</a> when released.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <span class="tag">rust</span><span class="tag">lean 4</span>
+        <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">legitimacy</a>
+      </div>
+      <div class="item-meta">machine-checked constitutional kernel</div>
+      <div class="item-desc">
+        A Rust crate that extracts governance graphs from source or policy files and audits them
+        against the five-axiom kernel (Certifiable, Governance-observable, Corrigible, Compositional
+        Safety, Non-Vacuous). Backed by a Lean 4 / Mathlib library with hundreds of machine-verified
+        declarations and zero <code>sorry</code>. Orthogonal to gateway products — they enforce; this
+        audits.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">
+        <span class="tag">lean 4</span>
+        <a href="/projects/channel-capacity/">channel-capacity</a>
+      </div>
+      <div class="item-meta">Shannon-correspondence companion library</div>
+      <div class="item-desc">
+        Three layered uniqueness theorems for capacity-achieving input priors on Markov kernels: a
+        finite-alphabet result, a compact-Polish discharged result, and a measure-theoretic packaging
+        result. The legitimacy framework consumes this library to connect governance channels to
+        information-theoretic uniqueness. See the <a href="/writing/channel-capacity/">writing entry</a>
+        for the mathematical exposition.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Current state</h2>
+    <p>
+      The Rust crate and Lean library are in active development on a private repository and will be
+      opened on publication of Paper 1. The channel-capacity companion library is public and stable.
+      The paper itself is in preparation.
+    </p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/projects/">Back to projects</a>
+      <a href="https://github.com/abenenson">GitHub</a>
+      <a href="https://www.linkedin.com/in/adam-benenson/">LinkedIn</a>
+      <a href="mailto:adam@forethink.ai">adam@forethink.ai</a>
+    </div>
+  </footer>
+</body>
+</html>
