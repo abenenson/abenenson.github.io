@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>When the Forecast Becomes the Cause — Adam Benenson</title>
-  <meta name="description" content="Prediction markets work best when the future doesn't care what the market thinks. An incompleteness result: the more powerful they become, the larger the class of events they cannot price.">
+  <meta name="description" content="Prediction markets work best when the future doesn't care what the market thinks. A prediction market on rainfall observes the future. A prediction market on a bank run helps write it.">
   <meta name="author" content="Adam Benenson">
-  <link rel="canonical" href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde">
+  <link rel="canonical" href="https://adambenenson.com/writing/when-the-forecast-becomes-the-cause/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta property="og:type" content="article">
@@ -16,7 +16,7 @@
   <meta property="og:url" content="https://adambenenson.com/writing/when-the-forecast-becomes-the-cause/">
   <meta property="og:site_name" content="Adam Benenson">
   <meta property="article:author" content="Adam Benenson">
-  <meta property="article:published_time" content="2026-03-01">
+  <meta property="article:published_time" content="2026-03-31">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@ashbenen">
@@ -24,6 +24,29 @@
   <meta name="twitter:title" content="When the Forecast Becomes the Cause">
   <meta name="twitter:description" content="Prediction markets work best when the future doesn't care what the market thinks.">
   <meta name="twitter:image" content="https://adambenenson.com/img/thumb-forecast-cause.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "When the Forecast Becomes the Cause",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com/"
+    },
+    "datePublished": "2026-03-31",
+    "url": "https://adambenenson.com/writing/when-the-forecast-becomes-the-cause/",
+    "mainEntityOfPage": "https://adambenenson.com/writing/when-the-forecast-becomes-the-cause/",
+    "image": "https://adambenenson.com/img/thumb-forecast-cause.png",
+    "description": "Prediction markets work best when the future doesn't care what the market thinks. A prediction market on rainfall observes the future. A prediction market on a bank run helps write it.",
+    "wordCount": 1932,
+    "publisher": {
+      "@type": "Person",
+      "name": "Adam Benenson"
+    }
+  }
+  </script>
 
   <style>
     :root {
@@ -82,8 +105,20 @@
       color: var(--muted);
       font-size: 0.85rem;
       font-family: 'Courier New', monospace;
-      margin-bottom: 36px;
+      margin-bottom: 20px;
     }
+    .originally-published {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-style: normal;
+    }
+    .originally-published a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .originally-published a:hover { color: var(--link-hover); }
     .tag {
       display: inline-block;
       font-family: 'Courier New', monospace;
@@ -106,27 +141,74 @@
       font-size: 0.78rem;
       vertical-align: 1px;
     }
-    .tldr {
-      font-size: 1.02rem;
-      color: #c8bab8;
-      line-height: 1.65;
-      margin-bottom: 32px;
+    article h2 {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 48px;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
     }
-    .read-full {
-      display: inline-block;
-      padding: 10px 18px;
+    article h3 {
+      font-size: 1.05rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 32px;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+    }
+    article p {
+      margin-bottom: 20px;
+    }
+    article a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+    }
+    article a:hover {
+      color: var(--link-hover);
+      text-decoration-color: var(--link-hover);
+    }
+    article strong { color: var(--text); font-weight: 600; }
+    article em { font-style: italic; }
+    article ul, article ol {
+      margin: 0 0 20px 1.4em;
+    }
+    article li { margin-bottom: 8px; }
+    article blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+      margin: 24px 0;
+      color: #c8bab8;
+      font-style: italic;
+    }
+    article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+    article pre {
+      background: #141417;
       border: 1px solid var(--border);
       border-radius: 4px;
-      color: var(--link);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 0.02em;
-      transition: border-color 0.15s, color 0.15s;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      font-size: 0.88rem;
     }
-    .read-full:hover {
-      color: var(--link-hover);
-      border-color: var(--link-hover);
+    article code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.92em;
+      background: #141417;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    article pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
     }
     .footer {
       margin-top: 72px;
@@ -161,18 +243,143 @@
     <span class="tag">essay</span>March 2026 · <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener" class="venue-link" aria-label="Read on Medium">Medium<span class="external-arrow" aria-hidden="true">↗</span></a>
   </div>
 
-  <p class="tldr">
-    Prediction markets work best when the future doesn't care what the market thinks. An
-    incompleteness result: the more powerful they become, the larger the class of events they
-    cannot price.
-  </p>
+  <div class="originally-published">
+    Originally published on <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener">Medium ↗</a>
+  </div>
 
-  <p>
-    <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde"
-       target="_blank" rel="noopener" class="read-full">
-      Read the full essay on Medium ↗
-    </a>
-  </p>
+  <article>
+
+    <p>Prediction markets work best when the future doesn't care what the market thinks.</p>
+
+    <p>A prediction market on rainfall observes the future. A prediction market on a bank run helps write it.</p>
+
+    <p>That is the hidden limit of prediction markets.</p>
+
+    <p>At their best, prediction markets do something almost nothing else does. They take scattered, private, hard-to-articulate information and compress it into a public number. Not a poll. Not a panel. Not a pundit's confidence dressed up as insight. A price backed by people willing to lose money for being wrong.</p>
+
+    <p>That is an extraordinary instrument. It deserves the enthusiasm it gets.</p>
+
+    <p>Prediction markets punish false confidence. They outperform punditry because they force conviction to clear at a price. They outperform polling when the relevant information is dispersed, private, and expensive to explain. They produce something public institutions rarely generate on their own: a live, legible estimate that updates when the world does.</p>
+
+    <p>But they also have a structural boundary. Prediction markets work best when the future does not care what the market thinks. The moment the quoted probability becomes an input into decisions, the market stops describing the world from the outside. It enters the causal chain. The forecast becomes one of the forces shaping the thing being forecast.</p>
+
+    <p>The more authoritative the market becomes, the larger that class of events gets.</p>
+
+    <h2>What is actually being traded</h2>
+
+    <p>The cleanest way to see this is to ask what prediction markets actually trade.</p>
+
+    <p>A stock market finances enterprises. A bond market finances borrowers. Those markets allocate capital into assets that exist independently of the market itself.</p>
+
+    <p>Prediction markets do something else. They reallocate exposure to discrete states of the world.</p>
+
+    <p>That makes them look less like capital markets than like tradable insurance.</p>
+
+    <p>The demand for that insurance is concrete. A company wants protection against a regulatory outcome it cannot diversify away. A campaign wants a hedge against the cost of losing. A supplier wants exposure tied to tariffs, sanctions, or rate decisions. On the other side sit speculators, market makers, and eventually portfolios underwriting many such risks at once — with all the attendant structure: correlation management, underwriting discipline, and a concentrated capital base that needs to be right across the portfolio, not on any single contract.</p>
+
+    <p>This distinction does real work. It clarifies both the upside and the failure mode.</p>
+
+    <p>The upside: prediction markets surface buried information and distribute event risk more intelligently. They turn vague conviction into a public price.</p>
+
+    <p>The failure mode is subtler. Insurance works best when the thing being insured does not change because the premium is visible on a screen. Prediction markets get stranger, because their prices can become public signals that feed back into the event itself.</p>
+
+    <h2>When the price enters the world</h2>
+
+    <p>For an exogenous event, a market price is trying to summarize a probability.</p>
+
+    <p>For a reflexive event, it has to summarize something harder: the probability of the event after everyone has seen the price and reacted to it.</p>
+
+    <p>That is a different object.</p>
+
+    <p>A stable price is not simply P(event). It is P(event | everyone sees this price). That is a fixed-point equation. Fixed-point equations can have zero solutions, one solution, or many. Which regime you are in depends entirely on the event.</p>
+
+    <p><strong>The self-defeating market.</strong> A controversial bill trades at 70% to pass. Donors, activists, lobbyists, and party leadership all read the number and mobilize harder against it. The confidence of the forecast changes the coalition around the bill. The market may eventually settle at a sensible price — the point where predicted passage no longer triggers sufficient counter-mobilization to flip the outcome. But the path matters. Prices overshoot toward naively computed probabilities before the reflexive correction arrives. Early participants lose money even when the market eventually gets it right.</p>
+
+    <p><strong>The self-fulfilling market.</strong> A bank run. A shaky currency peg. A fragile acquisition. Any coordination game with multiple equilibria. Two stable fixed points exist: the world where almost everyone expects stability, and the world where almost everyone expects collapse. The market's job is no longer to discover the probability. It is to select which equilibrium the world lands in. The price becomes the Schelling point. Whoever moves large liquidity first sets the focal point. A well-capitalized actor can manufacture the outcome by purchasing the 95% price into existence — not by executing the attack, but by buying the probability until the attack becomes self-executing.</p>
+
+    <p><strong>The oscillating market.</strong> Some events never settle into a stable probability once the forecast becomes public. A high strike probability triggers concessions and contingency planning, which lowers the odds. A low strike probability reduces urgency, which raises them again. The number chases the reaction it creates. The market is doing its job. There may be no stable probability there to discover.</p>
+
+    <p>A lot of writing about prediction markets quietly reaches for the wrong metaphor. It treats every future like weather.</p>
+
+    <p>But some futures are not weather. Some futures are games. And when every player can see the scoreboard, the game changes.</p>
+
+    <h2>The liar contract</h2>
+
+    <p>You can push this one step further with a toy contract.</p>
+
+    <p>Imagine a market on the following event: this contract pays $1 if, at the close, its own market price is below 50 cents.</p>
+
+    <p>What should it trade at?</p>
+
+    <p>If the market expects it to close below 50 cents, then by definition it pays $1, so rational traders should bid it higher. If the market expects it to close above 50 cents, then by definition it pays $0, so rational traders should sell it lower.</p>
+
+    <p>No quoted price is self-consistent.</p>
+
+    <p>A real exchange can refuse to list that exact contract. But banning the toy example does not remove the structure. It only removes the cleanest illustration.</p>
+
+    <p>The moment real-world actors start conditioning on market prices, self-reference comes back through reality rather than through the settlement rule. Central banks watch rate expectations. Campaigns watch election odds. Boards watch deal probabilities. Journalists turn prices into headlines. Models watch markets and other models. The system starts making claims about states of the world that depend, in part, on the system's own output.</p>
+
+    <p>The liar contract is not a curiosity. It is a boundary result.</p>
+
+    <p>Define a sufficiently powerful prediction market as one capable of pricing events that reference its own output. Any mature institutional prediction market already qualifies. Contracts on interest rate decisions reference central bank communications that reference market expectations. Geopolitical contracts reference government actions that reference market signals. Sufficient power, in this sense, is where prediction markets are heading.</p>
+
+    <p>For any sufficiently powerful prediction market, a liar event exists and cannot be stably or accurately priced. The market is either wrong or it fails to converge. There is no third option.</p>
+
+    <p>The point is not that real exchanges will list liar contracts. It is that any market pricing events whose resolution depends on the market's own output inherits the same diagonal structure. The toy reveals the shape; reality supplies the content.</p>
+
+    <p>This is an incompleteness result for prediction markets. Gödel showed that any consistent formal system powerful enough to express arithmetic contains true statements it cannot prove. The construction is structurally identical: a self-referential sentence designed so that provability implies falsity. Here, convergence implies inaccuracy. Gödel's result was not a failure of mathematics. It was a discovery about the inherent limits of formal systems — the more powerful the system, the larger the class of undecidable statements it contains.</p>
+
+    <p>The equivalent discovery: the more powerful and liquid a prediction market becomes, the larger the class of events it cannot price. Not won't price with better data. Cannot price by the structure of the problem.</p>
+
+    <h2>AI does not escape the loop</h2>
+
+    <p>AI will not solve this. It will sharpen it.</p>
+
+    <p>A frontier model does not just reason about the event. It reasons about the market pricing the event, about other models reasoning about the market, and about itself doing all of the above. The recursion lives in the reasoning, not the training loop. The model, reasoning about a self-referential event, is reasoning about itself reasoning about the event. That regress is unbounded regardless of how fresh the information is.</p>
+
+    <p>This creates a natural hierarchy. Level-0 events are independent of any prediction: who wins a coin flip, whether a rocket reaches orbit. Level-1 events depend on the price: whether a bank runs, whether a bill passes. Level-2 events depend on predictions of predictions: a negotiation where both parties condition on what they believe the other party believes the market believes. Level-3 events involve AI systems modeling AI systems modeling AI systems. Each level requires a more powerful oracle to decide.</p>
+
+    <p>Powerful AI will make prediction markets better at aggregating information about exogenous events. It will also make reflexive markets more crowded with agents that understand exactly how the price feeds back into the world.</p>
+
+    <p>The oracle gets smarter. The regress does not get shorter.</p>
+
+    <h2>The governance layer</h2>
+
+    <p>Once you see that, the most important question is no longer liquidity.</p>
+
+    <p>It is governance.</p>
+
+    <p>Who gets to write the contract? Who decides the resolution criteria? Which events are admissible? Which are too entangled with the act of being priced? When does a market generate information, and when does it create a focal point powerful enough to change the thing itself?</p>
+
+    <p>Those are design decisions about the oracle itself. They determine what it is allowed to see.</p>
+
+    <p>The entity that writes the question controls the epistemic frame. At small scale that sounds abstract. At institutional scale it is concrete.</p>
+
+    <p>Consider a liquid prediction market on whether a specific financial regulation will be "implemented" by year-end. The contract needs a resolution rule: what counts as implemented? Published in the Federal Register? Enforcement guidance issued? First fine levied? Each definition creates a different contract, a different price, and a different focal point for the institutions watching. The regulator, aware of the market, starts framing its own timeline in terms the contract can resolve. The question has quietly structured the decision space it claims to observe.</p>
+
+    <p>That is a new kind of infrastructure power — not the power to persuade, but the power to make certain futures legible, tradeable, and therefore actionable.</p>
+
+    <p>Legibility is never neutral. The categories you make liquid become the categories institutions optimize against. The futures you can trade become the futures organizations treat as real.</p>
+
+    <h2>The real frontier</h2>
+
+    <p>The seductive dream is a world in which every meaningful future is translated into a live market price: politics, policy, war, science, firms, culture — everything rendered as legible probability.</p>
+
+    <p>But the more successful that project becomes, the more it runs into its own limit.</p>
+
+    <p>For the vast class of events where self-reference is weak — weather, sports, technical milestones, many scientific and industrial questions — deeper and more liquid markets are unambiguously good. Better incentives, broader participation, better design. Here the case is strong and gets stronger.</p>
+
+    <p>But as markets mature and event spaces expand, the undecidable class grows. Events that reference market prices. Events where the dominant participants are sophisticated enough to model the market modeling itself. Events at the frontier of genuinely contested futures where no stable equilibrium exists.</p>
+
+    <p>For those events, the market still prints a number. That number is not a probability. It is the current state of a game that is reading its own scoreboard.</p>
+
+    <p>A prediction market is most trustworthy when it behaves like a camera.</p>
+
+    <p>Once the world starts reacting to the picture, the camera is in the frame.</p>
+
+    <p>The more efficient prediction markets become, the more the world's uncaptured value concentrates at exactly the frontier where they fail.</p>
+
+  </article>
 
   <footer class="footer">
     <div class="footer-links">
