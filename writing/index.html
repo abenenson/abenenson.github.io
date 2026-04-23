@@ -85,24 +85,28 @@
       margin-bottom: 56px;
       font-style: italic;
     }
-    section { margin-bottom: 48px; }
-    h2 {
-      font-size: 0.8rem;
-      font-weight: normal;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
+    .writing-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
-    .item { margin-bottom: 22px; }
+    .item {
+      margin-bottom: 26px;
+      padding-bottom: 4px;
+    }
     .item-title { font-size: 1rem; margin-bottom: 3px; }
     .item-title a {
       color: var(--text);
       text-decoration: none;
     }
     .item-title a:hover { color: var(--link-hover); }
+    .external-icon {
+      display: inline-block;
+      margin-left: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      vertical-align: 1px;
+    }
     .item-meta {
       color: var(--muted);
       font-size: 0.85rem;
@@ -124,13 +128,6 @@
       border-radius: 2px;
       margin-right: 6px;
       text-transform: lowercase;
-    }
-    .empty-note {
-      color: var(--muted);
-      font-size: 0.92rem;
-      font-style: italic;
-      line-height: 1.6;
-      margin-bottom: 28px;
     }
     .footer {
       margin-top: 72px;
@@ -164,17 +161,16 @@
   </nav>
 
   <h1>Writing</h1>
-  <p class="tagline">Essays, papers, notes. Chronological, most recent first.</p>
+  <p class="tagline">Papers, essays, notes. Most recent first.</p>
 
-  <section>
-    <h2>Papers</h2>
+  <div class="writing-list">
 
     <div class="item">
       <div class="item-title">
         <span class="tag">paper</span>
         <a href="/writing/channel-capacity/">channel-capacity — Shannon capacity-achieving prior uniqueness in Lean&nbsp;4</a>
       </div>
-      <div class="item-meta">April 2026 · companion library</div>
+      <div class="item-meta">April 2026</div>
       <div class="item-desc">
         A Lean 4 formalization proving that capacity-achieving input priors are unique for finite-alphabet
         Markov kernels with full-rank row matrices, together with a compact-Polish discharged theorem and
@@ -182,24 +178,10 @@
       </div>
     </div>
 
-    <p class="empty-note">
-      Paper 1 in the legitimacy research thread is in preparation; it will be linked here when released.
-    </p>
-  </section>
-
-  <section>
-    <h2>Essays</h2>
-    <p class="empty-note">
-      Essays are currently hosted on Medium; canonical mirrors will appear here as they are republished.
-      See the <a href="https://medium.com/@ashbenen" style="color: var(--link);">Medium archive</a> in the meantime.
-    </p>
-
     <div class="item">
       <div class="item-title">
         <span class="tag">essay</span>
-        <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener">
-          When the Forecast Becomes the Cause
-        </a>
+        <a href="https://medium.com/@ashbenen/when-the-forecast-becomes-the-cause-bad41ba17dde" target="_blank" rel="noopener">When the Forecast Becomes the Cause<span class="external-icon" aria-hidden="true">↗</span></a>
       </div>
       <div class="item-meta">March 2026 · Medium</div>
       <div class="item-desc">
@@ -211,9 +193,7 @@
     <div class="item">
       <div class="item-title">
         <span class="tag">essay</span>
-        <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener">
-          The Proof Is the Program
-        </a>
+        <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener">The Proof Is the Program<span class="external-icon" aria-hidden="true">↗</span></a>
       </div>
       <div class="item-meta">January 2026 · Medium</div>
       <div class="item-desc">
@@ -224,9 +204,7 @@
     <div class="item">
       <div class="item-title">
         <span class="tag">essay</span>
-        <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener">
-          The Compiler Is the Harness
-        </a>
+        <a href="https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e" target="_blank" rel="noopener">The Compiler Is the Harness<span class="external-icon" aria-hidden="true">↗</span></a>
       </div>
       <div class="item-meta">January 2026 · Medium</div>
       <div class="item-desc">
@@ -238,9 +216,7 @@
     <div class="item">
       <div class="item-title">
         <span class="tag">essay</span>
-        <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank" rel="noopener">
-          The Cost of Cognitive Fragmentation
-        </a>
+        <a href="https://medium.com/@ashbenen/the-cost-of-cognitive-fragmentation-c9108dabe8b5" target="_blank" rel="noopener">The Cost of Cognitive Fragmentation<span class="external-icon" aria-hidden="true">↗</span></a>
       </div>
       <div class="item-meta">2024 · Medium</div>
       <div class="item-desc">
@@ -248,14 +224,8 @@
         time reconstructing state than building. The founding argument for anticipatory AI.
       </div>
     </div>
-  </section>
 
-  <section>
-    <h2>Notes</h2>
-    <p class="empty-note">
-      Shorter technical notes will appear here as they are written.
-    </p>
-  </section>
+  </div>
 
   <footer class="footer">
     <div class="footer-links">
