@@ -4,26 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Proof Is the Program — Adam Benenson</title>
-  <meta name="description" content="What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.">
+  <meta name="description" content="In most AI applications, failure looks like a plausible-sounding wrong answer. In Lean, failure looks like a compiler error. That difference changes everything.">
   <meta name="author" content="Adam Benenson">
-  <link rel="canonical" href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0">
+  <link rel="canonical" href="https://adambenenson.com/writing/the-proof-is-the-program/">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://adambenenson.com/img/thumb-proof-program.png">
   <meta property="og:title" content="The Proof Is the Program">
-  <meta property="og:description" content="What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.">
+  <meta property="og:description" content="In most AI applications, failure looks like a plausible-sounding wrong answer. In Lean, failure looks like a compiler error.">
   <meta property="og:url" content="https://adambenenson.com/writing/the-proof-is-the-program/">
   <meta property="og:site_name" content="Adam Benenson">
   <meta property="article:author" content="Adam Benenson">
-  <meta property="article:published_time" content="2026-01-01">
+  <meta property="article:published_time" content="2026-01-23">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@ashbenen">
   <meta name="twitter:creator" content="@ashbenen">
   <meta name="twitter:title" content="The Proof Is the Program">
-  <meta name="twitter:description" content="What changes when AI works inside a formal type system and hallucination is structurally rejected on contact.">
+  <meta name="twitter:description" content="In most AI applications, failure looks like a plausible-sounding wrong answer. In Lean, failure looks like a compiler error.">
   <meta name="twitter:image" content="https://adambenenson.com/img/thumb-proof-program.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Proof Is the Program",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com/"
+    },
+    "datePublished": "2026-01-23",
+    "url": "https://adambenenson.com/writing/the-proof-is-the-program/",
+    "mainEntityOfPage": "https://adambenenson.com/writing/the-proof-is-the-program/",
+    "image": "https://adambenenson.com/img/thumb-proof-program.png",
+    "description": "In most AI applications, failure looks like a plausible-sounding wrong answer. In Lean, failure looks like a compiler error. That difference changes everything.",
+    "wordCount": 1513,
+    "publisher": {
+      "@type": "Person",
+      "name": "Adam Benenson"
+    }
+  }
+  </script>
 
   <style>
     :root {
@@ -82,8 +105,20 @@
       color: var(--muted);
       font-size: 0.85rem;
       font-family: 'Courier New', monospace;
-      margin-bottom: 36px;
+      margin-bottom: 20px;
     }
+    .originally-published {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-style: normal;
+    }
+    .originally-published a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .originally-published a:hover { color: var(--link-hover); }
     .tag {
       display: inline-block;
       font-family: 'Courier New', monospace;
@@ -106,27 +141,74 @@
       font-size: 0.78rem;
       vertical-align: 1px;
     }
-    .tldr {
-      font-size: 1.02rem;
-      color: #c8bab8;
-      line-height: 1.65;
-      margin-bottom: 32px;
+    article h2 {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 48px;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
     }
-    .read-full {
-      display: inline-block;
-      padding: 10px 18px;
+    article h3 {
+      font-size: 1.05rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 32px;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+    }
+    article p {
+      margin-bottom: 20px;
+    }
+    article a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+    }
+    article a:hover {
+      color: var(--link-hover);
+      text-decoration-color: var(--link-hover);
+    }
+    article strong { color: var(--text); font-weight: 600; }
+    article em { font-style: italic; }
+    article ul, article ol {
+      margin: 0 0 20px 1.4em;
+    }
+    article li { margin-bottom: 8px; }
+    article blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+      margin: 24px 0;
+      color: #c8bab8;
+      font-style: italic;
+    }
+    article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+    article pre {
+      background: #141417;
       border: 1px solid var(--border);
       border-radius: 4px;
-      color: var(--link);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 0.02em;
-      transition: border-color 0.15s, color 0.15s;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      font-size: 0.88rem;
     }
-    .read-full:hover {
-      color: var(--link-hover);
-      border-color: var(--link-hover);
+    article code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.92em;
+      background: #141417;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    article pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
     }
     .footer {
       margin-top: 72px;
@@ -161,17 +243,107 @@
     <span class="tag">essay</span>January 2026 · <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener" class="venue-link" aria-label="Read on Medium">Medium<span class="external-arrow" aria-hidden="true">↗</span></a>
   </div>
 
-  <p class="tldr">
-    What changes when AI works inside a formal type system and hallucination is
-    structurally rejected on contact.
-  </p>
+  <div class="originally-published">
+    Originally published on <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0" target="_blank" rel="noopener">Medium ↗</a>
+  </div>
 
-  <p>
-    <a href="https://medium.com/@ashbenen/the-proof-is-the-program-what-happens-when-ai-cant-hallucinate-f6526ecabeb0"
-       target="_blank" rel="noopener" class="read-full">
-      Read the full essay on Medium ↗
-    </a>
-  </p>
+  <article>
+
+    <p>In most AI applications, failure looks like a plausible-sounding wrong answer. In <a href="https://lean-lang.org/" target="_blank" rel="noopener">Lean</a>, failure looks like a compiler error.</p>
+
+    <p>That difference changes everything.</p>
+
+    <h2>The defining problem with large language models</h2>
+
+    <p>The defining problem with large language models is hallucination: confident outputs that aren't true. Ask for a citation and you might get a paper that doesn't exist. Ask for a proof and you might get an argument that reads well but contains a subtle error. This isn't a bug to be patched. It's the natural result of optimizing for plausibility. Truth is, at best, correlated.</p>
+
+    <p>But Lean belongs to a class of environments where hallucination isn't discouraged or reduced — it's <em>rejected on contact</em>. The model can still propose nonsense. The system just can't accept it. And working in such environments reveals something important about what AI reasoning could become when it's forced to be grounded.</p>
+
+    <h2>The oracle that cannot be fooled</h2>
+
+    <p>Lean is a proof assistant. You don't write arguments that sound correct; you write proofs that <em>are</em> correct, or the compiler rejects them. Every logical step either follows from what came before, or it doesn't. No middle ground exists. No "it seems to work." No "it passes most tests."</p>
+
+    <p>This isn't like type-checking in ordinary programming. Conventional compilers catch certain categories of errors, but plenty of bugs slip through to runtime. Lean's type checker is different: if your proof compiles cleanly, the proposition you claimed is mathematically true. The checker is the final arbiter.</p>
+
+    <p>For AI systems, this distinction is profound. A language model cannot bluff its way through a Lean proof — the system either accepts valid logic or rejects it. This constraint forces something that looks less like "generation" and more like genuine reasoning.</p>
+
+    <h2>The agentic loop, perfected</h2>
+
+    <p>Rust's strict compiler makes it an ideal substrate for agentic coding. Structured feedback narrows the search space. Each iteration is informative. The AI converges rather than thrashes.</p>
+
+    <p>Lean takes this dynamic to its logical extreme.</p>
+
+    <p>In Rust, compilation means safety — freedom from memory errors and data races. In Lean, compilation means the proposition is proven. The compiler isn't catching bugs. It's catching falsehoods.</p>
+
+    <p>The practical results reflect this. In July 2025, AI systems from both <a href="https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/" target="_blank" rel="noopener">DeepMind</a> and <a href="https://www.axios.com/2025/07/21/openai-deepmind-math-olympiad-ai" target="_blank" rel="noopener">OpenAI</a> demonstrated gold-medal-level performance on the International Mathematical Olympiad (IMO), each solving 5 of 6 problems within contest time limits. In recent months, GPT-5.2 <a href="https://arxiv.org/html/2601.07421v1" target="_blank" rel="noopener">generated an original proof for Erdős Problem #728</a>, later formalized in Lean and reviewed publicly by Fields Medalist Terence Tao. Tao, who <a href="https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems" target="_blank" rel="noopener">tracks these contributions</a>, describes the result as applying existing methods to an unstudied problem — not a profound breakthrough, but a genuine contribution. On the <a href="https://github.com/openai/miniF2F" target="_blank" rel="noopener">miniF2F benchmark</a> — formalized Olympiad problems — recent systems hit <a href="https://arxiv.org/html/2507.15225v1" target="_blank" rel="noopener">95.9% through iterative repair</a>: propose a proof, receive feedback, adjust, repeat.</p>
+
+    <p>These results aren't magic. They're the predictable outcome of a perfect oracle. Unambiguous feedback makes iteration work. Checkable steps make search converge. AI isn't getting smarter at math. It's operating in a domain where outputs are forced to be grounded or to visibly fail.</p>
+
+    <h2>Holes as structure</h2>
+
+    <p>Here's where something genuinely new emerges.</p>
+
+    <p>Lean has a keyword: <em>sorry</em>. It's a placeholder meaning "I claim this is provable, but I haven't proven it yet." The compiler accepts it provisionally, letting you continue building the rest of your argument. Later, you return and discharge each <em>sorry</em> with an actual proof.</p>
+
+    <p>This sounds like minor convenience. It's actually a profound workflow innovation.</p>
+
+    <p>A complex proof doesn't have to be solved linearly. You can structure the argument first — "I'll prove A by proving B and C, and B by proving D and E" — inserting <em>sorry</em> at each leaf. Now you have an explicit task graph. Progress becomes countable: twelve <em>sorry</em>s reduced to eight. "Done" means zero <em>sorry</em>s and a clean build. No ambiguity remains about what's left.</p>
+
+    <p>For AI agents, this structure is extraordinarily useful. The model can decompose hard problems into subproblems, attack them independently, and track progress precisely. Each <em>sorry</em> defines a goal with a clear success criterion. The type signature specifies exactly what needs proving. The context provides exactly what's available to work with.</p>
+
+    <p>Programming languages have stubs too — <em>todo!()</em> in Rust, <em>pass</em> in Python — but they compile and then explode at runtime. <em>sorry</em> compiles and leaves a <em>precisely typed hole</em>: a named debt with an exact specification of what's owed. You can track it, decompose it, and discharge it. The difference isn't that Lean allows partial programs. It's that Lean turns incompleteness into structured, delegatable subgoals rather than deferred runtime failures.</p>
+
+    <h2>What failure teaches</h2>
+
+    <p>The deepest insight isn't about success. It's about what happens when the AI <em>can't</em> discharge a <em>sorry</em>.</p>
+
+    <p>A failed proof attempt has two possible meanings. Either the claim is true but the AI hasn't found the right approach — a <em>proof gap</em>. Or the claim as stated isn't actually provable — a <em>spec mismatch</em>.</p>
+
+    <p>The second case is where things get interesting.</p>
+
+    <p>When an AI repeatedly hits a wall — "I have ≤ but need <", "this lemma requires a hypothesis I don't have" — the pattern often signals that the specification itself is wrong. The formal system isn't just verifying the AI's reasoning. It's stress-testing the human's assumptions.</p>
+
+    <p>This turns the AI into a discovery tool. The model explores possible proofs at superhuman speed, and its failures reveal hidden constraints. "I can't prove this" becomes valuable information — about the problem's difficulty, or about whether the problem was correctly posed in the first place.</p>
+
+    <p><a href="https://openai.com/index/gpt-5-mathematical-discovery/" target="_blank" rel="noopener">Ernest Ryu</a>, a mathematician at UCLA, recently used GPT-5 to solve a 40-year-old open problem in optimization theory. The AI didn't hand him a complete proof. It generated a stream of approaches — most wrong, some interesting. When promising ideas hit walls, those walls were informative. Ryu's intuition recognized which failures revealed spec issues and which revealed proof gaps. Twelve hours of focused collaboration cracked a problem that might have taken months solo.</p>
+
+    <p>The human sets direction and judges which paths matter. The AI explores at inhuman speed and reports what it finds — including what doesn't work and why. The formal system keeps both parties honest.</p>
+
+    <h2>The downstream implications</h2>
+
+    <p>This matters beyond pure mathematics.</p>
+
+    <p>The same infrastructure that verifies an IMO solution can verify that a trading algorithm won't breach risk limits, that a control system can't enter unsafe states, that a smart contract does what it claims. Formal verification has always promised such guarantees. The bottleneck was the labor of writing proofs.</p>
+
+    <p>If AI can write the proofs — and formal systems can check them — the bottleneck dissolves.</p>
+
+    <p><a href="https://martin.kleppmann.com/2025/12/08/ai-formal-verification.html" target="_blank" rel="noopener">Martin Kleppmann put it directly</a>: AI is poised to make formal verification "vastly cheaper," precisely as AI-generated code makes verification more necessary than ever. Mathematical theorem-proving isn't just an impressive demo. It's a capability that flows downstream to any domain where certainty matters more than probability.</p>
+
+    <p>The infrastructure builders seem to agree. OpenAI rewrote Codex's core in Rust, calling it an "agentic harness." Neural theorem provers run on verified code. When you need the scaffolding to be trustworthy, you reach for languages with guarantees. Lean represents a logical endpoint: not just a language for building reliable systems, but a domain where reliability is structurally enforced. You can't ship a hallucinated proof. The domain rejects it.</p>
+
+    <h2>The shape of grounded reasoning</h2>
+
+    <p>What's emerging isn't "AI that's good at math." It's a template for what AI reasoning looks like when shortcuts are impossible.</p>
+
+    <p>The ingredients: a perfect oracle checking every claim instantly. A decomposition structure turning complex problems into trackable subgoals. A workflow where failure informs rather than frustrates. A collaboration mode where human judgment and AI exploration reinforce each other.</p>
+
+    <p>These ingredients don't require Lean specifically. They require some system that verifies claims cheaply and unambiguously. Mathematics is the purest such domain. But anywhere you can build a reliable oracle — formal verification, constrained simulations, domains with strong logical structure — similar dynamics should emerge.</p>
+
+    <p>The AI optimized for plausibility produces plausible outputs. The AI constrained by proof produces proven outputs. The constraint shapes the cognition.</p>
+
+    <p>Or perhaps it doesn't shape cognition at all. A skeptic might say this is just infinite monkeys at infinite typewriters, with a perfect editor who recognizes valid proofs. The AI generates; the oracle filters. That's search, not thought.</p>
+
+    <p>The objection is fair, and probably unresolvable here. But the proof doesn't care. It exists as a valid logical object regardless of whether its producer "understood" anything. Lean is indifferent to the soul of its contributors. For mathematics, that indifference might be exactly the point.</p>
+
+    <p>Lean doesn't make AI smarter. It makes a certain kind of failure impossible.</p>
+
+    <p>And in doing so, it shows us what machine reasoning looks like when the machine can't fake it: structured, decomposed, verifiable — and forced to either ground itself in truth or fail loudly enough that everyone learns something.</p>
+
+    <p>The proof is the program. If it compiles, it's true.</p>
+
+    <p>If it doesn't, you just discovered something you didn't know you needed to know.</p>
+
+  </article>
 
   <footer class="footer">
     <div class="footer-links">
