@@ -60,6 +60,20 @@ Forethink's B2B matter-intelligence platform for professional services firms —
 
 ---
 
+## Legitimacy Framework
+
+A formal research program on agentic AI governance — distinct from Forethink Labs.
+
+The legitimacy thread pursues a question upstream of mainstream AI governance work (rate limits, PII guards, prompt-injection detection, audit logs): is the rule being enforced actually coherent? The forcing move is an impossibility theorem in the Arrow lineage, made executable by a machine-checked constitutional kernel.
+
+Core impossibility: no peer-relative governance system can jointly satisfy consistency, solidarity, monotonicity, and strategyproofness. Every deployed system sacrifices at least one — typically without declaring which, bounding how much, or specifying a monitor for the sacrificed axiom. The theorem and its Young-style graph diagnostics make that sacrifice explicit and checkable.
+
+The artifact stack: a Rust crate that extracts governance graphs from source or policy files and audits them against a five-axiom kernel (Certifiable, Governance-observable, Corrigible, Compositional Safety, Non-Vacuous), backed by a Lean 4 / Mathlib library with a 15-theorem compiler-stack spine — peer-relative impossibility, capability-scaling phase transition, channel-capacity bridge, safety-trajectory invariants, ASI spectral structure. Real audits with machine-checked rejection certificates against open-source agent harnesses (OpenAI's `codex-rs`, Anthropic's Claude Agent SDK). Zero `sorry`, `admit`, or first-party axiom under the verification gate.
+
+Paper 1 — the foundational paper for the thread (impossibility theorem, five-axiom constitutional kernel, capacity / critical-capability / RG-flow results) — is in preparation.
+
+---
+
 ## Lean 4 Proofs (Mathlib Submissions)
 
 All sorry-free:
