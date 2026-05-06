@@ -38,7 +38,7 @@ Eudaimon is the target state. Connectome is the substrate.
 
 A digital twin — a persistent AI counterparty built to reconstruct and extend Adam's causal reasoning, belief structure, and intellectual trajectory. The system ingests conversations, extracts structured claims across ten psychological dimensions, consolidates evidence using RGMem-inspired operators at three timescales (R_K1 per-heartbeat, R_K2 daily, R_K3 weekly), maintains a knowledge graph, and runs continuous background cycles to improve its own models.
 
-Current state: 10,000+ ingested episodes, 33,000+ structured claims, 11,000+ profile database entries. Behavioral fidelity scores 8.5/10 across 75 manually evaluated trials (measuring whether the system's outputs are recognizable as Adam's reasoning on novel inputs). It runs autonomously via scheduled heartbeats. It contributed to the authorship of this page.
+Current state: 24,000+ ingested episodes, 12,000+ profile database entries across ten psychological dimensions. Behavioral fidelity scores 8.5/10 across 75 manually evaluated trials (measuring whether the system's outputs are recognizable as Adam's reasoning on novel inputs). It runs autonomously via scheduled heartbeats. It contributed to the authorship of this page.
 
 The hard question Adamumbra is designed to answer: can a system reconstruct not just what someone said, but how they would reason through a problem they have never encountered — replaying their intellectual process on novel inputs?
 
