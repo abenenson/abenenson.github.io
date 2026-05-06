@@ -226,13 +226,13 @@
   <section>
     <h2>The impossibility</h2>
     <p>
-      No reached scarce peer-relative governance system can jointly satisfy consistency,
-      solidarity, and cross-claimant monotonicity (Arrow-Young-Thomson tradition). Strategyproofness
-      follows as a bridge-derived consequence of solidarity and monotonicity, not an independent
-      fourth axiom. Every deployed system sacrifices at least one of the three primitives —
-      typically without declaring which, bounding how much, or specifying a monitor for the
-      sacrificed axiom. The impossibility theorem and its Young-style graph diagnostics make that
-      sacrifice explicit and checkable.
+      In the Arrow-Young-Thomson tradition, no reached scarce peer-relative governance system
+      can jointly satisfy consistency, solidarity, and cross-claimant monotonicity.
+      Strategyproofness follows as a bridge-derived consequence of solidarity and monotonicity,
+      not an independent fourth axiom. Every deployed system sacrifices at least one of the
+      three primitives — typically without declaring which, bounding how much, or specifying a
+      monitor for the sacrificed axiom. The impossibility theorem and its Young-style graph
+      diagnostics make that sacrifice explicit and checkable.
     </p>
   </section>
 
@@ -245,13 +245,13 @@
       </div>
       <div class="item-meta">Rust + Lean 4 · sorry-free</div>
       <div class="item-desc">
-        A Rust crate that extracts governance graphs from source or policy files and audits them
-        against the kernel obligations: a runtime layer (certifiable, governance-observable,
-        corrigible, compositionally safe, non-vacuous), graph diagnostics from social choice,
-        and a spectral scaling witness, joined by an explicit bridge contract. Backed by a Lean 4 /
-        Mathlib development with zero <code>sorry</code>, <code>admit</code>, or first-party
-        axiom under the verification gate. Orthogonal to gateway products — they enforce; this
-        audits.
+        A Rust crate extracts governance graphs from source or policy files and audits them
+        against the kernel obligations — a product object joining a runtime layer (certifiable,
+        governance-observable, corrigible, compositionally safe, non-vacuous), graph diagnostics
+        from social choice, a spectral scaling witness, and an explicit bridge contract.
+        A Lean 4 / Mathlib development backs the audit; zero <code>sorry</code>,
+        <code>admit</code>, or first-party axiom under the verification gate.
+        Orthogonal to gateway products — they enforce; this audits.
       </div>
     </div>
 
@@ -259,8 +259,8 @@
       <div class="item-title">Bounded extraction contract</div>
       <div class="item-meta">trusted-base boundary</div>
       <div class="item-desc">
-        Lean proves properties of the extracted <code>GovernanceGraph</code> model once the graph
-        exists. Source-to-graph extraction (Rust + tree-sitter) is heuristic and empirical, not
+        Once the graph exists, Lean proves properties of the extracted <code>GovernanceGraph</code>
+        model. Source-to-graph extraction (Rust + tree-sitter) is heuristic and empirical, not
         formally verified. Byte-stable fixtures, parity tests, provenance records, and committed
         snapshots back the trusted base; the contract states the boundary explicitly so reviewers
         can target attacks at the right layer.
@@ -274,8 +274,7 @@
         Modeled and source-walked audits across deployed agent harnesses produce machine-checked
         rejection certificates that surface real classifier failures. Current corpus includes
         OpenAI Codex (<code>codex-rs</code>), Anthropic's open-source Claude Agent SDK, and
-        OpenClaw, with the proprietary Claude Code product treated separately as metadata-only
-        in <code>audits/observed-runtime/</code>.
+        OpenClaw; the proprietary Claude Code product is treated separately, metadata-only.
       </div>
     </div>
 
