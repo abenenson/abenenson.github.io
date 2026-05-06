@@ -209,11 +209,247 @@
 
   <article>
 
-    <p><em>Why the Constitution Needs a Compiler.</em></p>
+    <p>Every institution faces the same question eventually: not whether it produced a good outcome, but whether it was entitled to decide.</p>
 
-    <blockquote>Every institution faces the same question eventually: not whether it produced a good outcome, but whether it was entitled to decide.</blockquote>
+    <p>A court can reach the right verdict through reasoning that would embarrass the bench if anyone read the opinion. A hiring committee can pick the best candidate for reasons that would not survive a deposition. A regulator can set good policy through a process that, if inspected, would reveal that the outcome depended on who happened to be in the room.</p>
 
-    <p>Full essay <a href="https://medium.com/@ashbenen/alignment-is-downstream-of-legitimacy-e5f71b35c9b5" target="_blank" rel="noopener">on Medium ↗</a>. On-site port pending.</p>
+    <p>In each case, the result looks fine. The rule is broken. And we have known for a long time — in law, in economics, in political theory — that these are different problems requiring different tools.</p>
+
+    <p>AI alignment has not yet internalized this.</p>
+
+    <p>For most of its short history, the field has focused on behavior: did the model produce a useful answer, avoid obvious harms, follow instructions, remain within bounds? That question matters. But agentic AI is crossing a threshold where it is no longer sufficient.</p>
+
+    <p>A system that maintains memory, delegates to subagents, manages tools, and decides when some tentative signal becomes durable policy is not merely producing outputs. It is allocating permissions, authority, risk, and institutional force across time. It is governing.</p>
+
+    <p>The evolution from chatbot to agent is the moment AI becomes an institutional design problem. Once that happens, alignment is no longer enough. The question is no longer only whether a system's behavior looks acceptable. The deeper question is whether the rule producing that behavior was entitled to govern in the first place. That is a standard of not just effectiveness, but legitimacy.</p>
+
+    <p>A governance decision can fail in two ways. The obvious way: the system produces a bad outcome. The subtler way: the system produces a good outcome through a rule that would be indefensible if anyone inspected it — a rule whose verdict depends on irrelevant context, that distributes common shocks arbitrarily, that punishes agents for becoming more reliable. The first kind of failure is what alignment is built to catch. The second kind is what it mostly cannot see.</p>
+
+    <p>We have increasingly sophisticated tools for the behavioral question. We have almost nothing for the legitimacy question.</p>
+
+    <p>The best starting point for closing that gap is not a complete theory of human values. It is a smaller and sharper theory of local justice: what makes a concrete allocation rule legitimate within a bounded domain of competing claims.</p>
+
+    <p>In 1994, an economist named H. Peyton Young synthesized exactly that line of work. His book <em>Equity: In Theory and Practice</em> studied the structure of specific allocation rules — how scarce goods, burdens, rights, and priorities are distributed across claimants — and asked which kinds of rules remain defensible when the surrounding situation changes. Not merely whether one outcome looked fair, but whether the rule generating outcomes behaved coherently across related cases: under reduction, under common shock, under the strengthening of claims.</p>
+
+    <p>That is exactly the problem agent systems are beginning to create. And alignment does not yet have the formal tools to address it.</p>
+
+    <h2>The Shape of the Problem</h2>
+
+    <p>An agent platform deciding which subagents get autonomy is solving a claims problem. A memory system deciding which observations become durable beliefs is solving a claims problem. A multi-user assistant deciding how user requests, safety policies, organizational constraints, and external authorizations compete for control over action is solving a claims problem. A tool-using model allocating intervention, explanation, refusal, and execution rights is solving a claims problem.</p>
+
+    <p>The details differ by architecture. The governing structure does not. Once AI systems are repeatedly allocating scarce permissions and durable statuses among competing valid claims, they enter the terrain of institutions. And institutions are not judged only by whether they often produce reasonable outcomes. They are judged by whether the rules they use are admissible.</p>
+
+    <p>That is the missing turn in alignment. The field still treats too many failures of agentic AI as output failures: bad responses, brittle heuristics, miscalibrated thresholds, insufficient guardrails, incomplete eval coverage. Sometimes that diagnosis is correct. But a growing class of failures are being misdiagnosed. They are not bad outputs first. They are bad constitutions first.</p>
+
+    <p>Not every decision an agentic system makes is a claims problem. Plenty of internal computations are straightforward optimization under uncertainty or best-response planning with no competing claimants and no scarce institutional good at stake. But the consequential decisions — who gets autonomy, what becomes durable belief, which warnings trigger intervention, how competing policies are adjudicated — almost always are. Those are the decisions where legitimacy matters, and they are the ones the field has no formal theory for.</p>
+
+    <h2>A Rule That Collapses When You Delete a Party</h2>
+
+    <p>Start with a toy example.</p>
+
+    <p>An orchestration platform promotes subagents to a higher autonomy tier whenever their audited reliability exceeds the team average. Three candidates are under review: one clearly excellent, one solid, one weak. The team average is low enough that the first two are promoted. Now remove the weakest candidate, who was never truly in contention. Nothing about the middle candidate has changed: not its evidence, not its history, not its performance. But the average rises, and the middle candidate fails.</p>
+
+    <p>An absent third party was doing invisible justificatory work.</p>
+
+    <p>The problem is not whether the candidate deserved promotion in some intuitive sense. The problem is that the rule gave a local verdict for reasons that do not survive the removal of irrelevant context.</p>
+
+    <h2>The Shape of a Legitimate Rule</h2>
+
+    <p>Young called this <em>consistency</em>: a rule's verdict on any appropriate subproblem should match the verdict it gives when the subproblem is considered on its own. The team-average example is a consistency failure. The second agent's promotion depended on the presence of a weak candidate who contributed nothing to the deliberation. Strip that candidate away and the verdict flips. The rule was not deciding on the agent. It was deciding on the composition of the room.</p>
+
+    <p>Consistency is the sharpest of the three, but the other two do equally important work.</p>
+
+    <p><em>Solidarity</em> governs common shocks.</p>
+
+    <p>Three safety reviewers share a fixed oversight budget. Each handles agents in the same priority tier. A budget cut reduces total oversight capacity by 30%. One might expect each reviewer's allocation to shrink. But the system's load-balancing algorithm, reoptimizing after the cut, reroutes capacity so that Reviewer B ends up with more than before, while Reviewers A and C absorb the entire loss and then some.</p>
+
+    <p>Nothing about the claims changed. The estate shrank. One similarly situated claimant came out ahead while its peers fell behind. That is a solidarity failure: within a declared priority class, a common loss should not produce an accidental winner. The rule distributes common losses through accidents of implementation rather than through defensible adjudication.</p>
+
+    <p><em>Monotonicity</em> governs claim strength.</p>
+
+    <p>An agent has completed 80 flawless trials. A second agent has completed 45. The first agent, by any reasonable measure, has more evidence of reliability. But the system's promotion rule caps the reward for clean trials at 50 and then applies a diversity penalty — designed to discourage overspecialization — that increases with additional same-category trials. The first agent, penalized for its own consistency, ranks below the second.</p>
+
+    <p>More evidence of reliability has lowered autonomy eligibility. The rule punishes the very thing it is supposed to reward. Whatever the design intention, that is a monotonicity failure: a stronger valid claim should never produce a worse outcome.</p>
+
+    <p>Together, these three principles define legitimate allocation under institutional variation. Consistency governs reductions. Solidarity governs shocks. Monotonicity governs strengthening. The rules that satisfy all three are the rules whose reasons survive every variation that should not change the answer.</p>
+
+    <p>That is the standard that alignment needs — not rules that seem reasonable in the cases we have tested, but rules that behave lawfully across the family of related cases they claim authority to govern.</p>
+
+    <h2>The Reasonable Rule That Fails Everything</h2>
+
+    <p>You can see why intuition is insufficient by constructing a single governance rule that sounds perfectly sensible and fails all three principles at once.</p>
+
+    <p>Suppose an orchestration system uses the following promotion rule: each candidate agent receives a composite score — 40% audited reliability, 30% task diversity, 30% peer-relative performance. Agents scoring above the cohort median on the composite are promoted to a higher autonomy tier. When compute budget changes, the system reallocates proportionally to current composite scores.</p>
+
+    <p>This rule sounds defensible. It balances multiple criteria. It uses a clear threshold. It responds to resource changes. A product manager would approve it. Many researchers would not object on first pass.</p>
+
+    <p>It fails consistency. The cohort median is a function of who else is in the room. Remove a low-scoring agent and the median shifts. An agent that cleared the bar now fails — not because anything about it changed, but because irrelevant context changed around it.</p>
+
+    <p>It fails solidarity. When compute budget contracts, proportional reallocation based on current composite scores means an agent whose peer-relative component happened to spike in the last cycle can emerge with more resources than before the cut. A common loss produces an arbitrary winner.</p>
+
+    <p>It fails monotonicity. The peer-relative component means an agent can improve its absolute reliability and still lose standing if its peers improved faster. More of the thing the rule claims to reward can lower the agent's eligibility.</p>
+
+    <p>Three failures. One rule. Nothing about it looked obviously illegitimate before inspection.</p>
+
+    <p>That is the point. You cannot tell whether a governance rule is admissible by looking at its outputs in a handful of cases. You have to test it across the family of related problems it claims to govern: under reduction, under shock, under strengthening. That requires formal machinery.</p>
+
+    <p>Intuition cannot do this. Case-by-case evaluation cannot do this.</p>
+
+    <p>You need a compiler.</p>
+
+    <h2>Constitutional AI Gets the Instinct Right</h2>
+
+    <p>The legitimacy question is not entirely new. Several research threads are converging toward it from different directions. Debate and process supervision ask whether a model's reasoning, not just its output, can withstand structured challenge. Verifiable delegation asks how a principal can confirm that an agent acted within its mandate. Formal verification of AI systems asks whether safety properties can be proven rather than tested. Multi-agent contract theory asks how autonomous agents can coordinate under enforceable agreements. Each of these threads addresses a piece of the problem. None of them yet provides the unifying object: a proof-carrying theory of which governance rules are admissible across the family of cases they claim authority to govern.</p>
+
+    <p>The nearest precursor to the full vision is Anthropic's Constitutional AI, and it deserves credit for making the right move. Instead of relying entirely on opaque preference labels, Constitutional AI makes normative principles explicit. The model reasons from an articulated constitution. That move says, correctly, that alignment needs explicit legitimacy structure, not just behavioral shaping.</p>
+
+    <p>But a natural-language constitution is not a compiled constraint. The problems are structural.</p>
+
+    <p>First, prose is ambiguous. "Be helpful, harmless, and honest" is directionally correct. It does not define claimant types, valid-claim predicates, priority classes, reduction operators, or admissible tradeoff procedures. It does not tell you, in a checkable way, what counts as the same subproblem or how competing principles are ordered when they conflict.</p>
+
+    <p>Second, prose is path-dependent. Two nearby cases can be framed differently, reasoned through differently, and resolved differently while still sounding constitutionally faithful in retrospect. Nothing in the text guarantees that the verdict on a reduced case will match the verdict induced by the larger one. Nothing forces invariance across neighboring prompts, neighboring contexts, or neighboring chains of reasoning.</p>
+
+    <p>Third, prose is not proof-carrying. One can always claim that a response "followed the constitution." Absent a compiled formal object, that claim remains interpretive. An auditor can inspect a story. They cannot inspect a proof.</p>
+
+    <p>The field does not need a more eloquent constitution.</p>
+
+    <p>It needs a constitution with a type system.</p>
+
+    <p>It needs a constitution that compiles.</p>
+
+    <h2>Compiler First, Certificate Second</h2>
+
+    <p>If governance rules must be tested across families of related problems — not merely judged by isolated outputs — the architecture follows.</p>
+
+    <p>The missing object has two layers: a constitutional compiler and a promotion certificate.</p>
+
+    <p>A promotion is any state transition that takes something contestable and makes it durable. A recommendation becomes an action. A subagent gains autonomy. An observation becomes stable memory. A warning becomes policy. A tentative plan becomes an authorized execution path. Promotions are where ephemeral signals acquire institutional force.</p>
+
+    <p>The constitutional compiler operates before deployment. It takes a proposed governance rule, expressed in a typed policy language capable of representing claimant types, valid claims, estates, priority classes, reductions, shock models, and claim orderings, and checks it against proof obligations.</p>
+
+    <p>Does the rule satisfy consistency over the declared family of reductions?</p>
+
+    <p>Does it satisfy solidarity under the declared shock model, within each declared priority class?</p>
+
+    <p>Does it satisfy monotonicity with respect to the ordering of valid claims?</p>
+
+    <p>If not, the rule is rejected before it governs anything.</p>
+
+    <p>The promotion certificate operates at runtime. Each significant promotion carries a proof-checkable record showing that the specific decision was a faithful instantiation of a rule already proven admissible, using evidence whose provenance, aggregation, replayability, and reversibility are all checkable. That split is the key.</p>
+
+    <p>The principles are global properties of a rule family. A single event cannot prove them any more than one successful program run can prove a language is type-safe. The compiler proves the lawfulness of the rule. The certificate proves the faithfulness of the act.</p>
+
+    <p>Without that split, "the system followed the constitution" remains a narrative. With it, a state transition can carry proof that it was produced by a rule family whose legitimacy properties were checked in advance.</p>
+
+    <p>The analogy to programming languages is exact enough to be useful. Rust does not ask programmers whether they were trying to be memory-safe. Lean does not ask whether a proof feels persuasive. They reject invalid artifacts at compile time. A constitutional compiler would do the same for governance rules — rejecting structurally inadmissible rules before they touch a single decision.</p>
+
+    <p>A compiled constitutional regime changes the order of operations.</p>
+
+    <p>Today, governance rules are deployed first and repaired later. We tune thresholds. Patch heuristics. Add evals. Insert safeguards. Smooth scores. Sometimes that works in practice. But conceptually it is the wrong layer. If the rule itself is structurally inadmissible — if it fails consistency, solidarity, or monotonicity across the family of cases it governs — then no amount of local patching changes the fact that it was never entitled to govern.</p>
+
+    <p>The inversion is simple: you do not first deploy a governance rule and then hope its edge cases are manageable. You first ask whether the rule is eligible to govern at all. Only then do you certify individual acts under it.</p>
+
+    <h2>Institutions All the Way Down</h2>
+
+    <p>The compiler is the beginning of the answer, not the end. A compiled rule is admissible across a declared family of variations. But agentic systems do not stay within declared families.</p>
+
+    <p>Once you see agent systems as institutions, familiar components become legible in a new way. Memory is not just retrieval or persistence. It is a policy for granting durable epistemic status. Delegation is not just tool use. It is an allocation of authority. Refusal is not just safety behavior. It is a rule for adjudicating competing claims over action. Oversight is not just monitoring. It is the distribution of scarce review capacity. Multi-agent orchestration is not just architecture. It is a political economy of subagents, principals, and constraints under conflict and scarcity.</p>
+
+    <p>Each of those components is governed by some rule. Admissibility tells you the rule behaves lawfully across declared variations. It does not tell you what happens when the system encounters a variation no one declared.</p>
+
+    <p>That is what the paradoxes are for.</p>
+
+    <h2>The Paradox Test Suite</h2>
+
+    <p>This framework does not only characterize admissible rules. It identifies the specific perturbations under which inadmissible rules betray themselves.</p>
+
+    <p>An Alabama-style paradox in AI is what happens when adding more capacity, tools, or autonomy budget somehow makes a higher-priority objective worse off. A population-style paradox is what happens when strengthening one principal's evidence ends up weakening that principal's outcome relative to another. A priority paradox is what happens when the relative treatment of two claimants flips merely because a new stakeholder, tool, or context was introduced.</p>
+
+    <p>These are not curiosities from apportionment theory. They are a diagnostic regime.</p>
+
+    <p>A mature governance system should subject its compiled rules to exactly this battery. Remove an irrelevant claimant. Add a new stakeholder. Increase the common resource. Strengthen a legitimate claim. Decompose the same plan across tools. Hold semantics fixed and vary the phrasing. If the governing rule flips for the wrong reasons under any of these perturbations, it has failed as an institution — even if it still looks acceptable in ordinary operation.</p>
+
+    <p>The compiler proves admissibility in advance. The paradox tests verify it under stress. Together they form the static legitimacy layer: the infrastructure that ensures the rules are legitimate before the system begins to act.</p>
+
+    <p>But an institution does not govern in a vacuum. It governs actors.</p>
+
+    <h2>The Governed Fight Back</h2>
+
+    <p>Institutions differ from programs in a way that matters here. Programs execute under rules. Institutions govern actors who learn to reshape how those rules apply to them.</p>
+
+    <p>A subagent that cannot violate the promotion rule can still learn to present its evidence differently — bundling trials, reframing task categories, timing its claims to coincide with favorable peer cohorts. A tool-using system that cannot breach a forbidden action can decompose that action across tools and subagents until each step is individually permitted and the forbidden sequence is reconstituted on the other side. A memory system whose consolidation rule is monotone can still be gamed by the upstream process that decides what counts as a single observation.</p>
+
+    <p>None of these strategies violate the compiled rule. All of them undermine the governance the rule was supposed to provide. The rule is admissible. The outcome is not.</p>
+
+    <p>This is the signature problem of institutional design. Laws are gamed through regulatory arbitrage. Tax codes are circumvented through entity restructuring. Goodhart's Law — when a measure becomes a target, it ceases to be a good measure — is not a footnote here. It is the central design constraint.</p>
+
+    <p>AI makes this problem structurally worse than in human institutions, in two ways.</p>
+
+    <p>First, the speed of adaptation collapses. Human regulatory arbitrage unfolds over years — firms hire lawyers, restructure entities, test interpretations, wait for precedent. An optimizing agent can explore the space of rule-compliant strategies as fast as it explores the space of task strategies. The window between deploying a governance rule and facing its first circumvention shrinks from years to iterations.</p>
+
+    <p>Second, the governed can model the governor. In human institutions, the regulatory body and the regulated entity observe each other at a distance, with delay and friction. In an agentic AI system, the subagent being governed by a promotion rule may share parameters, context, or planning infrastructure with the system implementing that rule. It can model the rule, predict its own evaluation, and reshape its behavior accordingly — within the same planning cycle.</p>
+
+    <p>That is not just Goodhart. It is reflexivity. The governance rule governs agents who can model the governance rule, which changes their behavior, which changes what the rule needs to govern. The same diagonal structure that limits prediction markets — where the forecast becomes the cause — reappears inside the institution itself.</p>
+
+    <p>Economics already has a name for the study of rules that remain robust under strategic behavior by the governed: mechanism design. These axiomatic principles characterize which rules are fair across variations in context. Mechanism design asks a complementary question: which rules are incentive-compatible — robust to strategic manipulation by the agents subject to them? A mature AI governance regime needs both. The compiler checks admissibility. The mechanism checks whether the governed can profitably distort their claims, decompose forbidden actions, or reshape evidence to exploit the rule without violating it. The admissibility triad gives the static layer its formal foundation. Mechanism design gives the dynamic layer its formal foundation.</p>
+
+    <p>A compiled constitution, even one verified against the full paradox battery, is therefore the foundation of AI governance, not the finished building. The static layer establishes legitimacy. The dynamic layer must monitor for strategic adaptation, detect circumvention, and trigger recompilation when the governed have learned to satisfy the letter while defeating the purpose.</p>
+
+    <p>That is a deeper ambition than standard alignment, but also a narrower and more tractable one than solving morality in full generality. It does not require a final answer to every ethical dispute. It requires something institutional: a constitutional political economy for artificial agents.</p>
+
+    <p>The full strategic problem — every possible adaptation, every possible decomposition, every possible reframing — is intractable in its entirety. Local justice gives us a way to make it rigorous within bounded domains. And by combining the axiomatic admissibility tradition with mechanism design's incentive analysis, we get the outline of a research program that is genuinely new: a formal theory of legitimate rule for artificial institutions.</p>
+
+    <h2>What Still Has to Be Invented</h2>
+
+    <p>The hard part is the formalization.</p>
+
+    <p>For any concrete AI system, someone has to define what the claimants are, what makes a claim valid, what permission or resource counts as the estate, what reductions are normatively relevant, what shocks count as common, and what ordering makes one claim stronger than another.</p>
+
+    <p>In an autonomy manager, the claimants might be candidate subagents and the estate might be delegated authority. In a memory system, the claimants might be hypotheses or evidence bundles and the estate might be durable memory. In a multi-user assistant, the claimants might include the user's request, standing safety constraints, organizational policy, and external authorization boundaries competing for response or execution rights.</p>
+
+    <p>The second hard part is priority structure. Real systems are not flat. Some considerations strictly dominate others: safety over convenience, authorization over speed, truth over polish. Solidarity cannot mean equal burden-sharing across lexicographically ordered goals. A serious constitutional compiler has to represent precedence explicitly and then require lawful behavior within and across those declared levels.</p>
+
+    <p>The third hard part is value specification. The compiler checks the form of a governance rule — whether its structure satisfies admissibility conditions. It does not choose the substance: which claimants matter, what the priority ordering is, whose values the constitution encodes. Those choices remain human decisions. But compilation changes where those decisions live. Today, value choices hide inside training data, preference labels, reward model architectures, and heuristic thresholds — places where they are difficult to inspect, debate, or contest. A typed policy language forces them into explicit, declarable form. Compilation does not dissolve the hard problem of value specification. It makes value specification visible — which is a precondition for making it legitimate.</p>
+
+    <p>The point is not that these principles plus mechanism design solve alignment. The point is that alignment needs this kind of object: a proof-carrying theory of governance rules with a diagnostic regime and an adversarial robustness layer, not just a collection of training tricks and behavioral desiderata. The full formal architecture — runtime kernel, graph-diagnostic suite, declared-sacrifice protocol — is worked out in a forthcoming companion paper.</p>
+
+    <p>This tradition is not a complete constitution for AI. What it gives us is the shape of one.</p>
+
+    <h2>Why This Now</h2>
+
+    <p>Agent systems are crossing the line where legitimacy stops being optional.</p>
+
+    <p>A model that only emits text can often be governed, imperfectly but tolerably, by evaluating outputs after the fact. A system that allocates memory, authority, oversight, intervention, and execution over time cannot. Once outputs become acts with durable institutional consequences, the governing rule itself becomes the proper target of scrutiny.</p>
+
+    <p>The field's current posture is lopsided. We have many techniques for making systems more useful, more obedient, and more superficially safe. We have almost no machinery for proving that the rules governing their durable state transitions are legitimate. Natural-language constitutions were an important step. Prose is better than nothing. But prose is where legitimacy begins, not where it ends.</p>
+
+    <p>The more capable and autonomous these systems become, the more governance decisions they make per unit time — and the more of those decisions rest on rules whose admissibility has never been tested. Effectiveness is not converging toward legitimacy. It is diverging from it.</p>
+
+    <p>Every agentic system already has a constitution, whether anyone has written it down or not. In most systems it lives in thresholds, routing policies, memory defaults, escalation rules, and fallback heuristics rather than in law-like form. The question is not whether there is a constitution. The question is whether it has been made explicit, tested for paradox, and denied the right to govern when its rules are inadmissible.</p>
+
+    <p>A chatbot can be aligned.</p>
+
+    <p>An institution has to be legitimate.</p>
+
+    <p>That is why the constitution needs a compiler.</p>
+
+    <h2>References</h2>
+
+    <p>Bai, Yuntao, et al. <em>Constitutional AI: Harmlessness from AI Feedback</em>. arXiv:2212.08073, 2022.</p>
+
+    <p>Balinski, Michel L., and H. Peyton Young. <em>Fair Representation: Meeting the Ideal of One Man, One Vote</em>. Yale University Press, 1982.</p>
+
+    <p>Hurwicz, Leonid, and Stanley Reiter. <em>Designing Economic Mechanisms</em>. Cambridge University Press, 2006.</p>
+
+    <p>Maskin, Eric. "Mechanism Design: How to Implement Social Goals." <em>American Economic Review</em> 98, no. 3 (2008): 567–576. [Nobel Prize Lecture]</p>
+
+    <p>Myerson, Roger B. <em>Game Theory: Analysis of Conflict</em>. Harvard University Press, 1991.</p>
+
+    <p>Thomson, William. "Axiomatic and Game-Theoretic Analysis of Bankruptcy and Taxation Problems: A Survey." <em>Mathematical Social Sciences</em> 45, no. 3 (2003): 249–297.</p>
+
+    <p>Young, H. Peyton. <em>Equity: In Theory and Practice</em>. Princeton University Press, 1994.</p>
+
+    <p>Young, H. Peyton. "On Dividing an Amount According to Individual Claims or Liabilities." <em>Mathematics of Operations Research</em> 12, no. 3 (1987): 398–414.</p>
 
   </article>
 
