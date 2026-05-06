@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alignment Is Downstream of Legitimacy — Adam Benenson</title>
+  <meta name="description" content="Why agentic AI alignment is downstream of legitimacy — and why the Constitution needs a compiler. Agentic AI systems are institutions allocating authority and permissions; legitimacy-as-coherent-governance is the upstream object alignment must rest on.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/writing/alignment-is-downstream-of-legitimacy/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://adambenenson.com/img/thumb-alignment-legitimacy.png">
+  <meta property="og:title" content="Alignment Is Downstream of Legitimacy">
+  <meta property="og:description" content="Why agentic AI alignment is downstream of legitimacy — and why the Constitution needs a compiler.">
+  <meta property="og:url" content="https://adambenenson.com/writing/alignment-is-downstream-of-legitimacy/">
+  <meta property="og:site_name" content="Adam Benenson">
+  <meta property="article:author" content="Adam Benenson">
+  <meta property="article:published_time" content="2026-04-15">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ashbenen">
+  <meta name="twitter:creator" content="@ashbenen">
+  <meta name="twitter:title" content="Alignment Is Downstream of Legitimacy">
+  <meta name="twitter:description" content="Why agentic AI alignment is downstream of legitimacy — and why the Constitution needs a compiler.">
+  <meta name="twitter:image" content="https://adambenenson.com/img/thumb-alignment-legitimacy.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Alignment Is Downstream of Legitimacy",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Benenson",
+      "url": "https://adambenenson.com/"
+    },
+    "datePublished": "2026-04-15",
+    "url": "https://adambenenson.com/writing/alignment-is-downstream-of-legitimacy/",
+    "mainEntityOfPage": "https://adambenenson.com/writing/alignment-is-downstream-of-legitimacy/",
+    "image": "https://adambenenson.com/img/thumb-alignment-legitimacy.png",
+    "description": "Why agentic AI alignment is downstream of legitimacy — and why the Constitution needs a compiler.",
+    "publisher": {
+      "@type": "Person",
+      "name": "Adam Benenson"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      color: #ff8c7a;
+      line-height: 1.3;
+    }
+    .article-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 20px;
+    }
+    .originally-published {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-style: normal;
+    }
+    .originally-published a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .originally-published a:hover { color: var(--link-hover); }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 10px;
+      text-transform: lowercase;
+    }
+    .venue-link {
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .venue-link:hover { color: var(--link-hover); }
+    .venue-link .external-arrow {
+      margin-left: 2px;
+      font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    article h2 {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 48px;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
+    }
+    article p {
+      margin-bottom: 20px;
+    }
+    article a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+    }
+    article a:hover {
+      color: var(--link-hover);
+      text-decoration-color: var(--link-hover);
+    }
+    article strong { color: var(--text); font-weight: 600; }
+    article em { font-style: italic; }
+    article blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+      margin: 24px 0;
+      color: #c8bab8;
+      font-style: italic;
+    }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a { color: var(--muted); text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="/writing/">writing</a> / alignment-is-downstream-of-legitimacy
+  </div>
+
+  <h1>Alignment Is Downstream of Legitimacy</h1>
+  <div class="article-meta">
+    <span class="tag">essay</span>April 2026 · <a href="https://medium.com/@ashbenen/alignment-is-downstream-of-legitimacy-e5f71b35c9b5" target="_blank" rel="noopener" class="venue-link" aria-label="Read on Medium">Medium<span class="external-arrow" aria-hidden="true">↗</span></a>
+  </div>
+
+  <div class="originally-published">
+    Originally published on <a href="https://medium.com/@ashbenen/alignment-is-downstream-of-legitimacy-e5f71b35c9b5" target="_blank" rel="noopener">Medium ↗</a>
+  </div>
+
+  <article>
+
+    <p><em>Why the Constitution Needs a Compiler.</em></p>
+
+    <blockquote>Every institution faces the same question eventually: not whether it produced a good outcome, but whether it was entitled to decide.</blockquote>
+
+    <p>Full essay <a href="https://medium.com/@ashbenen/alignment-is-downstream-of-legitimacy-e5f71b35c9b5" target="_blank" rel="noopener">on Medium ↗</a>. On-site port pending.</p>
+
+  </article>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://github.com/abenenson">GitHub</a>
+      <a href="https://www.linkedin.com/in/adam-benenson/">LinkedIn</a>
+      <a href="https://x.com/ashbenen">X</a>
+      <a href="https://medium.com/@ashbenen">Medium</a>
+      <a href="mailto:adam@forethink.ai">adam@forethink.ai</a>
+    </div>
+  </footer>
+</body>
+</html>
