@@ -56,7 +56,7 @@ Key results proven sorry-free. The theory has implications for AI alignment (wha
 
 ### Workgraph
 
-Forethink's B2B matter-intelligence platform for professional services firms — legal and finance ontologies. Captures and reasons over a firm's matter, deal, and client history through Email and Drive change-data-capture, a temporal-hypergraph knowledge graph with tri-temporal indexing (event, effective, ingest time), matter-permissioned access controls, and a full audit plane. Specialized agentic workflows handle retrieval, drafting, compliance, and escalation.
+Forethink's B2B research-intelligence platform for professional services firms — domain ontologies spanning legal matters and investment research (firms, strategies, factors, themes). Captures and reasons over a firm's research, matter, and client history through Email/Drive change-data-capture, a temporal-hypergraph knowledge graph with tri-temporal indexing (event, effective, ingest time), scoped ACLs with information-barrier enforcement, and a full audit plane. Specialized agentic workflows handle retrieval, drafting, compliance, and escalation.
 
 ---
 
@@ -64,13 +64,11 @@ Forethink's B2B matter-intelligence platform for professional services firms —
 
 A formal research program on agentic AI governance — distinct from Forethink Labs.
 
-The legitimacy thread pursues a question upstream of mainstream AI governance work (rate limits, PII guards, prompt-injection detection, audit logs): is the rule being enforced actually coherent? The forcing move is an impossibility theorem in the Arrow lineage, made executable by a machine-checked constitutional kernel.
+The legitimacy thread pursues a question upstream of mainstream AI governance work (rate limits, PII guards, prompt-injection detection, audit logs): is the rule being enforced actually coherent? The forcing move is an impossibility theorem in the Arrow-Young-Thomson tradition, made executable by a machine-checked semantic legitimacy kernel.
 
-Core impossibility: no peer-relative governance system can jointly satisfy consistency, solidarity, monotonicity, and strategyproofness. Every deployed system sacrifices at least one — typically without declaring which, bounding how much, or specifying a monitor for the sacrificed axiom. The theorem and its Young-style graph diagnostics make that sacrifice explicit and checkable.
+Core impossibility: no reached scarce peer-relative governance system can jointly satisfy consistency, solidarity, and cross-claimant monotonicity. Strategyproofness follows as a bridge-derived consequence of solidarity and monotonicity, not an independent fourth axiom. Every deployed system sacrifices at least one of the three primitives — typically without declaring which, bounding how much, or specifying a monitor for the sacrificed axiom. The theorem and its Young-style graph diagnostics make that sacrifice explicit and checkable.
 
-The artifact stack: a Rust crate that extracts governance graphs from source or policy files and audits them against a five-axiom kernel (Certifiable, Governance-observable, Corrigible, Compositional Safety, Non-Vacuous), backed by a Lean 4 / Mathlib library with a 15-theorem compiler-stack spine — peer-relative impossibility, capability-scaling phase transition, channel-capacity bridge, safety-trajectory invariants, ASI spectral structure. Real audits with machine-checked rejection certificates against open-source agent harnesses (OpenAI's `codex-rs`, Anthropic's Claude Agent SDK). Zero `sorry`, `admit`, or first-party axiom under the verification gate.
-
-Paper 1 — the foundational paper for the thread (impossibility theorem, five-axiom constitutional kernel, capacity / critical-capability / RG-flow results) — is in preparation.
+The artifact stack: a Rust crate that extracts governance graphs from source or policy files and audits them against the kernel obligations — a runtime layer (certifiable, governance-observable, corrigible, compositionally safe, non-vacuous), social-choice graph diagnostics, a spectral scaling witness, and an explicit bridge contract — backed by a Lean 4 / Mathlib development. Modeled and source-walked audits across deployed agent harnesses (Codex, Claude Agent SDK, OpenClaw) produce machine-checked rejection certificates that surface real classifier failures rather than theoretical possibilities. Zero `sorry`, `admit`, or first-party axiom under the verification gate. The repo is in active development on a private repository; public release is planned.
 
 ---
 
