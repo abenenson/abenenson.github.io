@@ -54,6 +54,10 @@ A formal theory of how information organizes itself into structure, developed in
 
 Key results proven sorry-free. The theory has implications for AI alignment (what makes a stable governance constraint legitimate?), agent orchestration (what is the correct formal object for governed evolution?), and information geometry (the Fisher metric as the unique monotone metric, which is what Čencov-Petz proves).
 
+### Workgraph
+
+Forethink's B2B matter-intelligence platform for professional services firms — legal and finance ontologies. Captures and reasons over a firm's matter, deal, and client history through Email and Drive change-data-capture, a temporal-hypergraph knowledge graph with tri-temporal indexing (event, effective, ingest time), matter-permissioned access controls, and a full audit plane. Specialized agentic workflows handle retrieval, drafting, compliance, and escalation.
+
 ---
 
 ## Lean 4 Proofs (Mathlib Submissions)
