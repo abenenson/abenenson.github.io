@@ -74,15 +74,16 @@ Paper 1 — the foundational paper for the thread (impossibility theorem, five-a
 
 ---
 
-## Lean 4 Proofs (Mathlib Submissions)
+## Lean 4 Public Repos
 
 All sorry-free:
 
 - **Čencov-Petz uniqueness**: Any continuous monotone metric family on the probability simplex is a scalar multiple of the Fisher information metric. Proved via splitting invariance at rational points plus a density argument.
 - **Compact spectral theorem**: The spectral theorem for compact self-adjoint operators on Hilbert spaces — a Hilbert basis of eigenvectors exists.
 - **Rellich-Kondrachov**: The compact embedding H¹ → L² on compact Riemannian manifolds. Euclidean core via Fréchet-Kolmogorov; manifold case via finite chart decomposition.
+- **channel-capacity**: Three layered uniqueness theorems for capacity-achieving input priors on Markov kernels — finite-alphabet, compact-Polish discharged, measure-theoretic packaging.
 
-These are not toy theorems. They are graduate-level results in functional analysis and information geometry, formalized without shortcuts.
+The first three are Mathlib-upstream candidates. Graduate-level results across functional analysis, information geometry, and information theory, formalized without shortcuts.
 
 ---
 
