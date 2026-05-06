@@ -239,29 +239,41 @@
 
     <div class="item">
       <div class="item-title">
-        <span class="status">in preparation</span>
-        Paper 1 — legitimacy foundational results
+        <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">legitimacy</a>
       </div>
-      <div class="item-meta">manuscript · target 2026</div>
+      <div class="item-meta">Rust + Lean 4 · sorry-free</div>
       <div class="item-desc">
-        The foundational paper for the thread: the impossibility theorem, the five-axiom constitutional
-        kernel, and the capacity / critical-capability / RG-flow results. An Arrow-compact presentation
-        targeting ASI governance. Will be linked from <a href="/writing/">Writing</a> when released.
+        A Rust crate that extracts governance graphs from source or policy files and audits them
+        against the kernel obligations: a runtime layer (certifiable, governance-observable,
+        corrigible, compositionally safe, non-vacuous), graph diagnostics from social choice,
+        and a spectral scaling witness, joined by an explicit bridge contract. Backed by a Lean 4 /
+        Mathlib development with zero <code>sorry</code>, <code>admit</code>, or first-party
+        axiom under the verification gate. Orthogonal to gateway products — they enforce; this
+        audits.
       </div>
     </div>
 
     <div class="item">
-      <div class="item-title">
-        <span class="tag">rust</span><span class="tag">lean 4</span>
-        <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">legitimacy</a>
-      </div>
-      <div class="item-meta">machine-checked constitutional kernel</div>
+      <div class="item-title">Bounded extraction contract</div>
+      <div class="item-meta">trusted-base boundary</div>
       <div class="item-desc">
-        A Rust crate that extracts governance graphs from source or policy files and audits them
-        against the five-axiom kernel (Certifiable, Governance-observable, Corrigible, Compositional
-        Safety, Non-Vacuous). Backed by a Lean 4 / Mathlib library with hundreds of machine-verified
-        declarations and zero <code>sorry</code>. Orthogonal to gateway products — they enforce; this
-        audits.
+        Lean proves properties of the extracted <code>GovernanceGraph</code> model once the graph
+        exists. Source-to-graph extraction (Rust + tree-sitter) is heuristic and empirical, not
+        formally verified. Byte-stable fixtures, parity tests, provenance records, and committed
+        snapshots back the trusted base; the contract states the boundary explicitly so reviewers
+        can target attacks at the right layer.
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Audited surfaces</div>
+      <div class="item-meta">end-to-end source-walked</div>
+      <div class="item-desc">
+        Modeled and source-walked audits across deployed agent harnesses produce machine-checked
+        rejection certificates that surface real classifier failures. Current corpus includes
+        OpenAI Codex (<code>codex-rs</code>), Anthropic's open-source Claude Agent SDK, and
+        OpenClaw, with the proprietary Claude Code product treated separately as metadata-only
+        in <code>audits/observed-runtime/</code>.
       </div>
     </div>
 
@@ -270,8 +282,8 @@
   <section>
     <h2>Current state</h2>
     <p>
-      The Rust crate and Lean library are in active development on a private repository and will be
-      opened on publication of Paper 1. The paper itself is in preparation.
+      The Rust crate and Lean library are in active development on a private repository,
+      Adam-gated for public release.
     </p>
   </section>
 
