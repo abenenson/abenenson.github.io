@@ -21,11 +21,13 @@ No build step required — pure HTML/CSS, no dependencies.
 ## Sections
 
 - **Writing** — published essays on Medium
-- **Working Papers** — in-preparation papers (update status when published)
-- **Projects** — SFT, lean4-info-geometry, Connectome, Forethink
+- **Quantitative Systems** — Prism, Snowball (independent work, distinct from Forethink Labs IP)
+- **Forethink Labs** — browser extension, Workgraph, Digital Twin
+- **Formal Methods** — legitimacy, SFT, Lean 4 repos
+- **Background** — Novus, Diamondback
 
 ## Notes
 
-- `lean4-info-geometry` link will 404 until repo is flipped public (pending Adam approval)
-- Working papers section updates when Constitution paper + governance paper are published
-- Connectome has no GitHub link — private repo; description only
+- Prism/Snowball have no GitHub links — private repos; description only
+- Prism copy must never name the consulting client or cite client-derived numbers
+- `llms.txt` is the LLM-readable profile; keep it in sync with structural changes
