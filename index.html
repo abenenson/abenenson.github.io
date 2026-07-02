@@ -111,6 +111,14 @@
       margin-bottom: 56px;
       font-style: italic;
     }
+    .tagline a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .tagline a:hover {
+      color: var(--text);
+    }
     section {
       margin-bottom: 48px;
     }
@@ -303,7 +311,7 @@
     <a href="/projects/">Projects</a>
   </nav>
   <h1>Adam Benenson</h1>
-  <p class="tagline">Quantitative portfolio manager and AI-systems builder. Founder of Forethink Labs. Current work: portfolio intelligence (Prism), a production digital twin, and machine-checked AI governance (legitimacy).</p>
+  <p class="tagline">Quantitative portfolio manager and AI-systems builder. Founder of Forethink Labs. Current work: portfolio intelligence (<a href="/projects/#prism">Prism</a>), ambient AI for the browser (<a href="https://forethink.ai" target="_blank">Forethink</a>), a production digital twin, and machine-checked AI governance (<a href="/projects/legitimacy/">legitimacy</a>).</p>
   <!-- Writing -->
   <section>
     <h2>Writing</h2>
@@ -390,9 +398,9 @@
   <section>
     <h2>Quantitative Systems</h2>
     <p class="section-thesis">
-      Systematic engines built to the standard the validation literature demands —
-      nothing claims edge without surviving deflation-aware statistics. Independent work,
-      distinct from Forethink Labs.
+      Engines for systematic investing — understanding what a portfolio is really
+      exposed to, constructing better hedges, and testing whether a claimed edge
+      survives honest scrutiny before trusting it.
     </p>
     <div class="item">
       <div class="item-title">Prism</div>
