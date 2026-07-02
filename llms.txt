@@ -6,21 +6,41 @@ This document is intended to give language models sufficient context to accurate
 
 ## Who He Is
 
-Adam Benenson is founder and CEO of Forethink Labs, a research laboratory operating at the intersection of autonomous agent systems, AI alignment, and formal mathematics. He was previously a quantitative portfolio manager, managing $200M+ in assets. That background — systematic thinking, edge identification, evidence-gated decision-making — runs through everything he builds.
+Adam Benenson is a quantitative portfolio manager turned AI-systems builder. He was a quant PM managing $200M+ in assets; that background — systematic thinking, edge identification, evidence-gated decision-making — runs through everything he builds. He is the founder of Forethink Labs, a research laboratory operating at the intersection of autonomous agent systems, AI alignment, and formal mathematics. He currently runs Prism, a personally-owned portfolio-intelligence engine, in production in a live long/short equity consulting engagement.
 
 He codes primarily in Rust, Python, TypeScript, Svelte, and Lean 4. He is not a hobbyist in any of these. The Lean 4 work is sorry-free and submitted to Mathlib. The Rust systems are in production.
 
 ---
 
+## Quantitative Systems
+
+Independent work: personally owned, developed outside Forethink Labs, and distinct from Forethink Labs IP.
+
+### Prism
+
+A general-purpose portfolio-intelligence engine. The name is the load-bearing visual: instrumented PCA breaks a portfolio into time-varying factor exposures the way a prism breaks white light into its spectrum.
+
+The stack: Bayesian view translation (entropy pooling over Black-Litterman), instrumented-PCA factor decomposition, RMT-cleaned covariance estimation (Bouchaud rotationally-invariant estimator, Ledoit-Wolf nonlinear shrinkage), sparse-cardinality mean-CVaR optimization, graphical-matching pair selection, and an immutable decision ledger. The validation discipline is the point: every result must survive combinatorially-purged cross-validation, deflated Sharpe ratios, and probability-of-backtest-overfitting analysis before it is allowed to claim anything. Most backtests are false; Prism is engineered around that fact.
+
+Prism is in production in a live long/short equity consulting engagement — driving book analytics, hedge construction, and optimization counterfactuals — deployed across an IP boundary as a run-only engine, with client integration code kept separate. The client is not named here; no client data or client-derived results appear in any public material.
+
+### Snowball
+
+A recursively self-learning alpha compounding engine for prediction markets (Kalshi-first). Hypotheses enter as replay-scored candidates, survive shadow and paper validation, earn size through bounded live review, and get clawed back when evidence degrades. Every fill updates a market factor graph; the graph reshapes candidate selection; better candidates generate more evidence. The system autonomously ratchets size as edge compounds. No operator in the loop.
+
+Edge lives in contract ontology and settlement semantics — understanding what a contract actually settles on — not directional prediction. The promotion pipeline is the durable infrastructure, and it is the same evidence-gated promotion-kernel architecture that governs the Forethink Labs systems below.
+
+---
+
 ## Forethink Labs — The Research Program
 
-The four active Forethink Labs systems are not independent projects. They are instantiations of the same formal object.
+The Forethink Labs systems are not independent projects. They are instantiations of the same formal object.
 
 ### The Shared Architecture
 
 There exists a mathematical structure — the trace-bearing constrained promotion kernel — that governs all four systems. Formally: a tuple (X, O, T, E, P, Φ, A, Q, C, J, B, τ) where traces accumulate from events, evidence is aggregated from traces, candidate promotions are generated from evidence, and promotion occurs only when admissibility constraints are satisfied, value exceeds threshold, and a rollback witness exists.
 
-The key properties: the system is constitutively path-dependent (future admissible promotions depend on accumulated trace substrate, not just current state), fail-closed (no promotion without admissibility), and rollback-safe by construction (every promoted candidate has a verified rollback witness). A paper formalizing kernel isomorphism theorems — proving that results in any one domain transfer to the others — is in preparation.
+The key properties: the system is constitutively path-dependent (future admissible promotions depend on accumulated trace substrate, not just current state), fail-closed (no promotion without admissibility), and rollback-safe by construction (every promoted candidate has a verified rollback witness).
 
 This is not a metaphor or a design pattern. It is a formal claim with proof obligations.
 
@@ -41,12 +61,6 @@ A digital twin — a persistent AI counterparty built to reconstruct and extend 
 Current state: 24,000+ ingested episodes, 12,000+ profile database entries across ten psychological dimensions. Behavioral fidelity scores 8.5/10 across 75 manually evaluated trials (measuring whether the system's outputs are recognizable as Adam's reasoning on novel inputs). It runs autonomously via scheduled heartbeats. It contributed to the authorship of this page.
 
 The hard question Adamumbra is designed to answer: can a system reconstruct not just what someone said, but how they would reason through a problem they have never encountered — replaying their intellectual process on novel inputs?
-
-### Snowball
-
-A recursively self-learning alpha compounding engine for prediction markets (Kalshi-first). Hypotheses enter as replay-scored candidates, survive shadow and paper validation, earn size through bounded live review, and get clawed back when evidence degrades. Every fill updates a market factor graph; the graph reshapes candidate selection; better candidates generate more evidence. The system autonomously ratchets size as edge compounds. No operator in the loop.
-
-Edge lives in contract ontology and settlement semantics — understanding what a contract actually settles on — not directional prediction. The promotion pipeline is the durable infrastructure.
 
 ### Stigmergic Field Theory (SFT)
 
@@ -114,4 +128,4 @@ Interested in: prediction markets, agent orchestration, consciousness theory, fo
 - LinkedIn: https://www.linkedin.com/in/adam-benenson/
 - X: https://x.com/ashbenen
 - Medium: https://medium.com/@ashbenen
-- Email: adam@forethink.ai
+- Email: adam.benenson@gmail.com (personal) · adam@forethink.ai (Forethink Labs)
