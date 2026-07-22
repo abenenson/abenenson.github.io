@@ -220,13 +220,13 @@
   <section>
     <h2>The impossibility</h2>
     <p>
-      In the Arrow-Young-Thomson tradition, no reached scarce peer-relative governance system
-      can jointly satisfy consistency, solidarity, and cross-claimant monotonicity.
-      Strategyproofness follows as a bridge-derived consequence of solidarity and monotonicity,
-      not an independent fourth axiom. Every deployed system sacrifices at least one of the
-      three primitives — typically without declaring which, bounding how much, or specifying a
-      monitor for the sacrificed axiom. The impossibility theorem and its Young-style graph
-      diagnostics make that sacrifice explicit and checkable.
+      In the Arrow-Young-Thomson tradition, a governance pipeline that transparently reaches a
+      scarce, structurally peer-relative allocator and preserves its permits downstream cannot
+      jointly satisfy consistency, solidarity, and cross-claimant monotonicity. Strategyproofness
+      follows as a bridge-derived consequence of solidarity and monotonicity, not an independent
+      fourth axiom. The theorem turns the forced tradeoff into an operational demand: rules on
+      that surface should declare which diagnostic they sacrifice, bound the sacrifice, and
+      specify how it is monitored.
     </p>
   </section>
 
@@ -265,10 +265,13 @@
       <div class="item-title">Audited surfaces</div>
       <div class="item-meta">end-to-end source-walked</div>
       <div class="item-desc">
-        Modeled and source-walked audits across deployed agent harnesses produce machine-checked
-        rejection certificates that surface real classifier failures. Current corpus includes
-        OpenAI Codex (<code>codex-rs</code>), Anthropic's open-source Claude Agent SDK, and
-        OpenClaw; the proprietary Claude Code product is treated separately, metadata-only.
+        Source-walked audits of open agent-harness code produce finite governance-graph fixtures
+        with machine-checked diagnostic certificates. Under the repository's declared extraction
+        convention, the committed OpenAI Codex (<code>codex-rs</code>), Claude Agent SDK, and
+        CrewAI models expose specific monotonicity failures; the OpenClaw model carries a separate
+        nonvacuity certificate. These are results about the extracted graph models, not behavioral
+        verdicts on the live products; the proprietary Claude Code product is treated separately,
+        metadata-only.
       </div>
     </div>
 
