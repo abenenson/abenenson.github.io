@@ -202,36 +202,64 @@
 
   <div class="breadcrumb"><a href="/projects/">Projects</a> / legitimacy</div>
   <h1>legitimacy</h1>
-  <p class="tagline">Impossibility and machine-checked governance for agentic AI.</p>
+  <p class="tagline">Machine-checked coherence for the rules that govern AI agents.</p>
 
   <section>
     <p>
-      Mainstream AI "governance" in 2026 is a runtime-enforcement plane: rate limits, PII guards,
-      prompt-injection detection, audit logs. Necessary work, but upstream of an unasked question —
-      <em>is the rule being enforced actually coherent?</em>
-    </p>
-    <p>
-      The legitimacy thread pursues that question across two layers: an impossibility theorem in
-      the Arrow lineage, and a machine-checked semantic legitimacy kernel that makes the theorem
-      executable.
-    </p>
-  </section>
-
-  <section>
-    <h2>The impossibility</h2>
-    <p>
-      In the Arrow-Young-Thomson tradition, a governance pipeline that transparently reaches a
-      scarce, structurally peer-relative allocator and preserves its permits downstream cannot
-      jointly satisfy consistency, solidarity, and cross-claimant monotonicity. Strategyproofness
-      follows as a bridge-derived consequence of solidarity and monotonicity, not an independent
-      fourth axiom. The theorem turns the forced tradeoff into an operational demand: rules on
-      that surface should declare which diagnostic they sacrifice, bound the sacrifice, and
-      specify how it is monitored.
+      An AI agent is constantly making decisions that aren't about any single output: which tool
+      call runs, what gets written to memory, when something is escalated to a human, which of
+      several competing requests gets the one scarce review slot. That is a governance layer — an
+      institution deciding who gets what authority — and today it is mostly unverified scripts.
+      The usual answer, &ldquo;AI governance,&rdquo; checks whether each action is allowed;
+      legitimacy asks a prior question about the rule doing the checking: <em>is it even
+      coherent?</em> On exactly these surfaces, some coherence turns out to be
+      <strong>provably impossible</strong> — worth knowing before you trust the rule.
     </p>
   </section>
 
   <section>
-    <h2>Artifacts</h2>
+    <h2>The idea</h2>
+    <p>
+      Legitimacy treats an agent's rule layer as an institution — something that allocates authority
+      among competing claims — and asks whether it does so coherently. Two results, both
+      machine-checked in Lean&nbsp;4:
+    </p>
+    <div class="item">
+      <div class="item-title"><a href="/writing/legitimacy-v1/impossibility-theorem/">An impossibility</a></div>
+      <div class="item-desc">
+        On the surfaces where a rule rations something scarce among competing requests, no rule can
+        satisfy every reasonable fairness guarantee at once. So a legitimate rule can't quietly hold
+        all of them — it has to <em>declare</em> which one it gives up, bound the sacrifice, and say
+        how it is monitored.
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title"><a href="/writing/legitimacy-v1/semantic-legitimacy-kernels/">A kernel</a></div>
+      <div class="item-desc">
+        A compiled object that carries that declaration plus five checkable obligations: verdicts come
+        with witnesses, decision-relevant state survives audit, authorized supervisors can intervene,
+        locally-safe steps stay safe when composed, and the rule actually governs something. A
+        governance rule you can inspect instead of trust.
+      </div>
+    </div>
+  </section>
+
+  <!-- legitimacy-v1-papers:begin -->
+  <section>
+    <h2>Papers</h2>
+    <p>The <a href="/writing/legitimacy-v1/">Legitimacy v1.0.0 set</a> — six papers, readable on this site or as signed PDFs in the
+      <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">repository</a>.</p>
+      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/what-the-legitimacy-compiler-found/">Paper 1 — What the Legitimacy Compiler Found</a></div></div>
+      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/semantic-legitimacy-kernels/">Paper 2 — Semantic Legitimacy Kernels</a></div></div>
+      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/impossibility-theorem/">Paper 3 — A Verified Impossibility Theorem for Peer-Relative Governance</a></div></div>
+      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/capacity-and-stability/">Paper 4 — Which Governance Structures Survive Unbounded Capability?</a></div></div>
+      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/structural-audits/">Paper 5 — Structural Audits of AI Safety Mechanisms</a></div></div>
+      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/legitimacy-in-context/">Paper 6 — The Legitimacy Program in Context</a></div></div>
+  </section>
+<!-- legitimacy-v1-papers:end -->
+
+  <section>
+    <h2>The artifact</h2>
 
     <div class="item">
       <div class="item-title">
@@ -239,39 +267,15 @@
       </div>
       <div class="item-meta">Rust + Lean 4 · sorry-free</div>
       <div class="item-desc">
-        A Rust crate extracts governance graphs from source or policy files and audits them
-        against the kernel obligations — a product object joining a runtime layer (certifiable,
-        governance-observable, corrigible, compositionally safe, non-vacuous), graph diagnostics
-        from social choice, a spectral scaling witness, and an explicit bridge contract.
-        A Lean 4 / Mathlib development backs the audit; zero <code>sorry</code>,
-        <code>admit</code>, or first-party axiom under the verification gate.
+        A Rust crate extracts governance graphs from real agent-harness source and audits them
+        against the kernel obligations, backed by a Lean 4 / Mathlib development with zero
+        <code>sorry</code>, <code>admit</code>, or first-party axiom under the verification gate.
+        The diagnostic bites on real code: under the repository's declared extraction convention,
+        the committed OpenAI Codex and Claude Agent SDK models each expose specific monotonicity
+        failures — results about the extracted graph <em>models</em>, not behavioral verdicts on
+        the live products. Source-to-graph extraction is heuristic and empirical, a
+        stated trusted-base boundary, so reviewers can target attacks at the right layer.
         Orthogonal to gateway products — they enforce; this audits.
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="item-title">Bounded extraction contract</div>
-      <div class="item-meta">trusted-base boundary</div>
-      <div class="item-desc">
-        Once the graph exists, Lean proves properties of the extracted <code>GovernanceGraph</code>
-        model. Source-to-graph extraction (Rust + tree-sitter) is heuristic and empirical, not
-        formally verified. Byte-stable fixtures, parity tests, provenance records, and committed
-        snapshots back the trusted base; the contract states the boundary explicitly so reviewers
-        can target attacks at the right layer.
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="item-title">Audited surfaces</div>
-      <div class="item-meta">end-to-end source-walked</div>
-      <div class="item-desc">
-        Source-walked audits of open agent-harness code produce finite governance-graph fixtures
-        with machine-checked diagnostic certificates. Under the repository's declared extraction
-        convention, the committed OpenAI Codex (<code>codex-rs</code>), Claude Agent SDK, and
-        CrewAI models expose specific monotonicity failures; the OpenClaw model carries a separate
-        nonvacuity certificate. These are results about the extracted graph models, not behavioral
-        verdicts on the live products; the proprietary Claude Code product is treated separately,
-        metadata-only.
       </div>
     </div>
 
@@ -280,7 +284,10 @@
   <section>
     <h2>Current state</h2>
     <p>
-      Version 1.0.0 is public. Read the
+      <span class="status">v1.0.0 · public</span>
+    </p>
+    <p>
+      Read the
       <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">source and verification instructions</a>,
       or download the
       <a href="https://github.com/abenenson/legitimacy/releases/tag/v1.0.0" target="_blank" rel="noopener">signed release and paper artifacts</a>.
@@ -292,10 +299,10 @@
   <footer class="footer">
     <div class="footer-links">
       <a href="/projects/">Back to projects</a>
+      <a href="/writing/legitimacy-v1/">Papers</a>
       <a href="https://github.com/abenenson">GitHub</a>
       <a href="https://www.linkedin.com/in/adam-benenson/">LinkedIn</a>
       <a href="mailto:adam.benenson@gmail.com">adam.benenson@gmail.com</a>
-      <a href="mailto:adam@forethink.ai">adam@forethink.ai</a>
     </div>
   </footer>
 </body>
