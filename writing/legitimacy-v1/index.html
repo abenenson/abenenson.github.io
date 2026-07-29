@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legitimacy v1.0.0 — the six-paper set — Adam Benenson</title>
+  <meta name="description" content="The Legitimacy v1.0.0 release as six papers: kernel object, verified impossibility theorem, capacity-and-stability bounds, structural audits, and positioning.">
+  <link rel="canonical" href="https://adambenenson.com/writing/legitimacy-v1/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 56px;
+      font-style: italic;
+    }
+    .writing-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .item {
+      margin-bottom: 28px;
+      padding-bottom: 4px;
+    }
+    .item-title { font-size: 1rem; margin-bottom: 3px; }
+    .item-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .item-title a:hover { color: var(--link-hover); }
+    .external-icon {
+      display: inline-block;
+      margin-left: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .external-badge {
+      display: inline-block;
+      margin-left: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      vertical-align: 1px;
+      text-decoration: none;
+    }
+    .external-badge:hover { color: var(--link-hover); }
+    .venue-link {
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .venue-link:hover { color: var(--link-hover); }
+    .venue-link .external-arrow {
+      margin-left: 2px;
+      font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    .item-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      font-family: 'Courier New', monospace;
+    }
+    .item-desc {
+      font-size: 0.92rem;
+      color: #c8bab8;
+      line-height: 1.55;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 10px;
+      text-transform: lowercase;
+    }
+    /* Writing cards with thumbnails */
+    .writing-card {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .writing-thumb {
+      flex-shrink: 0;
+      width: 140px;
+      height: 105px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #27272b;
+      display: block;
+      margin-top: 4px;
+    }
+    .writing-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .writing-thumb-placeholder {
+      flex-shrink: 0;
+      width: 140px;
+      height: 105px;
+      border-radius: 6px;
+      background: #22222a;
+      border: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .writing-body {
+      flex: 1;
+      min-width: 0;
+    }
+    @media (max-width: 480px) {
+      .writing-card { flex-direction: column; gap: 12px; }
+      .writing-thumb, .writing-thumb-placeholder { width: 100%; height: 160px; }
+    }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+  <style>
+    .tagline a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+    .tagline a:hover { color: var(--text); }
+    .breadcrumb { font-size: 0.82rem; font-family: 'Courier New', monospace; color: var(--muted); margin-bottom: 14px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/" class="current">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
+  <div class="breadcrumb"><a href="/writing/">Writing</a> / legitimacy-v1</div>
+  <h1>Legitimacy v1.0.0</h1>
+  <p class="tagline">
+    Machine-checked governance for the agentic layer of AI — six papers, read in order or any on its own.
+    Each is mirrored as a signed PDF in the
+    <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">repository</a>;
+    for the framework itself, see the <a href="/projects/legitimacy/">legitimacy project page</a>.
+  </p>
+  <div class="writing-list">
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta"><span class="tag">paper 1</span>July 2026</div>
+        <div class="item-title"><a href="/writing/legitimacy-v1/what-the-legitimacy-compiler-found/">What the Legitimacy Compiler Found</a></div>
+        <div class="item-desc">The program in one pass: what a machine-checked governance compiler is, what it found when pointed at real agent harnesses, and why the governance layer is the unguarded surface.</div>
+      </div>
+    </div>
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta"><span class="tag">paper 2</span>July 2026</div>
+        <div class="item-title"><a href="/writing/legitimacy-v1/semantic-legitimacy-kernels/">Semantic Legitimacy Kernels</a></div>
+        <div class="item-desc">The kernel object: a runtime layer plus an explicit bridge contract, inhabited by a concrete instance — a compiler target for the governance layer of AI agents.</div>
+      </div>
+    </div>
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta"><span class="tag">paper 3</span>July 2026</div>
+        <div class="item-title"><a href="/writing/legitimacy-v1/impossibility-theorem/">A Verified Impossibility Theorem for Peer-Relative Governance</a></div>
+        <div class="item-desc">No rule rationing scarce permission among an agent's competing requests can be consistent, solidary, and cross-claimant monotone at once — proved in Lean, and any legitimate rule must declare which it gives up.</div>
+      </div>
+    </div>
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta"><span class="tag">paper 4</span>July 2026</div>
+        <div class="item-title"><a href="/writing/legitimacy-v1/capacity-and-stability/">Which Governance Structures Survive Unbounded Capability?</a></div>
+        <div class="item-desc">Capacity and stability bounds: a governance graph stays stable at unbounded capability exactly when its consistency vulnerability is zero; any positive vulnerability gives a finite, computable stability cliff.</div>
+      </div>
+    </div>
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta"><span class="tag">paper 5</span>July 2026</div>
+        <div class="item-title"><a href="/writing/legitimacy-v1/structural-audits/">Structural Audits of AI Safety Mechanisms</a></div>
+        <div class="item-desc">Source-walked audits of open agent-harness code, producing finite governance-graph fixtures with machine-checked diagnostic certificates over the extracted models.</div>
+      </div>
+    </div>
+    <div class="item writing-card">
+      <div class="writing-body">
+        <div class="item-meta"><span class="tag">paper 6</span>July 2026</div>
+        <div class="item-title"><a href="/writing/legitimacy-v1/legitimacy-in-context/">The Legitimacy Program in Context</a></div>
+        <div class="item-desc">Where the program sits relative to social choice, Guaranteed-Safe AI, and the verification trilemma.</div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/writing/">All writing</a>
+      <a href="/projects/legitimacy/">Legitimacy project</a>
+      <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </footer>
+</body>
+</html>

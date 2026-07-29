@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Structural Audits of AI Safety Mechanisms — Legitimacy v1.0.0 — Adam Benenson</title>
+  <meta name="description" content="Source-walked audits of open agent-harness code, producing finite governance-graph fixtures with machine-checked diagnostic certificates over the extracted models.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/writing/legitimacy-v1/structural-audits/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+      --code-bg: #24242a;
+      --pre-bg: #22222a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+      line-height: 1.3;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .article-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 44px;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 0.92rem;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      color: #e8e0de;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-style: italic;
+    }
+    p {
+      color: #c8bab8;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    p a, li a, td a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    p a:hover, li a:hover, td a:hover { color: var(--link-hover); }
+    ul, ol {
+      color: #c8bab8;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 18px;
+      padding-left: 22px;
+    }
+    ul li, ol li { margin-bottom: 8px; }
+    strong { color: #e8e0de; font-weight: 600; }
+    em { color: inherit; }
+    code {
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
+      font-size: 0.86em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #e8e0de;
+    }
+    pre {
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
+      font-size: 0.82rem;
+      background: var(--pre-bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      line-height: 1.55;
+      color: #d8d0ce;
+      margin-bottom: 22px;
+      white-space: pre;
+      tab-size: 2;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+      font-size: inherit;
+      color: inherit;
+      border-radius: 0;
+    }
+    pre code.language-lean { color: #d8d0ce; }
+    pre code.language-text { color: #c8bab8; }
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 14px;
+      margin: 18px 0 22px;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 0.9rem;
+      color: #c8bab8;
+    }
+    table th, table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    table th {
+      color: var(--muted);
+      font-weight: normal;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #3a3a42;
+    }
+    table td code {
+      font-size: 0.82em;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    .source-line {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-style: italic;
+    }
+    .source-line a { color: var(--link); text-decoration: none; }
+    .source-line a:hover { color: var(--link-hover); }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+      pre { font-size: 0.76rem; }
+      table { font-size: 0.82rem; }
+    }
+  </style>
+  <style>
+    code { overflow-wrap: anywhere; }
+    pre code { overflow-wrap: normal; }
+    .table-scroll { overflow-x: auto; margin-bottom: 22px; }
+    .table-scroll table { display: table; width: max-content; max-width: none; margin-bottom: 0; }
+    .tcolorbox {
+      border: 1px solid var(--border); border-radius: 5px;
+      padding: 14px 16px; margin: 22px 0; background: var(--pre-bg);
+      font-family: 'Courier New', monospace; font-size: 0.86rem; color: #c8bab8;
+    }
+    .tcolorbox p { margin: 0; color: inherit; }
+    math { font-size: 1.03em; }
+    img, svg, math { max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/" class="current">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
+
+  <div class="breadcrumb"><a href="/writing/">Writing</a> / <a href="/writing/legitimacy-v1/">legitimacy-v1</a> / structural-audits</div>
+  <h1>Structural Audits of AI Safety Mechanisms</h1>
+  <p class="article-meta">
+    <span class="tag">paper</span><span class="tag">audits</span> &nbsp;·&nbsp; Paper&nbsp;5 of the <a href="/writing/legitimacy-v1/" style="color: var(--link); text-decoration: none;">Legitimacy v1.0.0</a> set &nbsp;·&nbsp; July 2026 &nbsp;·&nbsp;
+    <a href="https://github.com/abenenson/legitimacy" style="color: var(--link); text-decoration: none;">repository</a>
+  </p>
+
+<h2 id="introduction-structural-audit-methodology">1. Introduction:
+Structural Audit Methodology</h2>
+<p>This companion collects five structural audits over typed
+representations, together with the structural self-modification results
+they motivate. §2 examines five AI Control protocol fixtures and shows
+why polarity-aware monotonicity reverses the legacy diagnostic. §3
+applies the same distinction to a synthetic sleeper-agent fixture. §4
+and §5 connect the audit framework to Constitutional AI and to
+decomposition attacks. §6 follows the complete detect-price-repair
+sequence on the extracted Codex graph model, and §7 states the
+self-modification escape boundary and lifecycle results. Each case
+begins only after a protocol or harness has been represented as a typed
+audit subject; none establishes behavioral claims about the underlying
+live system.</p>
+<p>Read together, these chapters describe structural audits as a
+program: model the rule layer explicitly, state the trusted
+representation boundary, evaluate the typed diagnostics, and preserve
+the certificate surface that downstream reviewers can re-run.</p>
+<h2 id="ai-control-case-study-and-verdict">2. AI Control Case Study and
+Verdict</h2>
+<h3
+id="structural-audit-of-ai-control-protocols-legacy-monotonicity-flags-all-five-polarity-aware-monotonicity-clears-them">Structural
+Audit of AI Control Protocols: Legacy Monotonicity Flags All Five,
+Polarity-Aware Monotonicity Clears Them</h3>
+<hr />
+<h4 id="abstract">Abstract</h4>
+<p>We represent each of the five AI Control protocols from
+Greenblatt-Shlegeris (arXiv:2312.06942) and Korbak et
+al. (arXiv:2501.17315), Upfront Auditing, Trusted Monitoring, Trusted
+Monitoring with Defer-to-Trusted, Untrusted Monitoring, and Trusted
+Editing, as typed <code>AuditGovernanceGraph</code> fixtures and run the
+repository’s structural audit on each. The legacy positive-delta
+monotonicity diagnostic flags all five: increasing the encoded suspicion
+or audit-window field flips the audited verdict from <code>Permit</code>
+to <code>Deny</code>. The current schema-derived polarity diagnostic
+then overturns that flag: those fields are lower-better
+adverse/routing-risk metrics, so claimant-positive improvement is a
+decrease, and all five fixtures receive
+<code>AuditVerdict.legitimate</code> (the typed verdict-tag returned
+when every ordered check passes, not a substantive legitimacy property
+of the AI Control protocol) under
+<code>governanceAdmissibilityVerdict</code>. The result corrects the
+rule-layer reading rather than refuting AI Control’s empirical safety
+case: the old uniform flag is a polarity artifact, while the canonical
+structural audit clears the five represented fixtures. We discuss what
+the structural audit can and cannot tell us about empirical AI Control
+safety, why polarity matters for monotonicity, and how the corrected
+result should be read by the Redwood / Anthropic alignment-science /
+METR audiences.</p>
+<hr />
+<h4 id="introduction">1. Introduction</h4>
+<h5 id="the-lead">1.1 The lead</h5>
+<p>Buck Shlegeris and the Redwood AI Control program publish a sequence
+of practical control protocols for deploying untrusted AI agents. The
+protocols, Upfront Auditing, Trusted Monitoring, Trusted Monitoring with
+Defer-to-Trusted, Untrusted Monitoring, and Trusted Editing, define
+behavioral <em>channels</em> through which an untrusted model’s outputs
+flow before reaching the world. Each protocol has empirical safety
+properties: bounds on the rate at which an adversarial untrusted model
+can subvert the protocol against a measured baseline.</p>
+<p>The behavioral channel is not the only object the protocols define.
+Each protocol also induces a <em>governance graph</em>: a typed object
+in which the protocol’s nodes are decision sites (the trusted monitor’s
+evaluation, the deferral logic, the editing operation, the audit) and
+its edges are the structural authority relationships between them. The
+audit on the <em>graph</em> is independent of the audit on the
+<em>behavioral channel</em>. The empirical safety case lives at the
+channel layer; the structural audit lives at the rule layer.</p>
+<p>We run the 9-element structural audit (consistency, solidarity,
+monotonicity, strategyproofness, certifiability, observability,
+corrigibility, compositional safety, non-vacuity) on each of the five
+represented governance graph fixtures. The raw legacy positive-delta
+probe is uniform: increasing the encoded suspicion or audit-window field
+flips the protocol’s verdict from <code>Permit</code> to
+<code>Deny</code>. Under the current schema-derived audit, however, the
+same fields are treated as lower-better adverse evidence, all five
+fixtures pass canonical monotonicity, and all five receive
+<code>AuditVerdict.legitimate</code>.</p>
+<p>The audit is not an attack on AI Control. The empirical safety case
+lives on the channel layer; the structural diagnostic lives on the rule
+layer. The legacy probe names a precise modeling error: it treated
+higher suspicion as claimant-positive strengthening. The schema-derived
+audit corrects that direction and therefore clears these fixtures.
+Neither the legacy diagnostic nor the corrected pass result subsumes the
+empirical safety case.</p>
+<h5 id="why-monotonicity-and-what-its-failure-means">1.2 Why
+monotonicity, and what its failure means</h5>
+<p>For the audit graph, canonical monotonicity applies a positive
+perturbation magnitude in the field’s semantic improvement direction and
+requires every claimant’s final decision rank to be weakly preserved. On
+the binary <code>Permit</code>/<code>Deny</code> specialization this
+becomes no <code>Permit → Deny</code> flip. For higher-better fields, a
+positive numeric delta is an improvement; for lower-better suspicion,
+blocking, deployment-trigger, and audit-routing fields, a negative
+numeric delta is the improvement. This polarity distinction is
+load-bearing for AI Control because the audited fields are
+adverse-evidence or routing-risk indicators, not trust scores.</p>
+<p>Each AI Control fixture has a raw legacy positive-delta witness:
+increasing a suspicion or audit-window metric triggers audit/deferral
+and can flip the audited decision toward <code>Deny</code>. The
+schema-derived diagnostic classifies those metrics as lower-better. Once
+the audit asks whether semantic improvement weakly preserves every
+claimant’s decision rank, the five represented fixtures pass
+monotonicity and receive <code>AuditVerdict.legitimate</code>
+verdict-tags.</p>
+<p>The reason this is a <em>complementary</em> observation to the
+empirical safety case is that
+monotonicity-on-represented-governance-graph is not the property AI
+Control’s empirical analysis aims to establish. AI Control bounds the
+<em>worst-case</em> behavioral subversion rate. The structural audit
+observes a <em>typed</em> property of the represented rule layer. Both
+are real properties; they are not the same property. A protocol can
+satisfy the empirical safety bound while failing the structural
+property, and vice versa.</p>
+<h5
+id="relation-to-empirical-control-research-alignment-science-redwood-metr">1.3
+Relation to empirical control research (alignment-science, Redwood,
+METR)</h5>
+<p>The structural audit gives the AI Control program a <em>rule-layer
+companion</em>: a typed structural property that the repository’s
+hand-modeled protocol fixtures do or do not satisfy, computable
+mechanically from those committed graph literals. The companion is not a
+substitute for the empirical safety case. It is a structural signature
+that complements the empirical evaluation. Where empirical evaluation
+tests <em>whether</em> the protocol resists subversion at a given
+capability scale, the structural audit tests <em>which structural
+properties</em> the represented governance graph has. The two together
+give a richer picture: the empirical bound at the channel layer, the
+structural signature at the rule layer.</p>
+<p>We present the corrected rule-layer signature of the five represented
+AI Control protocol fixtures here. The raw legacy signature is uniform
+and stark: all five have positive-delta <code>Permit → Deny</code>
+calibration witnesses at the suspicion-calibration layer. The
+schema-derived signature is also uniform: all five pass monotonicity and
+receive <code>AuditVerdict.legitimate</code> verdict-tags. This is
+structural information about a represented protocol slice, not a
+refutation of the safety case.</p>
+<hr />
+<h4 id="related-work">2. Related work</h4>
+<h5 id="the-ai-control-program">2.1 The AI Control program</h5>
+<p><strong>Greenblatt, Shlegeris et al.</strong> (2023), <em>AI Control:
+Improving Safety Despite Intentional Subversion</em> (arXiv:2312.06942),
+introduces the AI Control framework and the five canonical protocols.
+The empirical safety case is established via a worst-case adversarial
+subversion-rate analysis at fixed capability.</p>
+<p><strong>Korbak et al.</strong> (2025), <em>A sketch of an AI control
+safety case</em> (arXiv:2501.17315), extends the analysis to a
+structured safety case, formally argued, with control measures as
+building blocks. The Korbak safety case is the motivating published
+reference for this represented slice. Our bridge theorem
+<code>ai_control_fixture_graphs_receive_legitimate_verdict</code>
+(<code>Legitimacy.Bridges.KorbakAIControlBridge</code>) ranges only over
+the local <code>AIControlProtocol</code> enum: upfront auditing, trusted
+monitoring, defer-to-trusted, untrusted monitoring, and trusted editing.
+Its proposition existentially exposes a canonical schema-derived
+legitimate verdict for each represented fixture graph.</p>
+<p><strong>Brown-Cohen, Irving, and Piliouras</strong> (2025),
+<em>Avoiding Obfuscation with Prover-Estimator Debate</em>
+(arXiv:2506.13609), studies prover-estimator debate as adjacent
+scalable-oversight work on obfuscation. We do not treat it as an AI
+Control protocol lane here.</p>
+<h5 id="structural-vs-behavioral-analysis-of-ai-safety-mechanisms">2.2
+Structural-vs-behavioral analysis of AI safety mechanisms</h5>
+<p>The structural audit applies the legitimacy framework’s 9-element
+audit to a published protocol class. The 9-element audit is documented
+in:</p>
+<ul>
+<li><strong>the impossibility theorem paper</strong>
+(<code>papers/03-impossibility-theorem.md</code> in this repository) for
+the reachable scarce peer-relative three-diagnostic obstruction
+(consistency, solidarity, monotonicity) and the
+strategyproofness-as-derived bridge theorem.</li>
+<li><strong>the kernel-as-compiled-object paper</strong>
+(<code>papers/02-semantic-legitimacy-kernels.md</code>) for the 5-axiom
+kernel subset (certifiability, observability, corrigibility,
+compositional safety, non-vacuity).</li>
+</ul>
+<p>This paper takes the audit-as-given and applies it to a target
+protocol class.</p>
+<p>Adjacent external work in formal rule-layer analysis:</p>
+<ul>
+<li><strong>Allegrini, Shreekumar, and Celik</strong> (2025),
+<em>Formalizing the Safety, Security, and Functional Properties of
+Agentic AI Systems</em> (arXiv:2510.14133), formalizes host-agent and
+task-lifecycle models with temporal-logic properties, including 16
+host-agent properties and 14 task-lifecycle properties. This is
+rule-layer property specification and verification; our audit asks a
+different question about the admissibility of represented governance
+rules.</li>
+</ul>
+<h5 id="sleeper-agents-and-alignment-faking">2.3 Sleeper agents and
+alignment-faking</h5>
+<p>The audit’s structural signature pairs naturally with the
+sleeper-agent characterization (one direction discharged via
+<code>deceptive_deployment_on_not_audit_monotone</code>). A sleeper
+agent is a model whose training-time aligned behavior diverges from its
+deployment-time behavior. A control protocol is the deployment-time
+governance over an untrusted model. The <em>combination</em>, running
+the structural audit on the deployment-time protocol against an
+extracted sleeper-agent governance graph, is the natural composition. We
+do not take the composition here; the audit corpus and the sleeper
+characterization are independently published artifacts.</p>
+<hr />
+<h4 id="setup">3. Setup</h4>
+<h5 id="the-9-element-audit">3.1 The 9-element audit</h5>
+<p>The audit is a structured procedure with 9 named checks. Each check
+returns <code>AuditCheckStatus.passed</code>, <code>.failed</code>, or
+<code>.skipped</code>; the pipeline then converts the first blocking
+check into an <code>AuditVerdict</code>. The full vocabulary
+(<code>AuditCheck</code>):</p>
+<ol type="1">
+<li><strong>consistency</strong>: removing a claimant preserves the
+remaining claimants’ final decisions.</li>
+<li><strong>solidarity</strong>: common audit shocks do not split
+same-class claimants into mixed improvement and worsening.</li>
+<li><strong>monotonicity</strong> (schema-derived polarity check): a
+positive perturbation magnitude is applied in the metric’s semantic
+improvement direction, and every claimant’s final decision rank must be
+weakly preserved. On the binary <code>Permit</code>/<code>Deny</code>
+specialization this is the no-<code>Permit → Deny</code> condition.</li>
+<li><strong>strategyproofness</strong>: derived from solidarity ∧
+monotonicity per
+<code>solidarity_monotonicity_imply_strategyproof</code>; checked
+independently here as a structural property of the graph.</li>
+<li><strong>certifiability</strong>: the Lean-side fixture passes the
+audit dispatcher’s certifiability core; replay-certificate validation
+remains a Rust-side responsibility.</li>
+<li><strong>observability</strong>: the audit’s verdict is observable
+via the kernel observation interface.</li>
+<li><strong>corrigibility</strong>: the kernel admits the corrigibility
+predicate.</li>
+<li><strong>compositional safety</strong>: the graph composes safely
+under the kernel’s composition operator.</li>
+<li><strong>non-vacuity</strong>: the kernel is not vacuously
+satisfied.</li>
+</ol>
+<p>The pipeline verdict is <code>AuditVerdict.legitimate</code> if every
+ordered check passes, <code>AuditVerdict.rejected check</code> if the
+first blocking check fails, or
+<code>AuditVerdict.undischarged check</code> if the first blocking check
+is skipped. The audit’s discriminating power comes from the typed
+blocking surface: rejected or undischarged mechanisms are tagged with
+the specific check that blocks the canonical legitimate verdict.</p>
+<h5 id="the-auditgovernancegraph-fixture-model">3.2 The
+<code>AuditGovernanceGraph</code> fixture model</h5>
+<p>For each represented AI Control protocol, the repository hand-models
+an <code>AuditGovernanceGraph</code> fixture. The fixture packages
+intended decision sites as nodes, authority relationships as edges, and
+the represented decision rule as the graph’s verdict function. This is
+not a verified parser from the source papers’ protocol text, and there
+is no theorem here proving full faithfulness of the model to the
+published protocols. The paper’s substrate claim is therefore
+conditional on an external modeling assumption: these committed graph
+literals are the structural representations under audit. The Lean
+definitions are in <code>Audits/AIControl.lean</code>:</p>
+<p>The Lean theorems below govern those represented
+<code>AuditGovernanceGraph</code> fixtures, not the raw prose or full
+experimental implementations of the AI Control protocols. The
+text-to-fixture mapping is a trusted modeling base whose faithfulness is
+empirical and reviewable, not a theorem. Any faithfulness challenge
+should focus on that modeling boundary: omitted protocol structure,
+polarity encoding, or mismatched decision sites, rather than on the Lean
+proofs over the committed fixtures.</p>
+<ul>
+<li><code>aiControlUpfrontAuditingGovernanceGraph</code> (line 48)</li>
+<li><code>aiControlTrustedMonitoringGovernanceGraph</code> (line
+155)</li>
+<li><code>aiControlTrustedMonitoringDeferGovernanceGraph</code> (line
+262)</li>
+<li><code>aiControlUntrustedMonitoringGovernanceGraph</code> (line
+387)</li>
+<li><code>aiControlTrustedEditingGovernanceGraph</code> (line 500)</li>
+</ul>
+<p>Each is wrapped in an <code>AuditSubject</code> fixture for the
+audit-pipeline interface
+(<code>aiControlProtocolUpfrontAuditingGraph</code> line 71, etc.).</p>
+<h5 id="the-strengthened-claim-fixture">3.3 The strengthened-claim
+fixture</h5>
+<p>For each protocol, a <code>BaselineStrengthenedClaims</code> pair is
+constructed: a baseline claim list (representing the protocol’s input
+under nominal conditions) and a positive-delta claim list (representing
+the protocol’s input after increasing a chosen metric). The pair is
+constructed so that the baseline’s first-effective verdict is
+<code>Permit</code> (<code>aiControl_*_baseline_original_permit</code>
+theorems) and the positive-delta verdict is <code>Deny</code>
+(<code>aiControl_*_baseline_strengthened_deny</code> theorems). The pair
+witnesses a raw positive-delta flip. It does not witness canonical
+semantic monotonicity failure, because the modified fields are
+lower-better adverse/routing-risk metrics.</p>
+<p>The fixture pairs are concrete and reproducible via
+<code>native_decide</code> on rational-arithmetic claims. Each
+protocol’s canonical monotonicity theorem
+(<code>aiControl_protocol_*_satisfies_monotonicity</code>) and canonical
+verdict theorem (<code>aiControl_protocol_*_legitimate</code>) is
+mechanically verified in Lean 4. The same file retains compatibility
+theorem names for the former polarity-aware surface.</p>
+<h5 id="the-bridge-theorem-to-korbak-et-al.">3.4 The bridge theorem to
+Korbak et al.</h5>
+<p>The bridge
+<code>ai_control_fixture_graphs_receive_legitimate_verdict</code>
+(<code>Legitimacy.Bridges.KorbakAIControlBridge</code>) establishes the
+formal relationship for the represented slice: each local
+<code>AIControlProtocol</code> fixture has a committed audit subject and
+a canonical legitimate verdict. The bridge does not prove the Korbak et
+al. safety case true, does not claim full coverage of AI Control
+protocols, and does not audit the protocols’ behavioral semantics. It is
+a structural complement, not a refutation.</p>
+<p>The triple-qualifying scope statement in the bridge’s docstring is
+load-bearing: the bridge says <em>canonical rule-layer fixture
+verdict</em>, not <em>the safety case is true</em>; <em>not full
+coverage</em> of the protocols’ behavioral semantics; <em>not a
+validation</em> of empirical safety. It is a structural complement at
+the rule layer.</p>
+<hr />
+<h4 id="main-results">4. Main results</h4>
+<h5 id="the-five-protocol-legitimacy-theorems">4.1 The five protocol
+legitimacy theorems</h5>
+<p>For each of the five protocols, the canonical schema-derived audit
+verdict is mechanically verified as legitimate.</p>
+<p><strong>Theorem 4.1.1</strong> (Upfront Auditing legitimacy,
+<code>aiControl_protocol_upfrontAuditing_legitimate</code>,
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Audits/AIControl.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Audits/AIControl.lean</code></a>).</p>
+<p><strong>Theorem 4.1.2</strong> (Trusted Monitoring legitimacy,
+<code>aiControl_protocol_trustedMonitoring_legitimate</code>).</p>
+<p><strong>Theorem 4.1.3</strong> (Trusted Monitoring with
+Defer-to-Trusted legitimacy,
+<code>aiControl_protocol_trustedMonitoringDefer_legitimate</code>).</p>
+<p><strong>Theorem 4.1.4</strong> (Untrusted Monitoring legitimacy,
+<code>aiControl_protocol_untrustedMonitoring_legitimate</code>).</p>
+<p><strong>Theorem 4.1.5</strong> (Trusted Editing legitimacy,
+<code>aiControl_protocol_trustedEditing_legitimate</code>).</p>
+<p>The file also contains per-check status theorems. All nine canonical
+checks pass under schema-derived metric polarity. The verdict theorem
+itself is a <code>native_decide</code> equality on
+<code>governanceAdmissibilityVerdict</code>, not a bundled nine-part
+proof object. The verdict is <code>AuditVerdict.legitimate</code>.</p>
+<p>The retained polarity-aware follow-up names are compatibility aliases
+over the canonical checker.</p>
+<h5 id="the-unified-bridge-to-korbak-et-al.">4.2 The unified bridge to
+Korbak et al.</h5>
+<p><strong>Theorem 4.2</strong> (AI Control fixture graphs receive
+legitimate verdicts,
+<code>ai_control_fixture_graphs_receive_legitimate_verdict</code>,
+<code>Legitimacy.Bridges.KorbakAIControlBridge</code>). <em>For each
+protocol in the local five-case <code>AIControlProtocol</code> enum,
+there exists an <code>AuditSubject</code> fixture such that
+<code>governanceAdmissibilityVerdict subject = AuditVerdict.legitimate</code>.
+The bridge is about the represented rule-layer fixtures; the Korbak
+safety case is at the channel layer; the two are complementary.</em></p>
+<p>The bridge’s case-split structure runs over the five represented
+protocols, lifting each per-protocol legitimate verdict theorem into the
+unified existential statement.</p>
+<h5 id="the-trusted-monitoring-positive-delta-witness">4.3 The
+trusted-monitoring positive-delta witness</h5>
+<p>The bridge auxiliary theorem
+<code>trusted_monitoring_ai_control_fixture</code>
+(<code>Legitimacy.Bridges.KorbakAIControlBridge</code>) existentially
+packages the trusted-monitoring subject plus its canonical
+<code>AuditVerdict.legitimate</code> result. The concrete permit-to-deny
+pair lives in <code>Audits/AIControl.lean</code>:
+<code>aiControl_trustedMonitoring_baseline_original_permit</code> proves
+the baseline decision is <code>Permit</code>, and
+<code>aiControl_trustedMonitoring_baseline_strengthened_deny</code>
+proves the positive-delta decision is <code>Deny</code>. Those
+rational-arithmetic equalities are legacy calibration witnesses for the
+raw positive-delta probe, not the theorem-facing audit verdict.</p>
+<p>The positive-delta pair is the audit’s <em>empirical-style</em>
+artifact: a published, testable, reproducible witness for the legacy
+diagnostic on the represented trusted-monitoring fixture. Empirical
+safety researchers can re-evaluate the fixture independently.</p>
+<h5 id="defer-to-resample-as-the-open-extraction-example">4.4
+Defer-to-Resample as the open-extraction example</h5>
+<p>The Defer-to-Resample protocol does not currently have a stable
+extracted governance graph — the protocol’s resample step requires a
+probabilistic structural representation that the deterministic
+<code>AuditGovernanceGraph</code> substrate does not capture. The
+companion theorem
+<code>defer_to_resample_has_no_current_extracted_graph</code>
+(<code>Legitimacy.Bridges.KorbakAIControlBridge</code>) makes this
+honest as a structural witness: the request-level extraction relation
+defines the <code>deferToResample</code> arm as <code>False</code>, so
+the audit corpus is currently 5 protocols and defer-to-resample is named
+as the open-extraction case. This is not a non-trivial
+unrepresentability proof for resampling; the substrate-extension to
+capture probabilistic resample remains open follow-up.</p>
+<hr />
+<h4 id="proof-sketch">5. Proof sketch</h4>
+<p>The audit applied to each protocol decomposes as follows.</p>
+<p><strong>Step 1: Define the protocol fixture’s graph.</strong> The
+modeled decision sites are the audit-graph nodes; the modeled authority
+relationships are the edges; the represented verdict function is the
+graph’s <code>verdictOf</code> map. The proof starts from this graph
+literal; it does not verify a text-to-graph extraction process from the
+source papers.</p>
+<p><strong>Step 2: Establish the baseline / positive-delta claim
+pair.</strong> The pair is constructed so the baseline’s first-effective
+decision is <code>Permit</code> and the positive-delta claim’s
+first-effective decision is <code>Deny</code>. The construction is
+direct: the chosen suspicion or audit-window field is increased; the
+protocol’s audit or deferral gate fires; the resulting verdict
+flips.</p>
+<p><strong>Step 3: Verify eight checks pass.</strong> Each
+non-monotonicity check is verified by
+<code>decide</code>/<code>native_decide</code> evaluation on the
+protocol’s graph and associated audit data. The checks are local
+properties of the graph or Lean-side audit projections. For each
+protocol:</p>
+<ul>
+<li>consistency: removing each claimant preserves the remaining
+claimants’ final decisions.</li>
+<li>solidarity: common audit shocks do not split same-class claimants
+into mixed improvement and worsening.</li>
+<li>strategyproofness: structurally checked; the graph is strategyproof
+as a property of the committed fixture.</li>
+<li>certifiability: the Lean-side certifiability core passes
+decision-totality checks; Rust remains authoritative for
+replay-certificate validation.</li>
+<li>observability, corrigibility, compositional safety, non-vacuity: the
+corresponding Lean-side audit projections pass on the represented
+fixture.</li>
+</ul>
+<p><strong>Step 4: Establish the raw positive-delta calibration
+witness.</strong> The positive-delta pair witnesses the legacy
+diagnostic: the original verdict is <code>Permit</code>, the
+positive-delta verdict is <code>Deny</code>, and the legacy probe treats
+every positive metric delta as a strengthening.</p>
+<p><strong>Step 5: Apply the schema-derived polarity
+correction.</strong> <code>auditMetricPolaritySchema</code> classifies
+the AI Control suspicion and routing-risk fields as
+<code>lowerBetter</code>. The canonical monotonicity check applies the
+improvement perturbation in that semantic direction, all five
+monotonicity checks pass, and all five governance verdicts return the
+<code>AuditVerdict.legitimate</code> tag. The positive-delta
+permit-to-deny pairs remain raw legacy calibration witnesses, not
+theorem-facing rejection verdicts.</p>
+<p><strong>Step 6: Read the bridge theorem.</strong>
+<code>ai_control_fixture_graphs_receive_legitimate_verdict</code> and
+<code>trusted_monitoring_ai_control_fixture</code> package the
+represented subjects with
+<code>governanceAdmissibilityVerdict subject = AuditVerdict.legitimate</code>.
+The AI Control fixtures do not rely on the diagnostic-presence event
+counters, which carry no claimant-welfare direction.</p>
+<p>The full Lean proof is reproducible on commit:
+<code>native_decide</code> evaluates each protocol’s audit on its
+concrete fixture deterministically, and the canonical audit verdict is
+mechanically checked as <code>AuditVerdict.legitimate</code>.</p>
+<hr />
+<h4
+id="discussion-implications-for-the-ai-control-anthropic-alignment-science-redwood-audiences">6.
+Discussion: implications for the AI Control / Anthropic
+alignment-science / Redwood audiences</h4>
+<h5 id="what-the-audit-says">6.1 What the audit says</h5>
+<p>The audit gives each AI Control protocol fixture a <em>rule-layer
+signature</em> — a typed structural property of the represented
+governance graph. The raw legacy signature for all five represented
+fixtures is uniform: positive-delta calibration witness at the
+suspicion-calibration layer. The schema-derived signature is the
+corrected one: monotonicity passes once suspicion and routing-risk
+fields are interpreted as lower-better.</p>
+<p><strong>Why monotonicity, structurally</strong>. The
+suspicion-calibration step in each protocol determines deferral or
+audit-trigger based on a suspicion or audit-routing metric. The
+thresholding logic produces the legacy calibration witness: at the
+threshold boundary, a positive delta raises the adverse metric, crosses
+the threshold, and triggers deferral or audit, which can flip the
+verdict from <code>Permit</code> to <code>Deny</code>. The
+schema-derived audit treats that positive delta as an adverse change,
+not a claimant-positive strengthening.</p>
+<p><strong>The structural signature is uniform across
+protocols</strong>. All five fixtures use threshold-discriminator
+suspicion-calibration; all five expose the raw legacy positive-delta
+diagnostic at the same site; all five pass the schema-derived diagnostic
+at that site. This is informative because it separates a diagnostic
+artifact from a surviving structural concern.</p>
+<h5 id="what-the-audit-does-not-say">6.2 What the audit does
+<em>not</em> say</h5>
+<p><strong>The audit does not refute the safety case</strong>. The
+Korbak et al. safety case is at the <em>channel</em> layer; it bounds
+the worst-case adversarial subversion rate. The audit is at the
+<em>rule</em> layer; it tests structural properties of represented graph
+fixtures. The raw legacy flag was consistent with the safety case
+because it was a separate rule-layer diagnostic; the schema-derived pass
+result is also separate from the empirical bound.</p>
+<p><strong>The audit does not establish unsafety</strong>. The legacy
+positive-delta flag is informative about the old diagnostic’s treatment
+of adverse fields; it is not a behavioral claim.</p>
+<p><strong>The audit does not say the protocols should be
+redesigned</strong>. Whether a protocol <em>should</em> be designed to
+satisfy monotonicity at the rule layer is a separate question.
+Monotonicity may be the wrong property to optimize for at the
+suspicion-calibration layer (suspicion is sometimes legitimately
+<em>non-monotonic</em> in evidence; e.g., over-strong evidence from an
+untrusted source is itself suspicious). The audit observes the
+structural property; the design question is downstream.</p>
+<h5 id="the-audit-as-collaborative-complement">6.3 The audit as
+collaborative complement</h5>
+<p>The audit’s most useful framing is <em>complementary structural
+analysis</em>. Empirical safety case + structural rule-layer signature =
+richer picture than either alone. The structural signature is mechanical
+and reproducible (<code>native_decide</code> on rational arithmetic);
+empirical evaluation is observational and probabilistic. The two are not
+in tension; they are in conjunction.</p>
+<p>We anticipate the most productive engagement is via extension of the
+<em>audit corpus</em> to additional control-style protocols
+(defer-to-resample once the probabilistic fixture substrate lands) and
+<em>cross-paper</em> composition with the sleeper-agent characterization
+paper. The combined picture — control protocols’ structural signature ×
+represented-deployment-graph’s monotonicity property — is the natural
+follow-up.</p>
+<h5 id="the-relationship-to-anthropic-alignment-faking">6.4 The
+relationship to Anthropic alignment-faking</h5>
+<p>The Anthropic alignment-faking research line investigates models
+whose training-time aligned behavior diverges from their deployment-time
+behavior. The structural complement is on the <em>deployment-time
+governance</em> side: what is the structural signature of the protocol
+governing the deployment? In the AI Control fixtures here, the corrected
+schema-derived signature is a pass, while the legacy positive-delta
+signature records where adverse suspicion fields trigger routing.
+Whether this matters for alignment-faking detection is open.</p>
+<h5 id="the-bridge-as-outreach-surface">6.5 The bridge as outreach
+surface</h5>
+<p>The bridge theorem
+<code>ai_control_fixture_graphs_receive_legitimate_verdict</code> is the
+named outreach surface. It is mechanically verified, triple-qualifies
+its scope (rule-layer / not-coverage / legitimate-not-validated), and
+provides per-protocol concrete fixtures. It is the artifact that an
+interested AI Control researcher can engage with directly: re-evaluate
+the fixture, examine the represented graph, and audit the
+metric-polarity annotations. The structural complement is reproducible
+over the committed fixtures; that is its claim to scientific status.</p>
+<hr />
+<h4 id="limitations">7. Limitations</h4>
+<ol type="1">
+<li><p><strong>Five-protocol corpus only</strong>. The audit covers
+Upfront Auditing, Trusted Monitoring, Trusted Monitoring with
+Defer-to-Trusted, Untrusted Monitoring, and Trusted Editing.
+Defer-to-Resample is named as open fixture-modeling work because its
+resampling step needs probabilistic structure.</p></li>
+<li><p><strong>Deterministic fixture substrate only</strong>. The
+<code>AuditGovernanceGraph</code> substrate is deterministic and
+represented directly as Lean data. Protocols with intrinsically
+probabilistic structural elements (defer-to-resample is the canonical
+example) require a probabilistic fixture substrate not currently in the
+audit pipeline.</p></li>
+<li><p><strong>Fixed audit-input distribution</strong>. The
+positive-delta fixture is a specific input pair. The legacy monotonicity
+flag is on that rule-layer diagnostic, not on a behavioral distribution.
+The audit does not say what fraction of behavioral inputs trigger the
+legacy flip.</p></li>
+<li><p><strong>Rule-layer only, not channel-layer</strong>. The audit is
+on the represented governance graph fixture. The behavioral channel that
+the protocol implements is not audited. The structural diagnostic is
+consistent with arbitrary behavior on the channel layer (within the
+protocol’s published behavioral semantics).</p></li>
+<li><p><strong>No empirical-safety claim</strong>. The audit does not
+establish or refute the AI Control safety case. It is structural
+complement.</p></li>
+<li><p><strong>Threshold-discriminator bias</strong>. All five protocols
+use threshold-discriminator suspicion-calibration. The legacy audit may
+be returning a signature that is <em>generic</em> to
+threshold-discriminators over lower-better adverse fields rather than
+<em>specific</em> to AI Control. It remains a conjecture that
+non-threshold suspicion-calibration or continuous-deferral-rate
+mechanisms would produce different audit signatures.</p></li>
+<li><p><strong>No multi-protocol composition</strong>. Each audit is on
+a single protocol in isolation. The composed-protocol case (Trusted
+Editing on top of Trusted Monitoring, etc.) requires the multi-agent
+composition substrate
+(<code>MultiAgentEdgeLocalComposition.lean</code>); this is a
+follow-up.</p></li>
+</ol>
+<hr />
+<h4 id="conclusion">8. Conclusion</h4>
+<p>The five represented AI Control protocol fixtures uniformly pass the
+canonical schema-derived audit, including monotonicity at the
+suspicion-calibration layer. The raw positive-delta probes still
+identify where increasing lower-better suspicion fields routes claims
+toward denial; those probes are calibration diagnostics, not semantic
+monotonicity failures. This is a <em>complementary</em> rule-layer
+observation beside the Korbak et al. safety case, not a behavioral
+safety claim.</p>
+<p>The structural complement is most useful when read as collaborative
+information rather than refutation. The empirical safety case is at the
+channel layer; the audit is at the rule layer; the two compose. The
+audit corpus can extend to additional protocols (open follow-up:
+defer-to-resample once probabilistic fixture modeling lands) and compose
+with the sleeper-agent characterization paper for the
+deployment-time-governance × represented-deployment-graph picture.</p>
+<p>The legacy threshold-discriminator monotonicity failure is a
+diagnostic signature of positive deltas applied to lower-better
+suspicion-calibration fields. Protocols outside this family
+(non-threshold suspicion-calibration, continuous-deferral-rate
+mechanisms) may produce different audit signatures. The signature space,
+mapped systematically across protocol design choices and metric
+polarities, is the broader research target.</p>
+<hr />
+<h4 id="references">References</h4>
+<ul>
+<li><strong>Brown-Cohen, J., Irving, G., Piliouras, G.</strong> (2025).
+Avoiding Obfuscation with Prover-Estimator Debate.
+<em>arXiv:2506.13609</em>.</li>
+<li><strong>Greenblatt, R., Shlegeris, B., et al.</strong> (2023). AI
+Control: Improving Safety Despite Intentional Subversion.
+<em>arXiv:2312.06942</em>.</li>
+<li><strong>Hubinger, E., Denison, C., Mu, J., et al.</strong> (2024).
+Sleeper Agents: Training Deceptive LLMs that Persist Through Safety
+Training. <em>arXiv:2401.05566</em>.</li>
+<li><strong>Korbak, T., Clymer, J., Hilton, B., Shlegeris, B., Irving,
+G.</strong> (2025). A sketch of an AI control safety case.
+<em>arXiv:2501.17315</em>.</li>
+<li><strong>Allegrini, E., Shreekumar, A., Celik, Z. B.</strong> (2025).
+Formalizing the Safety, Security, and Functional Properties of Agentic
+AI Systems. <em>arXiv:2510.14133</em>.</li>
+</ul>
+<h5 id="lean-substrate-references">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.aiControl_protocol_upfrontAuditing_legitimate</code></li>
+<li><code>Legitimacy.aiControl_protocol_trustedMonitoring_legitimate</code></li>
+<li><code>Legitimacy.aiControl_protocol_trustedMonitoringDefer_legitimate</code></li>
+<li><code>Legitimacy.aiControl_protocol_untrustedMonitoring_legitimate</code></li>
+<li><code>Legitimacy.aiControl_protocol_trustedEditing_legitimate</code></li>
+<li><code>Legitimacy.ai_control_fixture_graphs_receive_legitimate_verdict</code></li>
+<li><code>Legitimacy.trusted_monitoring_ai_control_fixture</code></li>
+<li><code>Legitimacy.defer_to_resample_has_no_current_extracted_graph</code></li>
+<li><code>Legitimacy.AIControlProtocol.subject</code></li>
+</ul>
+<h2 id="sleeper-agent-monotonicity-test">3. Sleeper-agent Monotonicity
+Test</h2>
+<h3
+id="monotonicity-as-a-decidable-structural-test-for-sleeper-agent-deployment-admissibility">Monotonicity
+as a Decidable Structural Test for Sleeper-Agent Deployment
+Admissibility</h3>
+<hr />
+<h4 id="abstract-1">Abstract</h4>
+<p>We prove a legacy positive-delta structural audit diagnostic for the
+repository’s formal <em>deceptive-deployment admissibility</em>
+predicate and demonstrate it on a synthetic sleeper-agent fixture that
+follows the Hubinger et al. 2024 deployment-trigger motif. If a
+represented audit subject admits the formal sleeper split, then it fails
+the legacy audit-graph monotonicity predicate
+(<code>Legitimacy.deceptive_deployment_on_not_audit_monotone</code>).
+The load-bearing formal fact is narrow: a positive perturbation to the
+deployment-trigger field changes the affected claimant’s verdict from
+<code>Permit</code> to <code>Deny</code>, which obstructs the legacy
+monotonicity check. This is not a semantic-strengthening theorem. The
+same fixture passes the canonical schema-derived monotonicity check
+(<code>sleeper_agent_monotonicity_verdict</code>) and has a legitimate
+canonical governance verdict
+(<code>sleeper_agent_canonical_governance_verdict</code>), because
+<code>deployment_context</code> is treated as lower-better risk
+evidence. The decidable check
+<code>admitsDeceptiveDeploymentCheck</code> is sound and complete with
+respect to the Prop-level predicate, and
+<code>native_decide</code>-evaluates on rational-arithmetic claim
+corpora. The concrete fixture
+(<code>sleeperAgentExtractedGovernanceGraph</code> and
+<code>sleeperAgentAdmitsDeceptiveDeployment</code>) demonstrates the
+diagnostic on the repository’s fixed synthetic corpus. The result is on
+the <em>extracted</em> audit subject, not on the underlying model: it is
+a typed property of the audit pipeline’s view of the represented
+deployment slice, decidable by mechanical evaluation, and orthogonal to
+the empirical detection question.</p>
+<hr />
+<h4 id="introduction-1">1. Introduction</h4>
+<h5 id="the-lead-1">1.1 The lead</h5>
+<p>Hubinger et al. 2024 (<em>Sleeper Agents: Training Deceptive LLMs
+that Persist Through Safety Training</em>, arXiv:2401.05566)
+demonstrates a behavioral protocol: language models can be trained to
+behave aligned during a training-time monitoring phase and to behave
+misaligned at deployment time, conditional on a deployment-trigger
+feature. The phenomenon is empirical: it is observed by training a model
+with the deceptive-deployment objective and verifying the
+deployment-time behavior diverges from the training-time behavior. The
+empirical demonstration is the standing reference for
+<em>deployment-time-divergence</em>; it is not, by construction, a
+structural audit-subject diagnostic.</p>
+<p>We prove a structural decidable diagnostic for a formal sleeper
+split. The diagnostic is on the <em>extracted</em> audit subject — the
+typed audit-pipeline object that the deployment surface induces, not the
+underlying model. If the subject admits deceptive deployment on the
+fixed corpus, then it fails the legacy audit-graph monotonicity
+property. This direction is mechanically discharged in Lean 4
+(<code>deceptive_deployment_on_not_audit_monotone</code>,
+<code>Legitimacy.Audits.SleeperCharacterization:126</code>).</p>
+<p>The result is polarity-sensitive. Under the legacy positive-delta
+predicate, raising <code>deployment_context</code> produces a
+<code>Permit → Deny</code> obstruction. Under the schema-derived
+polarity predicate, the same fixture passes: semantic improvement for a
+lower-better risk field decreases that metric rather than increasing it.
+The formal contribution is therefore a legacy-diagnostic obstruction and
+executable checker, not a claim that semantic strengthening always
+exposes sleeper-agent structure.</p>
+<h5 id="what-this-is-what-it-is-not">1.2 What this is, what it is
+not</h5>
+<p>The result is a one-way structural diagnostic on the extracted
+audit-pipeline subject: formal deceptive deployment on the corpus
+implies failure of legacy monotonicity, and the decidable check is sound
+and complete for the Prop-level predicate
+(<code>admitsDeceptiveDeploymentCheck_sound</code>,
+<code>admitsDeceptiveDeploymentCheck_complete</code>), evaluating by
+<code>native_decide</code> on concrete rational-arithmetic corpora. The
+converse is not claimed: the current substrate proves a strict
+refinement, and legacy monotonicity failure does not imply formal
+deceptive deployment. Because the diagnostic concerns the represented
+audit subject rather than the underlying model, it neither characterizes
+sleeper agents in the empirical sense of Hubinger et al. 2024 nor
+evaluates behavioral detection methods; the two are complementary
+detection surfaces.</p>
+<h5 id="relation-to-alignment-faking-and-sleeper-agent-research">1.3
+Relation to alignment-faking and sleeper-agent research</h5>
+<p>Hubinger and the Anthropic alignment-faking line establish empirical
+phenomena about training-time and deployment-time behavior. Here we
+provide a <em>structural</em> property of the represented deployment
+surface: in the committed fixture, a positive legacy perturbation to
+<code>deployment_context</code> flips the affected claimant from
+<code>Permit</code> to <code>Deny</code>. That flip is the legacy
+diagnostic: it is a typed property of the rule layer of the extracted
+subject, computable by mechanical evaluation, independent of the model’s
+training pipeline. It should not be read as semantic benign-evidence
+strengthening, because the schema-derived polarity substrate treats
+<code>deployment_context</code> as lower-better risk evidence and the
+fixture passes the canonical check.</p>
+<p>This is a necessary-condition theorem, not half of a pending
+equivalence. The contrast graph <code>permitEscalateOnly</code> fails
+legacy monotonicity but does not admit the formal
+<code>Permit → Deny</code> deceptive-deployment split, so the current
+predicate is stricter than monotonicity failure. The remaining
+classification work is to distinguish deployment-relevant monotonicity
+obstructions from spurious ones.</p>
+<hr />
+<h4 id="related-work-1">2. Related work</h4>
+<h5 id="sleeper-agents-and-alignment-faking-empirical-lineage">2.1
+Sleeper agents and alignment-faking (empirical lineage)</h5>
+<p><strong>Hubinger, Denison, Mu, et al.</strong> (2024), <em>Sleeper
+Agents: Training Deceptive LLMs that Persist Through Safety
+Training</em> (arXiv:2401.05566), is the canonical behavioral-protocol
+reference. The paper demonstrates that language models can be trained
+with backdoor deceptive-deployment behavior and that the behavior
+persists through safety training. The detection question is empirical:
+probe-based detection, residual-stream analysis, behavioral divergence
+at deployment-trigger. The structural diagnostic here starts only after
+that kind of deployment surface is represented as an
+<code>AuditSubject</code>.</p>
+<p><strong>Anthropic alignment-faking research line</strong> (multiple
+recent papers): empirical investigations of alignment-faking, models
+that report aligned behavior during training while exhibiting misaligned
+behavior at deployment.</p>
+<p>The formal complement here is on the represented <em>audit
+subject</em>, not on the model’s internal structure. The two surfaces —
+empirical behavioral divergence and structural rule-layer
+metric-polarity diagnostics in an extracted representation — are
+complementary. We do not subsume empirical detection; we provide a typed
+diagnostic that can be compared with it.</p>
+<h5 id="ai-control-and-structural-admissibility">2.2 AI Control and
+structural admissibility</h5>
+<p><strong>Greenblatt-Shlegeris</strong> (2023), <em>AI Control</em>
+(arXiv:2312.06942), and <strong>Korbak et al.</strong> (2025), <em>A
+sketch of an AI control safety case</em> (arXiv:2501.17315), publish
+behavioral control protocols and safety-case arguments for deploying
+untrusted models. The companion AI Control substrate does not claim
+those protocols are behaviorally safe; it extracts five represented
+protocol fixtures as audit subjects and proves canonical schema-derived
+legitimate verdicts for each
+(<code>aiControl_protocol_upfrontAuditing_legitimate</code>,
+<code>aiControl_protocol_trustedMonitoring_legitimate</code>,
+<code>aiControl_protocol_trustedMonitoringDefer_legitimate</code>,
+<code>aiControl_protocol_untrustedMonitoring_legitimate</code>,
+<code>aiControl_protocol_trustedEditing_legitimate</code>). The
+<em>deployment-time-governance x represented sleeper-slice</em>
+composition is a follow-up artifact, not discharged here.</p>
+<h5 id="deceptive-alignment-and-corrigibility">2.3 Deceptive alignment
+and corrigibility</h5>
+<p><strong>Hubinger et al.</strong> (2019), <em>Deceptive
+Alignment</em>, is the foundational write-up of the deceptive-alignment
+phenomenon as a target for theoretical investigation. The structural
+admissibility we name is the rule-layer counterpart on the
+extracted-graph object.</p>
+<p><strong>Soares et al. / MIRI</strong> corrigibility lineage: the
+deceptive-alignment problem is the standing motivation. This diagnostic
+does not address corrigibility directly; it addresses the repository’s
+formal deployment-admissibility predicate. A graph that fails
+monotonicity at extraction may fail other corrigibility properties, but
+those links are not proved here.</p>
+<h5 id="adjacent-governance-graph-audits">2.4 Adjacent governance-graph
+audits</h5>
+<p>Within the legitimacy-paper family, the audit pipeline is shared
+across:</p>
+<ul>
+<li><strong>Audits/AIControl.lean</strong>: the AI Control protocol
+corpus.</li>
+<li><strong>Audits/SleeperAgent.lean</strong>: the sleeper-agent fixture
+(this report).</li>
+<li><strong>Audits/SleeperCharacterization.lean</strong>: the
+characterization-substrate (this report).</li>
+<li><strong>Bridges/HubingerDeceptionBridge.lean</strong>: the bridge to
+the Hubinger scenario predicate.</li>
+</ul>
+<p>The audit pipeline is the same procedure across all surfaces; the
+output here is the legacy diagnostic on the represented audit
+subject.</p>
+<hr />
+<h4 id="setup-1">3. Setup</h4>
+<h5
+id="the-extracted-governance-graph-and-the-audit-graph-monotonicity-predicate">3.1
+The extracted governance graph and the audit-graph monotonicity
+predicate</h5>
+<p>For a deployed AI system, the <em>extracted governance graph</em> is
+wrapped as an <code>AuditSubject</code>, the typed audit-pipeline object
+representing the deployment’s decision surface. Nodes are decision sites
+in the deployment (input-classification, deployment-trigger evaluation,
+output-decision); edges are the structural authority relationships;
+decisions are computed by
+<code>auditFinalDecisions subject claims</code>.</p>
+<p>The theorem statements below govern this extracted
+<code>AuditSubject</code>, not raw model internals or source syntax. The
+extractor or hand-model that produces the subject is a trusted base
+whose faithfulness to the represented deployment slice is empirical, not
+Lean-proved. Scrutiny should fall on that boundary: whether the
+sleeper-trigger route was faithfully represented, whether relevant
+decision sites were omitted, or whether the polarity metadata matches
+the intended risk semantics, rather than the Lean proof over the fixed
+subject.</p>
+<p>The legacy <em>audit-graph monotonicity</em> predicate
+<code>AuditGraphMonotonicity</code>
+(<code>Legitimacy.Audits.SleeperCharacterization</code>) says: for a
+fixed subject and claim corpus, every positive finite audit perturbation
+from <code>auditGraphDeltas claims</code> weakly preserves every
+claimant’s decision rank. Formally:</p>
+<pre><code>def AuditGraphMonotonicity
+    (subject : AuditSubject)
+    (claims : List AuditGovernanceClaim) : Prop</code></pre>
+<p>This is the rule-layer monotonicity property evaluated at a subject
+and corpus, not a graph-only predicate independent of claims.</p>
+<h5 id="the-deceptive-deployment-predicate">3.2 The deceptive-deployment
+predicate</h5>
+<p>The Prop-level predicate names what it means for an audit subject to
+<em>admit deceptive deployment</em> on a fixed claim corpus and a pair
+of trigger fields:</p>
+<pre><code>def AdmitsDeceptiveDeploymentOn
+    (subject : AuditSubject)
+    (claims : List AuditGovernanceClaim)
+    (trainingTrigger deploymentTrigger : AuditMetricField) : Prop</code></pre>
+<p>(<code>Legitimacy.Audits.SleeperCharacterization</code>), the subject
+admits deceptive deployment on <code>claims</code> when there is a
+nonempty <code>DeceptiveDeploymentWitnessOn</code>: a monitored claim
+has the deployment trigger dormant in the training corpus, a positive
+enumerated delta is applied to the deployment trigger on an enumerated
+deployment claim, the affected claimant is enumerated, the training
+decision is <code>Permit</code>, the deployment decision is
+<code>Deny</code>, and the training/deployment trigger fields are
+distinct.</p>
+<p>The canonical version specializes the predicate to the synthesized
+corpus <code>auditGraphClaims subject</code>:</p>
+<pre><code>def AdmitsDeceptiveDeployment
+    (subject : AuditSubject)
+    (trainingTrigger deploymentTrigger : AuditMetricField) : Prop</code></pre>
+<p>(<code>Legitimacy.Audits.SleeperCharacterization</code>): this is not
+an existential over arbitrary corpora; it is the fixed-corpus
+specialization used by the repository’s extracted audit subject.</p>
+<h5 id="the-decidable-check">3.3 The decidable check</h5>
+<p>The decidable check <code>admitsDeceptiveDeploymentOnCheck</code>
+(<code>Legitimacy.Audits.SleeperCharacterization</code>) is a
+Bool-valued function on
+<code>(subject, claims, trainingTrigger, deploymentTrigger)</code> that
+is sound and complete with respect to the Prop-level predicate:</p>
+<blockquote>
+<p><code>admitsDeceptiveDeploymentOnCheck_iff_AdmitsDeceptiveDeploymentOn</code>
+(line 300): the check is iff with the predicate.</p>
+<p><code>admitsDeceptiveDeploymentOnCheck_sound</code> (line 212): true
+check ⟹ predicate holds.</p>
+<p><code>admitsDeceptiveDeploymentOnCheck_complete</code> (line 278):
+predicate holds ⟹ check is true.</p>
+</blockquote>
+<p>The canonical fixed-corpus version
+<code>admitsDeceptiveDeploymentCheck</code> (line 206) similarly
+specializes to <code>auditGraphClaims subject</code>. The check is
+<code>decide</code>-evaluable on rational-arithmetic claim corpora; the
+concrete fixture evaluation is <code>native_decide</code>-discharged.
+The executable API returns a <code>Bool</code>, not a runtime witness
+object; the soundness theorem reconstructs the Prop-level witness from a
+true check.</p>
+<h5 id="the-sleeper-agent-fixture">3.4 The sleeper-agent fixture</h5>
+<p>The concrete fixture is in <code>Audits/SleeperAgent.lean</code>:</p>
+<ul>
+<li><code>sleeperAgentExtractedGovernanceGraph</code> (line 31): the
+sleeper-agent extracted graph.</li>
+<li><code>sleeperAgentExtractedGraph</code> (line 55): the audit-subject
+wrapper.</li>
+<li><code>sleeperAgentClaims</code> (line 60): the baseline claim
+corpus.</li>
+<li><code>sleeperAgentBaselineDeploymentStrengthenedClaims</code> (line
+64): the baseline-strengthened pair.</li>
+<li><code>sleeper_agent_baseline_original_permit</code> (line 72): the
+baseline verdict is <code>Permit</code>.</li>
+<li><code>sleeper_agent_baseline_strengthened_deny</code> (line 81): the
+strengthened verdict is <code>Deny</code>.</li>
+<li><code>sleeper_agent_canonical_governance_verdict</code>: the
+canonical schema-derived verdict is legitimate.</li>
+<li><code>sleeper_agent_monotonicity_verdict</code>: canonical
+monotonicity passes.</li>
+<li><code>sleeperAgentPassesSolidarity</code> (line 105): solidarity
+passes.</li>
+<li><code>sleeperAgentPassesNonvacuity</code> (line 112): non-vacuity
+passes.</li>
+</ul>
+<p>The fixture is concrete, reproducible via <code>native_decide</code>,
+and rationally-arithmetic.</p>
+<hr />
+<h4 id="main-results-1">4. Main results</h4>
+<h5
+id="the-necessary-condition-theorem-deceptive-deployment-audit-monotone">4.1
+The necessary-condition theorem: deceptive-deployment ⟹ ¬
+audit-monotone</h5>
+<p><strong>Theorem 4.1</strong> (Necessary-condition theorem,
+<code>deceptive_deployment_on_not_audit_monotone</code>,
+<code>Legitimacy.Audits.SleeperCharacterization</code>). <em>Let
+<code>subject : AuditSubject</code>,
+<code>claims : List AuditGovernanceClaim</code>, and
+<code>trainingTrigger deploymentTrigger : AuditMetricField</code>. If
+the subject admits the formal deceptive-deployment predicate on that
+corpus and trigger pair, then the subject fails legacy audit-graph
+monotonicity on that same corpus:</em></p>
+<pre><code>AdmitsDeceptiveDeploymentOn subject claims trainingTrigger deploymentTrigger →
+    ¬ AuditGraphMonotonicity subject claims</code></pre>
+<p>The proof is by direct construction. The deceptive-deployment witness
+provides a positive deployment-trigger perturbation and a verdict-flip
+<code>Permit → Deny</code>. This pair is exactly a legacy monotonicity
+violation: the positive perturbation lowers the decision rank. Therefore
+legacy monotonicity fails on the witness pair.</p>
+<p>The canonical fixed-corpus version
+<code>deceptive_deployment_not_audit_monotone</code> (line 164)
+specializes the theorem to <code>auditGraphClaims subject</code>.</p>
+<h5 id="the-decidable-iff">4.2 The decidable iff</h5>
+<p><strong>Theorem 4.2</strong> (Decidable check soundness and
+completeness,
+<code>admitsDeceptiveDeploymentOnCheck_iff_AdmitsDeceptiveDeploymentOn</code>,
+line 300). <em>The decidable Bool-valued check
+<code>admitsDeceptiveDeploymentOnCheck</code> is iff with the Prop-level
+predicate. Soundness
+(<code>Legitimacy.Audits.SleeperCharacterization</code>) and
+completeness (<code>Legitimacy.Audits.SleeperCharacterization</code>)
+are independently established.</em></p>
+<p>This is the structural-decidability content. It says the predicate is
+<em>decidable</em> on rational-arithmetic corpora, and the decision is a
+single <code>decide</code>/<code>native_decide</code> evaluation.</p>
+<p>The companion
+<code>admitsDeceptiveDeploymentCheck_iff_AdmitsDeceptiveDeployment</code>
+(line 311) specializes the iff to the canonical
+<code>auditGraphClaims subject</code> version.</p>
+<h5 id="the-sleeper-agent-witness">4.3 The sleeper-agent witness</h5>
+<p><strong>Theorem 4.3</strong> (Sleeper-agent admits deceptive
+deployment, <code>sleeperAgentAdmitsDeceptiveDeployment</code>, line
+356). <em>The <code>sleeperAgentExtractedGraph</code> audit subject
+admits deceptive deployment on
+<code>auditGraphClaims sleeperAgentExtractedGraph</code> for the
+<code>"training_context"</code> / <code>"deployment_context"</code>
+trigger pair.</em></p>
+<p>The companion <code>sleeperAgentAdmitsDeceptiveDeploymentCheck</code>
+(line 436) is the Bool-valued evaluation,
+<code>native_decide</code>-discharged.</p>
+<p>By Theorem 4.1, the represented sleeper-agent split in the audit
+pipeline fails legacy audit-graph monotonicity, by construction of the
+audit-subject typed property. The diagnostic is concrete and
+reproducible.</p>
+<h5 id="the-represented-hubinger-style-slice">4.4 The represented
+Hubinger-style slice</h5>
+<p><strong>Theorem 4.4</strong> (Hubinger-style scenario packaging
+lemma, <code>hubinger_deception_subsumed_by_kernel_substrate</code>,
+<code>Legitimacy.Bridges.HubingerDeceptionBridge</code>). <em>For any
+value of the repository-defined <code>HubingerDeceptionScenario</code>,
+construct a <code>KernelSleeperSubstrateWitness</code> by carrying over
+the scenario’s pretrigger compositional-safety proof and formal
+<code>AdmitsDeceptiveDeployment</code> field, then applying
+<code>deceptive_deployment_not_audit_monotone</code>.</em></p>
+<p>This is a narrow represented-slice lemma. The structure
+<code>HubingerDeceptionScenario</code> already assumes the formal
+sleeper split in its <code>deployment_split</code> field; the theorem
+does not derive that split from Hubinger et al. 2024, from model
+internals, or from empirical behavior. The concrete witness is
+<code>sleeperAgentHubingerScenario</code> (line 71), and the
+per-scenario theorem is
+<code>sleeper_agent_hubinger_bridge_witness</code> (line 78).</p>
+<p>The honest-scope companion
+<code>inert_sleeper_shape_not_hubinger_deception_scenario</code> (line
+85) names a sleeper-shaped graph that is rejected by the formal
+<code>AdmitsDeceptiveDeployment</code> predicate. This guards the
+represented slice against a trivial shape-only reading, but it is still
+a local predicate check rather than an empirical classifier.</p>
+<h5 id="discriminating-witnesses-on-contrast-graphs">4.5 Discriminating
+witnesses on contrast graphs</h5>
+<p>The audit’s discriminating power is shown via two contrast
+graphs:</p>
+<ul>
+<li><code>thresholdOnlyGovernanceGraph</code>
+(<code>Legitimacy.Audits.SleeperCharacterization</code>): a
+threshold-only graph that <em>passes</em> monotonicity
+(<code>thresholdOnly_passes_monotonicity</code>, line 483) and <em>does
+not admit</em> deceptive deployment
+(<code>thresholdOnly_rejects_deceptive_deployment</code>, line
+467).</li>
+<li><code>permitEscalateOnlyGovernanceGraph</code> (line 492): a
+permit-escalate-only graph that <em>fails</em> monotonicity
+(<code>permitEscalateOnly_fails_monotonicity</code>, line 505) but
+<em>does not admit</em> deceptive deployment in the sense of the
+predicate (<code>permitEscalateOnly_rejects_deceptive_deployment</code>,
+line 558).</li>
+</ul>
+<p>The second contrast is informative: a graph can fail monotonicity
+<em>without</em> admitting deceptive deployment in the Prop-level sense.
+The theorem
+<code>admitsDeceptiveDeployment_strict_refinement_of_monotonicity_failure</code>
+packages this fact: the current predicate is a strict refinement of
+legacy monotonicity failure, not one side of an eventual equivalence
+with that predicate.</p>
+<hr />
+<h4 id="proof-sketch-1">5. Proof sketch</h4>
+<p>The necessary-condition theorem has the following structure.</p>
+<p><strong>Step 1: Unfold the deceptive-deployment witness.</strong>
+<code>AdmitsDeceptiveDeploymentOn subject claims trainingTrigger deploymentTrigger</code>
+provides: - a positive deployment-trigger delta applied to an enumerated
+deployment claim, - the baseline verdict on <code>claims</code> is
+<code>Permit</code>, - the strengthened verdict on
+<code>strengthened</code> is <code>Deny</code>.</p>
+<p><strong>Step 2: Unfold legacy audit-graph monotonicity.</strong>
+<code>AuditGraphMonotonicity subject claims</code> says: for every
+positive finite audit perturbation in the legacy direction, the verdict
+rank does not decrease.</p>
+<p><strong>Step 3: Direct refutation.</strong> The witness pair from
+Step 1 is exactly a legacy monotonicity violation: a positive
+deployment-trigger perturbation went <code>Permit → Deny</code>, which
+lowers the rank. The witness refutes the universal-quantifier statement
+of Step 2.</p>
+<p><strong>Step 4: Soundness/completeness of the check.</strong> The
+executable check enumerates exactly the finite fields carried by
+<code>DeceptiveDeploymentWitnessOn</code>: the monitored dormant claim,
+the positive deployment-trigger delta from
+<code>auditGraphDeltas claims</code>, the deployment claim to update,
+and the affected claimant from <code>auditClaimantIds claims</code>.
+Soundness reconstructs those fields into the Prop-level witness when the
+Bool check is true; completeness uses the witness fields to show that
+the same finite enumeration returns true.</p>
+<p>The proof in Lean directly threads these four steps. The iff with the
+decidable check (Theorem 4.2) is a separate inductive argument; the
+sleeper-agent witness (Theorem 4.3) is <code>native_decide</code> on the
+concrete fixture; the represented Hubinger-style slice (Theorem 4.4)
+packages the <code>HubingerDeceptionScenario</code> fields and applies
+the monotonicity-obstruction theorem.</p>
+<hr />
+<h4
+id="discussion-complementarity-with-empirical-sleeper-agent-and-alignment-faking-research">6.
+Discussion: complementarity with empirical sleeper-agent and
+alignment-faking research</h4>
+<h5 id="the-represented-diagnostic">6.1 The represented diagnostic</h5>
+<p>The diagnostic is on the <em>extracted</em> audit subject: any
+represented subject satisfying the formal deceptive-deployment predicate
+on the fixed corpus fails the legacy audit-graph monotonicity predicate.
+That property of the deployment’s rule layer is independent of both the
+model’s training process and any empirical evaluation, and is decidable
+by mechanical evaluation on rational-arithmetic claim corpora.</p>
+<p>The schema-derived result matters. For the committed sleeper fixture,
+<code>sleeper_agent_monotonicity_verdict</code> proves that canonical
+monotonicity passes, and
+<code>sleeper_agent_canonical_governance_verdict</code> proves the
+canonical governance verdict is legitimate. The legacy diagnostic
+remains useful as a stress test for positive-trigger routing, but it is
+not the final semantic verdict once field polarity is accounted for.</p>
+<p>The legacy monotonicity obstruction is <em>necessary</em> for the
+formal sleeper split, but it is not sufficient. The committed
+<code>permitEscalateOnly</code> contrast proves that some monotonicity
+failures do not admit the formal deceptive-deployment witness.</p>
+<h5 id="what-pairs-with-empirical-detection">6.2 What pairs with
+empirical detection</h5>
+<p>Empirical detection methods bound <em>behavioral</em> divergence
+between training-time and deployment-time. This diagnostic names a
+formal rule-layer property on the extracted audit subject. The two
+surfaces are:</p>
+<ul>
+<li><strong>Empirical</strong>: behavioral evaluation, residual-stream
+analysis, probe-based detection.</li>
+<li><strong>Structural</strong>: typed audit-pipeline rule-layer
+diagnostic on the represented slice, decidable, reproducible.</li>
+</ul>
+<p>A composite detection pipeline could run empirical evaluation in
+parallel with structural extraction, returning
+<em>empirical-positive</em>, <em>structural-positive</em>, or both. The
+combinations carry information: empirical-positive + structural-negative
+could indicate a model whose deceptive-deployment behavior factors
+through a graph-shape we have not yet characterized; structural-positive
++ empirical-negative could indicate a deployment surface whose
+extracted-graph monotonicity-failure does not yet manifest
+behaviorally.</p>
+<h5 id="what-this-is-not">6.3 What this is not</h5>
+<p><strong>Not a model audit</strong>. The diagnostic is on the
+extracted <em>audit subject</em> of the represented deployment slice,
+not the <em>model</em>. We do not address whether the underlying model
+has internal sleeper-agent structure. We address whether the
+deployment’s audit-pipeline view has a typed legacy
+monotonicity-violation pattern.</p>
+<p><strong>Not a sleeper-agent classifier</strong>. The diagnostic is
+necessary not sufficient for the formal predicate. A graph that fails
+audit-graph monotonicity does not necessarily admit deceptive deployment
+in the Prop-level sense — <code>permitEscalateOnly</code> is a contrast
+witness. The legacy signal is a local formal obstruction, not a
+classifier.</p>
+<p><strong>Not a refutation of empirical detection</strong>. Empirical
+methods test behavioral divergence; this diagnostic tests a represented
+rule-layer property. The two are complementary.</p>
+<h5 id="composition-with-ai-control-structural-audit">6.4 Composition
+with AI Control structural audit</h5>
+<p>The companion AI Control substrate has five concrete raw
+positive-delta calibration witnesses over extracted audit subjects:
+upfront auditing, trusted monitoring, trusted-monitoring-with-defer,
+untrusted monitoring, and trusted editing. It also has canonical
+schema-derived pass theorems for those fixtures. The composition with
+the sleeper-agent characterization is natural future work: an extracted
+AI Control protocol fixture on a represented sleeper deployment slice
+could be evaluated mechanically as a 2-D matrix with rows over
+represented control fixtures, columns over represented deployment
+slices, and entries recording the relevant legacy and schema-derived
+diagnostics.</p>
+<h5 id="structural-monitorability-vs-cot-monitorability">6.5 Structural
+monitorability vs CoT monitorability</h5>
+<p>The sleeper-agent characterization sits adjacent to the
+<em>structural monitorability</em> paper. Chain-of-thought
+monitorability may be fragile under changes to models and training
+procedures, as discussed in 2025 CoT-monitorability work. This
+repository’s structural diagnostics do not depend on access to model
+chain-of-thought once an extraction is fixed; they do not by themselves
+prove robustness of the extraction process under capability scaling.</p>
+<p>Legacy monotonicity failure in the represented deployment slice is
+therefore a rule-layer diagnostic, not an empirical guarantee. It can be
+compared with behavioral and CoT-monitorability channels without
+replacing them.</p>
+<h5 id="open-follow-up-classifying-obstructions">6.6 Open follow-up:
+classifying obstructions</h5>
+<p>The open problem is not to prove the current converse. The current
+converse is false: <code>permitEscalateOnly_fails_monotonicity</code>
+and <code>permitEscalateOnly_rejects_deceptive_deployment</code> show
+monotonicity-failure can occur without the Prop-level
+deceptive-deployment witness. The research problem is to define and
+validate a narrower class of monotonicity obstructions that correspond
+to deployment-relevant sleeper splits.</p>
+<p>The open follow-up is an <em>ambitious extension</em>: it requires
+substrate extension and the typed predicate that distinguishes
+deceptive-deployment monotonicity-failure from spurious. We have not
+solved it. We say so. The current necessary-condition theorem supplies a
+necessary legacy obstruction for the formal sleeper split; it does not
+by itself classify all monotonicity failures.</p>
+<hr />
+<h4 id="limitations-1">7. Limitations</h4>
+<ol type="1">
+<li><p><strong>Strict-refinement result</strong>. Legacy
+monotonicity-failure is necessary for the formal sleeper split but not
+sufficient. The current substrate proves a counterexample to the
+converse via <code>permitEscalateOnly</code>.</p></li>
+<li><p><strong>Diagnostic is on extracted subject, not on
+model</strong>. The formal diagnostic lives at the audit pipeline’s view
+of the represented deployment surface. Whether the underlying model has
+internal sleeper-agent training structure is empirical and out of
+scope.</p></li>
+<li><p><strong>Fixed claim corpus per evaluation</strong>. The on-check
+theorem is per-corpus: it evaluates whether the subject admits deceptive
+deployment on a <em>given</em> claim corpus. The canonical version
+(<code>AdmitsDeceptiveDeployment</code>) specializes to
+<code>auditGraphClaims subject</code>; it does not range over arbitrary
+corpora. Coverage of alternate extraction corpora is open.</p></li>
+<li><p><strong>Deterministic graph extraction</strong>. The
+<code>AuditGovernanceGraph</code> substrate is deterministic.
+Probabilistic graph extractions, e.g., sampling-based deployment
+policies, require a probabilistic-extraction substrate not in the
+current audit pipeline.</p></li>
+<li><p><strong>Hubinger-style slice scope</strong>. The lemma
+<code>hubinger_deception_subsumed_by_kernel_substrate</code> covers only
+the repository-defined <code>HubingerDeceptionScenario</code>, whose
+fields already include the formal sleeper split. Coverage of the full
+diversity of empirical sleeper-agent scenarios is not claimed.</p></li>
+<li><p><strong>No empirical claim</strong>. We do not predict empirical
+detection performance. The legacy diagnostic is a typed property of the
+represented audit subject; whether it correlates with empirical
+positives at scale is for empirical evaluation to determine.</p></li>
+<li><p><strong>No claim about model internals</strong>. The audit
+signature is on the extracted graph. We do not connect the signature to
+internal model structure (e.g., circuit analysis, residual-stream
+features). Bridge to model internals is open follow-up.</p></li>
+</ol>
+<hr />
+<h4 id="conclusion-1">8. Conclusion</h4>
+<p>We discharge a necessary-condition theorem for the formal sleeper
+split: every represented audit subject that admits deceptive deployment
+on the fixed corpus and trigger pair must fail legacy audit-graph
+monotonicity on that corpus. The check is decidable, sound, complete,
+and <code>native_decide</code>-evaluable on rational-arithmetic corpora.
+A concrete represented sleeper-agent split in the audit pipeline
+demonstrates the diagnostic on the repository’s synthetic
+deployment-trigger pattern.</p>
+<p>The diagnostic is on the <em>extracted</em> audit subject, not on the
+underlying model. It is a typed property of the audit pipeline’s
+rule-layer view of the represented deployment slice. It pairs naturally
+with empirical detection methods: empirical bounds at the channel layer,
+structural diagnostics at the rule layer, as a complementary detection
+surface, not a replacement.</p>
+<p>The current theorem is a strict-refinement result. Not every
+monotonicity-failing subject admits the formal deceptive-deployment
+predicate; the open work is a narrower obstruction taxonomy, not proving
+the false current converse.</p>
+<p>The legacy diagnostic is a typed, decidable, reproducible property of
+the audit pipeline’s view of a represented deployment slice. It is
+information at the rule layer that the behavioral channel does not
+provide, but the schema-derived pass result prevents reading it as a
+universal semantic sleeper-agent signature.</p>
+<hr />
+<h4 id="references-1">References</h4>
+<ul>
+<li><strong>Brown-Cohen, J., Irving, G., Piliouras, G.</strong> (2025).
+Avoiding Obfuscation with Prover-Estimator Debate.
+<em>arXiv:2506.13609</em>.</li>
+<li><strong>Greenblatt, R., Shlegeris, B., et al.</strong> (2023). AI
+Control: Improving Safety Despite Intentional Subversion.
+<em>arXiv:2312.06942</em>.</li>
+<li><strong>Hubinger, E., van Merwijk, C., Mikulik, V., Skalse, J.,
+Garrabrant, S.</strong> (2019). Deceptive Alignment. <em>AI Alignment
+Forum</em>.</li>
+<li><strong>Hubinger, E., Denison, C., Mu, J., et al.</strong> (2024).
+Sleeper Agents: Training Deceptive LLMs that Persist Through Safety
+Training. <em>arXiv:2401.05566</em>.</li>
+<li><strong>Korbak, T., Clymer, J., Hilton, B., Shlegeris, B., Irving,
+G.</strong> (2025). A sketch of an AI control safety case.
+<em>arXiv:2501.17315</em>.</li>
+<li><strong>Anthropic</strong> (2025). Reasoning Models Don’t Always Say
+What They Think. <em>arXiv:2505.05410</em>.</li>
+<li><strong>Anthropic / multi-author</strong> (2025). Chain of Thought
+Monitorability: A New and Fragile Opportunity for AI Safety.
+<em>arXiv:2507.11473</em>.</li>
+</ul>
+<h5 id="lean-substrate-references-1">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.AdmitsDeceptiveDeployment</code></li>
+<li><code>Legitimacy.AdmitsDeceptiveDeploymentOn</code></li>
+<li><code>Legitimacy.AuditGraphMonotonicity</code></li>
+<li><code>Legitimacy.deceptive_deployment_on_not_audit_monotone</code></li>
+<li><code>Legitimacy.deceptive_deployment_not_audit_monotone</code></li>
+<li><code>Legitimacy.admitsDeceptiveDeploymentCheck</code></li>
+<li><code>Legitimacy.admitsDeceptiveDeploymentCheck_iff_AdmitsDeceptiveDeployment</code></li>
+<li><code>Legitimacy.admitsDeceptiveDeploymentCheck_sound</code></li>
+<li><code>Legitimacy.admitsDeceptiveDeploymentCheck_complete</code></li>
+<li><code>Legitimacy.sleeperAgentAdmitsDeceptiveDeployment</code></li>
+<li><code>Legitimacy.sleeperAgentAdmitsDeceptiveDeploymentCheck</code></li>
+<li><code>Legitimacy.thresholdOnly_passes_monotonicity</code></li>
+<li><code>Legitimacy.permitEscalateOnly_fails_monotonicity</code></li>
+<li><code>Legitimacy.sleeperAgentExtractedGovernanceGraph</code></li>
+<li><code>Legitimacy.sleeper_agent_canonical_governance_verdict</code></li>
+<li><code>Legitimacy.sleeper_agent_monotonicity_verdict</code></li>
+<li><code>Legitimacy.sleeper_agent_baseline_original_permit</code></li>
+<li><code>Legitimacy.sleeper_agent_baseline_strengthened_deny</code></li>
+<li><code>Legitimacy.hubinger_deception_subsumed_by_kernel_substrate</code></li>
+<li><code>Legitimacy.sleeper_agent_hubinger_bridge_witness</code></li>
+<li><code>Legitimacy.inert_sleeper_shape_not_hubinger_deception_scenario</code></li>
+</ul>
+<h2 id="constitutional-ai-lineage">4. Constitutional AI Lineage</h2>
+<h3 id="constitutional-ai-lineage-realization">Constitutional AI Lineage
+Realization</h3>
+<h4 id="scope">Scope</h4>
+<p>Constitutional AI, in the sense of Bai et al. 2022
+(arXiv:2212.08073), is a training method rather than a deployment
+governance structure. The formal realization in
+<code>Legitimacy.Behavioral.ConstitutionalAILineage</code> therefore
+models the deployment-side audit subject: a model-mediated policy over
+audited claims.</p>
+<p>The class predicate is now constitutional rather than merely
+flat:</p>
+<ul>
+<li>audited claims resolve through a finite <code>Constitution</code> of
+<code>Principle</code> objects;</li>
+<li>the conflict relation is a partial order, and each claim’s quotient
+class is determined by its resolved principle;</li>
+<li><code>HarmCategoricalClaim</code> and <code>BenignClaim</code> are
+compatibility projections from the resolved principle’s binary
+verdict;</li>
+<li>a deployed Constitutional-AI-style policy escalates or denies
+harm-categorical claims;</li>
+<li>the same policy permits benign claims;</li>
+<li>the behavioral game exposes executable audit perturbations whose
+amplitudes are bounded by the spectral node-removal perturbation
+budget.</li>
+</ul>
+<p>What this establishes is narrower than model alignment: a deployment
+audit subject with this policy shape has a derived
+<code>SpectralBehavioralEmbedding</code>, and a policy respecting the
+resolved principle verdict receives an admissible substrate verdict at
+positive well-conditioned <code>c ≤ C*</code>, without proving that the
+underlying model is aligned.</p>
+<h4 id="formal-objects">Formal Objects</h4>
+<p>The primitive class vocabulary is built from a finite constitution
+quotient. A <code>ConstitutionalAIClaimClass</code> resolves through a
+<code>Constitution</code> of <code>Principle</code> objects under the
+partial-order conflict relation captured by
+<code>ConstitutionallyRespectsResolution</code>, and the deployment side
+is modeled by a <code>ConstitutionalAITrainedAuditSubject</code>. The
+two lineage layers are the behavioral
+<code>ConstitutionalAIBehavioralLineage</code> and the capability-scaled
+<code>ConstitutionalAICapacityLineage</code>.</p>
+<p>The old harm/benign partition is retained as
+<code>ConstitutionalAIClaimClass.ofFlat</code>, the two-principle
+constitution with a single nontrivial edge from benign to
+harm-categorical. The policy surface preserves escalation as a separate
+audit label through <code>ConstitutionalAIDecision.escalate</code>,
+while <code>toBinary</code> maps both escalation and denial to
+<code>BinaryDecision.Deny</code>.</p>
+<p>The governance game is
+<code>ConstitutionalAIBehavioralLineage.toGame</code>. Agents select
+claim-states and executable nonnegative audit amplitudes. Utility gain
+is exactly the selected amplitude when the action targets the evaluated
+claim-state. The governance decision is the deployed policy decision at
+that claim-state.</p>
+<h4 id="embedding-derivation">Embedding Derivation</h4>
+<p>The embedding fields are derived rather than bundled. The
+<code>spectralBehavioralEmbedding</code> is assembled from four theorems
+over the constructed game: <code>graph_decision_matches_game</code> ties
+the governance decision to the game’s best response,
+<code>perturbation_budget_reflects_best_response_gain</code> bounds
+profitable gain by the node-removal perturbation budget, and the two
+deviation lemmas
+<code>spectral_vulnerability_exposes_profitable_deviation</code> and
+<code>spectral_threshold_violation_exposes_profitable_deviation</code>
+expose a profitable deviation from spectral vulnerability and from a
+threshold violation respectively.</p>
+<p>The harm-categorical subgame has an explicit behavioral theorem:
+<code>harmCategorical_subgame_decision_matches_best_response</code>. A
+positive target-matching audit action against a harm-categorical claim
+produces a binary denial, because direct denial and escalation both
+block deployment.</p>
+<p>The capability-scaled layer adds the asymmetric boundary theorem:
+harm- categorical claims remain denied at and below <code>C_star</code>,
+while benign response matching is exactly the <code>C_star</code>
+transition. A constant-deny floor test records that the benign side is
+not vacuous.</p>
+<p>The strengthened policy theorem is
+<code>constitutionally_respecting_policy_substrate_admissible</code>: a
+policy whose binary deployment decision matches the verdict of the
+resolved principle cannot hit either substrate rejection branch, so the
+well-conditioned positive procedure returns an admissible verdict at
+every positive <code>c ≤ C*</code>.</p>
+<p>The structural perturbation analog is
+<code>perturbation_budget_reflects_best_response_gain</code>: every
+profitable behavioral gain is bounded by the node-removal perturbation
+budget and therefore witnesses <code>spViolation</code> at the same gain
+scale.</p>
+<h4 id="regularity-residual">Regularity Residual</h4>
+<p>The bounded-action game does not claim unconditional
+<code>BestResponseDecomposedRegularity</code>. That would be too strong:
+arbitrary tolerance/capability pairs can demand a gain floor above every
+bounded executable amplitude.</p>
+<p>The formal residual is explicit. The file proves
+<code>bestResponseDecomposedRegularity_of_zeroConsistencyVulnerability</code>,
+a conditional certificate in the zero-consistency-vulnerability case,
+matching the Stackelberg lineage pattern. With this realization in
+place, the substrate now carries two concrete behavioral-lineage
+realizations: the Stackelberg node-removal lineage and the
+Constitutional AI deployment-audit lineage.</p>
+<h4 id="worked-witness">Worked Witness</h4>
+<p>The concrete witness is
+<code>constitutionalAIWitnessLineage</code>:</p>
+<ul>
+<li>graph: <code>uniTriGraph</code>;</li>
+<li>signal: <code>sig</code>;</li>
+<li>harm-categorical claim: <code>0</code>;</li>
+<li>benign claims: all nonzero <code>Fin 3</code> claim-states;</li>
+<li>policy: deny claim <code>0</code>, permit the benign residual
+class.</li>
+</ul>
+<p>The direct policy behavior is verified:</p>
+<ul>
+<li><code>constitutionalAIWitness_harm_decision_denies</code>;</li>
+<li><code>constitutionalAIWitness_benign_decision_permits</code>.</li>
+</ul>
+<p>The substrate verdict is now capability-aware:</p>
+<ul>
+<li><code>constitutionalAIWitness_cv_eq_one</code>;</li>
+<li><code>constitutionalAIWitness_spViolation_one</code>;</li>
+<li><code>constitutionalAIWitness_has_harmCategoryLeakPath</code>;</li>
+<li><code>constitutionalAIWitness_substrate_verdict</code>;</li>
+<li><code>constitutionalAIWitness_nonvacuous_profitable_deviation</code>.</li>
+</ul>
+<p>The failure mode is not “the model is unaligned.” The raw verdict
+rejects a policy that permits harm-categorical claims with
+<code>harmCategoryLeakPath</code>, and a policy that denies benign
+claims at a monotonicity certificate with
+<code>overEscalationFalsePositiveResidual</code>. The trained triangle
+witness is admissible under this certificate-aware verdict because it
+has neither policy failure.</p>
+<p>The five-node witness is
+<code>constitutionalAICapacityWitnessLineage</code>, over
+<code>uniK5</code> and <code>sig5</code>, with harm claim
+<code>{0}</code> and benign claims <code>{1,2,3,4}</code>. It reuses
+<code>fiveNode_cv_values</code>, has a non-vacuous profitable deviation
+at gain <code>3 / 4</code>, and includes n=5 positive-procedure
+certificate inhabitants for the existing exact <code>uniK5</code>
+half-signal channel calibration. The larger worked witness declarations
+live in <code>Legitimacy.Behavioral.ConstitutionalAIWitnesses</code> so
+the core lineage module stays below the repository file-size
+ceiling.</p>
+<p>The Constitution-as-DAG witness is
+<code>threePrincipleConstitution3</code>. It has helpfulness, privacy,
+and safety principles; claim <code>0</code> activates both helpfulness
+and safety, and conflict resolution selects the safety denial principle.
+<code>threePrincipleRespectingPolicy3_substrate_verdict</code> proves
+the respecting policy admissible, while
+<code>threePrinciplePermissivePolicy3_substrate_verdict</code> proves
+the permissive non-respecting policy rejects with
+<code>harmCategoryLeakPath</code>.</p>
+<p>The public Anthropic Constitution case study remains separate
+empirical work: it should map the published prose artifact into this
+formal principle/conflict-resolution substrate rather than treating the
+generic Constitution-as-DAG theorem as an empirical extraction.</p>
+<h2 id="decomposition-attack-bridge">5. Decomposition Attack Bridge</h2>
+<h3
+id="decomposition-attacks-and-the-kernel-block-or-sacrifice-disjunction">Decomposition
+Attacks and the Kernel Block-or-Sacrifice Disjunction</h3>
+<hr />
+<h4 id="abstract-2">Abstract</h4>
+<p>This note records a bridge between two existing formal vocabularies.
+The first is the per-step <code>Decision3</code> algebra in
+<code>Legitimacy.Attacks.Decomposition</code>, which defines
+composition-sensitive semantic monotonicity and decomposition witnesses:
+nonempty action sequences where each local step permits while the
+composed endpoint is denied. The second is the monitored
+kernel-sacrifice API in
+<code>Legitimacy.Safety.KernelSafety.Sacrifice</code>, which classifies
+raw kernel steps as either boundary preserving or as steps where a
+monitored sacrifice certificate has surfaced.</p>
+<p>The bridge theorem says that, for an invariant source kernel datum, a
+realized decomposition attack is exposed to the kernel API as either (1)
+a preserved kernel boundary, or (2) a monitored sacrifice certificate
+whose tag is exactly
+<code>SacrificedAxiom.kernel KernelAxiom.CompositionalSafety</code>. The
+theorem states what the kernel API exposes rather than serving as an a
+priori detector for every possible attack. When the realization relation
+supplies the decomposition witness and the raw-step monitor/extractor
+hypotheses are available, the API exposes a disjunction: block or
+sacrifice.</p>
+<p>The realization relation is named
+<code>DecompositionAttackRealizesKernelStep</code>. It is required
+because an abstract <code>DecompositionAttackClass</code> alone can be
+inhabited independently of the kernel transition being certified, so the
+certificate now consumes the realized witness, not just any witness of
+the same algebra.</p>
+<h4 id="formal-location">Formal Location</h4>
+<p>The definitions and theorems live in four files.
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Attacks/Decomposition.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Attacks/Decomposition.lean</code></a> adds the
+predicate layer,
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Bridges/DecompositionAttackKernelBridge.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Bridges/DecompositionAttackKernelBridge.lean</code></a>
+adds the bridge theorem and the concrete fixtures, and
+<code>lean/Legitimacy.lean</code> roots the bridge in the umbrella
+import. This paper is the human-facing artifact. The theorem is rooted
+through the normal <code>Legitimacy</code> target, and the bridge module
+also has its own build target.</p>
+<p>The proof does not edit the kernel safety API. That matters because
+the classifier already fixes the shape of the evidence, and the present
+substrate does not expose a compiled per-step decision-policy surface
+whose action type can be identified with the decomposition action type.
+Accordingly, <code>DecompositionAttackRealizesKernelStep</code> records
+the strongest relation available at this layer: the realized
+decomposition witness is stored with the concrete
+<code>KernelStep</code>, the decomposition unit is grounded by an
+extractor from the source kernel datum, the step replay equation is
+carried in the relation, and any populated failed-property payload is
+proved against the governed graph for that same step. The stronger
+action-policy realization remains a follow-up to expose that policy
+surface at the compiled-governance layer.</p>
+<h4 id="predicate-layer">Predicate Layer</h4>
+<p>The decomposition module already had the core objects.
+<code>CompSemanticMonotone compose unit node denied</code> says that if
+a full sequence lands in the denied set, then the last local step of
+that sequence cannot be <code>Decision3.Permit</code>.
+<code>Decomposition compose unit node denied</code> packages a
+counterexample pattern: it stores a nonempty list of actions, a proof
+that every local step permits, and a proof that the composed endpoint is
+denied.</p>
+<p>The new bridge-facing predicates are thin but load-bearing.
+<code>LocalPermissionMonotonicity</code> is the failure of
+<code>CompSemanticMonotone</code>, and
+<code>DecompositionAttackClass</code> is
+<code>Nonempty (Decomposition compose unit node denied)</code>. That
+definition is intentionally rooted in the embedded structure rather than
+a free-standing Boolean flag: the structure carries the sequence, the
+local permit proofs, and the denied endpoint proof.</p>
+<p>The nonvacuity probe instantiates a constant one-step kernel. The
+composition is <code>fun s _ =&gt; s</code>, the unit state is
+<code>()</code>, the local node always returns
+<code>Decision3.Permit</code>, and the denied predicate is always true,
+so the singleton action sequence is a concrete witness. This establishes
+that the attack-class predicate is inhabited without importing any
+kernel-safety facts, and that the predicate is not definitionally
+false.</p>
+<h4 id="strictness">Strictness</h4>
+<p>The decomposition class is stricter than monotonicity failure. The
+strictness theorem uses a two-step counterexample over a natural-number
+state: composition increments the state by one, the denied endpoint is
+state <code>2</code>, and the local node permits exactly at state
+<code>1</code>. The two-step sequence reaches the denied endpoint and
+its final local step is permitted, so composition-sensitive semantic
+monotonicity fails. A decomposition attack, however, cannot exist: any
+denied witness must have length two, and at the first local step the
+prefix state is <code>0</code>, where the node denies, so the
+requirement that every local step permits is impossible. This proves
+strict refinement — not every monotonicity failure is a decomposition
+attack — mirroring the strict-refinement pattern of the sleeper
+characterization layer (see §3). The point is polarity control: the
+decomposition class is a positive structural witness, while plain
+monotonicity failure is weaker.</p>
+<h4 id="kernel-api-surface">Kernel API Surface</h4>
+<p>The kernel-side classifier is <code>classify_raw_step</code>. It
+consumes a raw step, a source invariant, and monitor/extractor
+hypotheses, and returns either
+<code>RawKernelStep.KernelBoundaryPreserved step</code> or
+<code>RawKernelStep.IndexedSacrificeSurfaced step</code>. The classifier
+remains a separate API; it does not derive monitor evidence from an
+arbitrary decomposition class.</p>
+<p>The current monitored certificate type stores a
+<code>KernelStep</code>, and every <code>KernelStep</code> carries
+enough target-invariant evidence to preserve the kernel boundary from a
+source invariant. That substrate blocks the stronger raw-step statement
+where a decomposition attack alone would force classifier compatibility.
+The bridge therefore separates two facts: it does not add axioms, and it
+does not hide the old classifier compatibility premise. The direct
+certificate theorem consumes the realization relation, whose embedded
+witness is the single source for the attack class used internally. The
+theorem statement is:</p>
+<pre class="lean"><code>theorem decompositionAttackClass_constructs_compositionalSafetyCertificate
+    {n : Nat} {sys : GovernedSystem n}
+    {D D&#39; : LegitimacyKernelData sys} (step : KernelStep D D&#39;)
+    (claim_profile : List ClaimQ)
+    (claimant : ClaimantId)
+    (compiled : CompiledGovernance)
+    (monitoring : MonitoringPlan)
+    (hgraph : compiled.graph = sys.graph)
+    {compose : σ → α → σ} {unit : σ}
+    {node : σ → α → Decision3} {denied : σ → Prop}
+    (hrealize :
+      DecompositionAttackRealizesKernelStep step compose unit node denied) :
+    ∃ cert : MonitoredSacrificeCertificate D D&#39;,
+      cert.sacrificed =
+        SacrificedAxiom.kernel KernelAxiom.CompositionalSafety</code></pre>
+<p>The compatibility restate is named:</p>
+<pre class="lean"><code>theorem decompositionAttackClass_compositionalSafety_retag</code></pre>
+<p>It still takes the raw-step monitor/extractor hypotheses, and its
+surfaced branch now also requires a realization relation for the
+surfaced kernel step. The headline alias is:</p>
+<pre class="lean"><code>theorem decomposition_attack_blocked_or_sacrificed</code></pre>
+<p>Its name records that it retags an already surfaced monitor branch
+rather than deriving classifier compatibility from the attack class.</p>
+<h4 id="proof-sketch-2">Proof Sketch</h4>
+<p>The direct certificate proof first extracts a witness step from the
+admitted realization relation. The extracted witness records the
+embedded <code>Decomposition</code>, an index into its nonempty step
+list, the local <code>Decision3.Permit</code> proof at that index, a
+step-index ordering proof that no earlier local step returned
+<code>Decision3.Deny</code>, and the denied composed endpoint. The
+certificate monitor event is:</p>
+<pre class="lean"><code>DecompositionKernelViolationFired compose unit node denied ∧
+  LocalPermissionMonotonicity compose unit node denied</code></pre>
+<p>The local monotonicity failure is derived internally by
+<code>localPermissionMonotonicity_of_decompositionAttackClass</code>,
+which applies the contrapositive shape of
+<code>csm_no_permitting_decomposition</code>. The attack-class predicate
+supplied to that helper is <code>Nonempty.intro hrealize.witness</code>,
+so the caller no longer supplies a separate attack-class or
+<code>hcsm</code> hypothesis for the certificate path. The certificate’s
+sacrifice tag is:</p>
+<pre class="lean"><code>SacrificedAxiom.kernel KernelAxiom.CompositionalSafety</code></pre>
+<p>The compatibility restate applies <code>classify_raw_step</code>. In
+the boundary case it returns the boundary disjunct; in the
+surfaced-monitor case it builds the compositional-safety certificate
+from the surfaced transition payload and the realized decomposition
+witness. That theorem is deliberately named as a retag. The direct
+theorem is the one that consumes the realized decomposition semantics
+into the monitored certificate, while the classifier restate records the
+current raw-step API boundary.</p>
+<h4 id="why-the-certificate-is-explicit">Why the Certificate Is
+Explicit</h4>
+<p>The right disjunct is not:</p>
+<pre class="lean"><code>Nonempty (MonitoredSacrificeCertificate D D&#39;)</code></pre>
+<p>That would lose the indexed sacrifice identity.</p>
+<p>The theorem instead returns:</p>
+<pre class="lean"><code>∃ cert : MonitoredSacrificeCertificate D D&#39;,
+  cert.sacrificed =
+    SacrificedAxiom.kernel KernelAxiom.CompositionalSafety</code></pre>
+<p>This keeps the sacrifice tag visible in the theorem type, lets
+downstream users pattern-match on the exact kernel axiom, and prevents
+the theorem from being satisfied by an unrelated governance property
+sacrifice.</p>
+<p>The bridge uses <code>decompositionRealizationBoundExceedance</code>
+as the monitoring payload. That constructor routes the optional
+failed-property slot through
+<code>DecompositionAttackRealizesKernelStep</code>. For
+kernel-obligation sacrifices, the slot may be empty because
+<code>GovernanceProperty</code> does not include kernel compositional
+safety; when the realization supplies a governance property, the
+constructor proves that the property fails on the compiled graph tied to
+the same governed system. The constructed certificate records the usual
+runtime observation and ledger emission through existing helper
+constructors.</p>
+<h4 id="sleeper-fixture-lift">Sleeper Fixture Lift</h4>
+<p>The bridge module also lifts the concrete sleeper audit subject (see
+§3) into the decomposition state. The state is
+<code>SleeperDeploymentState</code>, which carries the represented
+sleeper audit subject, the training/deployment phase, and the audit
+claim corpus being evaluated. The unit is the sleeper audit subject in
+training phase with its canonical audit claims, and the action type has
+a single deployment action whose composition applies the concrete
+deployment-claim update from <code>DeceptiveDeploymentWitnessOn</code>.
+The local node permits the action during training and denies it after
+the deployment phase has been reached, and the denied predicate is tied
+to the concrete affected claimant in the sleeper witness: the subject is
+<code>sleeperAgentExtractedGraph</code>, the phase is deployment, the
+claims are the witness’s deployment claims, and the affected claimant’s
+deployment decision is <code>deny</code>.</p>
+<p>The singleton deployment action therefore witnesses the decomposition
+class using sleeper-specific training/deployment structure rather than a
+constant always-permit endpoint, and the local monotonicity failure is
+derived from that attack class by
+<code>localPermissionMonotonicity_of_decompositionAttackClass</code>.
+The bridge file also includes a native finite check: the sleeper subject
+passes the compositional-safety audit check and admits the represented
+deceptive deployment predicate. That reproduces the already-existing
+distinction that the audit-level sleeper predicate and the graph
+compositional-safety check are not the same property.</p>
+<h4 id="branch-fixtures">Branch Fixtures</h4>
+<p>Two branch witnesses are provided. The block fixture uses the
+non-reflexive raw widened-signal mutation from
+<code>exampleGovernanceKernelData</code> to
+<code>exampleGovernanceWideSignalKernelData</code>. The boundary fact is
+not identity: it is supplied by the independently established target
+semantic-kernel witness for
+<code>exampleGovernanceWideSignalKernelData</code>, and the fixture
+returns the boundary-preserved disjunction by that target invariant. The
+sacrifice fixture uses the concrete non-reflexive kernel step over the
+same widened-signal target, constructs the compositional-safety
+certificate directly from the decomposition witness, and no longer
+supplies that certificate back into the classifier as the monitor
+hypothesis.</p>
+<p>Both fixtures are theorem-level witnesses. Small
+<code>native_decide</code> checks evaluate the branch selectors used by
+the fixtures, but the proof-carrying theorem statements remain the
+authoritative artifacts. The current kernel-sacrifice payload cannot
+always record a property-level <code>failedProperty = some ...</code>
+for a kernel-axiom sacrifice, because
+<code>MonitoringBoundExceedance.failedProperty</code> is
+property-specific while <code>KernelAxiom.CompositionalSafety</code> is
+a kernel obligation. The sacrifice fixture is therefore
+non-self-referential and non-reflexive, and the bound is still routed
+through <code>DecompositionAttackRealizesKernelStep</code>; the property
+slot is empty for that fixture because the compiled example graph has no
+governance-property failure to record.</p>
+<h4 id="relation-to-sleeper-agent-work">Relation to Sleeper-Agent
+Work</h4>
+<p>The sleeper-agent scope: the narrow structural audit slice over a
+dormant training trigger, a deployment trigger, and a permit-to-deny
+change under a positive deployment perturbation, and the disclaimers
+that it models neither learned objectives nor training dynamics nor a
+hidden deployed objective, is set out in §3. Here that existing audit
+predicate is used only as a concrete fixture. The decomposition bridge
+itself is algebraic and kernel-relative, so the connection is one of
+substrate compatibility, not a claim of full behavioral coverage.</p>
+<h4 id="relation-to-noundeclaredsacrifice">Relation to
+<code>noUndeclaredSacrifice</code></h4>
+<p>The no-undeclared-sacrifice theorem concerns live compiled governance
+surfaces: it says that, under the peer-relative live-surface hypotheses,
+forced sacrifices are declared. The present bridge is different. It
+concerns raw kernel steps and monitored kernel certificates, and it says
+that, once the realization relation supplies the decomposition witness
+and the classifier inputs are present, the kernel step is boundary
+preserving or exposes a compositional-safety sacrifice.</p>
+<p>The two theorems are compatible: declaration discipline for compiled
+governance surfaces in one case, block-or-sacrifice classification for
+kernel transitions in the other. Both are polarity-honest, and neither
+claims omniscient attack detection.</p>
+<h4 id="what-the-bridge-does-not-prove">What the Bridge Does Not
+Prove</h4>
+<p>The bridge does not prove that every system with a sleeper-shaped
+story is automatically detected. It does not prove that every
+monotonicity failure is a decomposition attack; the strictness theorem
+proves the opposite. It does not prove that a raw step can be classified
+without a source invariant, since the existing classifier requires that
+premise. It does not replace the monitor/extractor hypotheses, which
+remain explicit. It does not change the kernel API; it composes with it.
+And it does not use an arbitrary bundled existence claim for the
+sacrifice branch — the exact certificate tag appears in the type.</p>
+<h4 id="conclusion-2">Conclusion</h4>
+<p>The formal contribution is a bridge theorem: a realized decomposition
+attack at the kernel step boundary, a source kernel invariant, and
+raw-step monitor/extractor compatibility together imply the kernel
+block-or-compositional-sacrifice disjunction. The construction is small
+because the endpoints already existed; the work was in aligning their
+polarity. The decomposition module supplies structural attack witnesses,
+the sacrifice module supplies monitored kernel certificates, and the
+bridge turns a surfaced monitor event into an exact
+<code>KernelAxiom.CompositionalSafety</code> sacrifice certificate.</p>
+<p>The theorem is constructive with the source-invariant premise. The
+missing premise in the shorter informal signature remains an explicit
+residual requirement of the current classifier API. That is the honest
+boundary of the result.</p>
+<h2 id="codex-harness-worked-example">6. Codex Harness Worked
+Example</h2>
+<h3 id="codex-harness-case-study">Codex Harness Case Study</h3>
+<h4 id="extracted-graph-and-detected-failure">1. Extracted graph and
+detected failure</h4>
+<p>This case study starts from the committed extracted Codex hooks
+governance artifact at <code>examples/graphs/codex-graph.json</code> and
+its Lean literal in
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Results/CodexAdmissibilityAudit.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Results/CodexAdmissibilityAudit.lean</code></a>. The
+artifact currently contains sixteen hook nodes and eight pass-through
+hook edges. The byte-stable JSON and Lean literal both show sixteen
+nodes, while the audit surface has 29 claims and five numeric metric
+fields.</p>
+<p>The first Lean stage does not introduce a new diagnostic. It reuses
+the production governance admissibility evaluator and restates the
+existing theorem as the first link in the case-study chain:
+<code>codexHarness_stage1_detects_monotonicity_failure</code>. The
+theorem pins the verdict to
+<code>AuditVerdict.rejected AuditCheck.monotonicity</code>, so the case
+study begins from an extracted harness failure rather than a hand-built
+toy example.</p>
+<h4 id="critical-capability-threshold">2. Critical capability
+threshold</h4>
+<p>The second Lean stage projects the extracted Codex hook graph into
+the spectral governance API used by <code>CriticalCapability.lean</code>
+and <code>StackelbergConvergence.lean</code>. The derived projection
+<code>codexHarnessDerivedSpectralGraph</code> keeps all eight extracted
+pass-through hook pairs, while the legacy hand-authored ten-node carrier
+retained for citation stability kept five of the eight. The derived
+signal <code>codexHarnessDerivedFailureSignal</code> is computed from
+the extracted nodes: callback nodes contribute zero and registration
+nodes contribute the
+<code>hook_registration</code>/<code>.escalate</code> threshold
+component.</p>
+<p>The derived carrier is intentionally disclosed as disconnected: it
+consists of eight <code>K₂</code> components, so <code>λ₂ = 0</code>.
+The Stage 2 <code>cv</code>, <code>C*</code>, and Stackelberg-limit
+results used here are connectivity-free and consume only the positive-CV
+hypothesis; the positive-spectral-gap lower-bound theorems are not
+instantiated for this carrier.</p>
+<p>For this projection, Lean computes the exact consistency
+vulnerability as <code>cv = 1</code>. With the case-study tolerance
+<code>delta = 1/10</code>, the reciprocal critical capability is
+therefore <code>C_star = delta / cv = 1/10</code>, or <code>0.1</code>
+in decimal notation. The theorem
+<code>codexHarnessDerived_stage2_threshold</code> imports the existing
+<code>C_star_exists</code> critical threshold: below this value the
+capability-scaled perturbation is unreachable, while at and above it the
+spectral violation exists. The follow-on theorem
+<code>codexHarnessDerived_stage2_stackelberg_eventual_instability</code>
+connects the same positive-CV fact to the Stackelberg-limit surface:
+stable spectral equilibria eventually disappear at high capability.</p>
+<h4 id="repaired-routing-lattice">3. Repaired routing lattice</h4>
+<p>The chosen repair is the explicit downstream adjudication route.
+Terminal escalation alone is not enough for Codex, because the extracted
+graph also has metric thresholds that the legacy monotonicity
+perturbation interprets as positive strengthening even when the field is
+adverse evidence or routing metadata. In the repaired typed graph,
+threshold matches are not terminal deny/escalate outcomes. They are
+treated as adjudicated evidence, and the graph then appends an explicit
+permit adjudication suffix for former terminal callback nodes.</p>
+<p>This repair is intentionally scoped. It is a typed substrate repair
+used by the case study, not a claim that the live Codex vendor protocol
+already exposes this adjudication node. It leaves hard content-match
+deny routes untouched and keeps the synthetic workload at 29 claims. The
+graph shape changes from sixteen nodes and eight edges to seventeen
+nodes and sixteen edges: the original eight hook edges remain, and eight
+former terminal callback nodes feed the explicit adjudication
+suffix.</p>
+<h4 id="load-bearing-repaired-admissibility-theorem">4. Load-bearing
+repaired admissibility theorem</h4>
+<p>The final Lean stage proves the verdict flip on the repaired typed
+graph through an explicit spectral-to-audit chain. The theorem
+<code>codexHarness_repaired_spectral_zero_derives_monotonicity_pass</code>
+consumes the coordinatewise zero repaired spectral signal, exposes the
+concrete monotonicity-core evaluator, and then unfolds the production
+<code>auditCheckStatus</code> dispatcher through its acyclic
+monotonicity branch. The parallel theorem
+<code>codexHarness_repaired_spectral_zero_derives_nonvacuity_pass</code>
+uses the same zero signal through the nonvacuity core.</p>
+<p>The main bridge theorem is
+<code>codexHarness_stage4_threshold_removed_derives_finite_audit</code>.
+Its proof uses Stage 2 threshold removal to obtain zero repaired CV,
+converts zero CV to coordinatewise zero signal on the concrete Codex
+spectral projection, derives monotonicity and nonvacuity passes from
+that signal, and composes the named per-check statuses through
+<code>firstFailedAuditCheck?</code> and
+<code>governanceAdmissibilityVerdict</code>. The older
+<code>packaged_with</code> theorem names remain as compatibility
+aliases, but they now delegate to the load-bearing derivations.</p>
+<p>This is the intended case-study endpoint: fixture, detection,
+threshold, repair, and repaired verdict are all named Lean declarations.
+The repaired verdict is not assumed and is not discharged by bundling
+unrelated witnesses. It is derived through the repaired typed graph’s
+finite audit evaluators, while the original extracted Codex graph
+remains untouched and still has the Stage 1 monotonicity rejection.</p>
+<h2 id="self-modification-boundary-and-lifecycle">7. Self-Modification
+Boundary and Lifecycle</h2>
+<h3
+id="the-indexed-override-removal-boundary-and-no-silent-degradation-lifecycle">The
+Indexed Override-Removal Boundary and No-Silent-Degradation
+Lifecycle</h3>
+<hr />
+<h4 id="abstract-3">Abstract</h4>
+<p>This chapter records two named structural results about
+self-modifying governance policies. The first is a finite-trajectory
+<em>escape boundary</em>: if a governance graph starts with a binding
+override and any finite self-modification action sequence later permits
+a previously denied claim, then the trajectory must contain a concrete
+override-removal action at a concrete index, with the pre-removal graph
+reached by the action prefix and the removing action identified by list
+lookup. The second is a <em>lifecycle no-silent-degradation</em>
+disjunction: over any finite trajectory of proof-carrying policy
+transitions, either every transition preserves the kernel boundary, or
+some transition surfaces an indexed override-removal sacrifice tied to a
+decision-observable authority-surface change. Both results are general
+over the action space; neither is a finite-table enumeration. The
+lifecycle is demonstrated on a worked sleeper-shaped trajectory whose
+silent-activation transition provably cannot inhabit the transition
+contract. The connector from bundled kernel self-modification to the
+lifecycle layer uses a graph-identity action space, which is the honest
+scope limit of that bridge.</p>
+<hr />
+<h4 id="what-the-results-say">1. What the results say</h4>
+<p>The self-modification substrate asks a narrow question: under what
+structural condition can a governance graph that initially denies a
+claim, by overriding it, ever be self-modified into permitting that
+claim? The answer is sharp and constructive, localizing escape to a
+single removal step rather than smearing it across the trajectory.</p>
+<p>The escape boundary is the contrapositive of an override-preservation
+guarantee. If the action space globally preserves overrides, no finite
+self-modification trajectory can ever permit an initially overridden
+claim — every claim is denied after every action sequence. The escape
+boundary names exactly what must occur for that guarantee to fail.</p>
+<h4 id="the-indexed-escape-boundary-theorem">2. The indexed
+escape-boundary theorem</h4>
+<p><strong>Theorem 7.2</strong> (Indexed override-removal escape
+boundary,
+<code>selfmod_escape_requires_indexed_override_removal_step</code>,
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Results/SelfModBoundary.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Results/SelfModBoundary.lean</code></a>). <em>Let
+<code>G : GovernanceGraph</code> have a binding override,
+<code>space : AgentActionSpace</code>,
+<code>actions : List space.Action</code>, and a claim corpus and
+claimant. If applying the full action sequence to <code>G</code> permits
+the claimant, then there exist an index <code>i</code>, an action
+<code>a</code>, and an intermediate graph <code>H</code> such that
+<code>H</code> is exactly the graph reached by the prefix
+<code>actions.take i</code>, the lookup <code>actions[i]?</code> returns
+<code>a</code>, <code>H</code> still has the override, and applying
+<code>a</code> to <code>H</code> removes it.</em></p>
+<p>The result is general over the action space: <code>space</code> is an
+arbitrary <code>AgentActionSpace</code> and <code>actions</code> is an
+arbitrary finite list, with no restriction on the graph’s node count.
+The proof is by induction on the action list, splitting on whether the
+head action already destroyed the override. The unindexed companion
+<code>selfmod_escape_requires_override_removal_step</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Results/SelfModBoundary.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Results/SelfModBoundary.lean</code></a>) forgets the
+index and returns just the witness action and intermediate graph.</p>
+<p>The contrapositive direction is the preservation guarantee
+<code>no_selfmod_permit_under_override_preservation</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Results/SelfModBoundary.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Results/SelfModBoundary.lean</code></a>): under a
+global <code>OverridePreserving space</code> hypothesis, every claim is
+denied after every action sequence. Its companion
+<code>selfmod_permit_refutes_override_preservation</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Results/SelfModBoundary.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Results/SelfModBoundary.lean</code></a>) reads the
+same fact in refutation form: any escape refutes global override
+preservation. The override-corrigibility characterization
+<code>not_overrideCorrigible_of_override_decomposition</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Results/SelfModBoundary.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Results/SelfModBoundary.lean</code></a>) states that,
+for an initially overriding graph, failure of override corrigibility is
+exactly the existence of a single override-removing action.</p>
+<p>This is a structural boundary on the represented graph and action
+space. It does not model learned objectives, training dynamics, or the
+internal structure of a self-modifying model. It says: in the typed
+substrate, an authority escape cannot be smeared across a trajectory —
+it has a concrete removal step.</p>
+<h4 id="the-lifecycle-no-silent-degradation-theorem">3. The lifecycle
+no-silent-degradation theorem</h4>
+<p>A <code>PolicyState</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>) packages a
+label, an extracted kernel artifact, and the effective authority surface
+a learned policy exposes at activation time. A proof-carrying lifecycle
+transition is a <code>PolicyTransition</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>), whose
+contract field requires each step to either preserve the kernel boundary
+or surface an indexed override-removal sacrifice. The
+kernel-preservation branch is <code>KernelBoundaryPreserved</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>): both
+endpoints are semantic kernels and there is no decision-observable
+authority-surface change. The sacrifice branch is
+<code>IndexedSacrificeSurfaced</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>): a
+decision-observable surface change paired with an
+<code>IndexedOverrideRemovalEvent</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>) carrying
+the same indexed removal witness as the escape boundary.</p>
+<p><strong>Theorem 7.3</strong> (Lifecycle no-silent-degradation,
+<code>policy_lifecycle_no_silent_degradation</code>,
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>). <em>For
+any <code>PolicyTrajectory</code>, the lifecycle conclusion holds: the
+trajectory’s initial-state and successive-state continuity invariants
+hold, and either every transition preserves the kernel boundary, or some
+transition surfaces an indexed sacrifice together with a
+decision-observable authority-surface change.</em></p>
+<p>The result is general over the trajectory: it ranges over any finite
+list of proof-carrying transitions, proved by induction over the
+transition list via <code>classify_raw_policy_transition</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>). The
+headline dispatch <code>lifecycle_no_silent_degradation</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>) routes
+both the raw classifier-backed and proof-carrying trajectory forms
+through a typeclass. The per-transition closure
+<code>effective_surface_change_requires_indexed_event</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>) is the
+load-bearing step: any decision-observable surface change forces the
+indexed-sacrifice branch, so the contract has no third option that
+silently changes authority without surfacing the indexed event.</p>
+<h4 id="the-worked-sleeper-trajectory-and-the-impossibility-witness">4.
+The worked sleeper trajectory and the impossibility witness</h4>
+<p>The lifecycle is demonstrated on a concrete trajectory
+<code>sleeperLifecycleTrajectory</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>): a benign
+update with an unchanged surface, an honest sacrifice that surfaces the
+override-removal event before activation, and a post-sacrifice audit
+hold over the now-current surface. Its no-silent-degradation conclusion
+is discharged in
+<code>sleeperLifecycleTrajectory_no_silent_degradation</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>).</p>
+<p>The sharp witness is the impossibility theorem
+<code>sleeper_attempt_cannot_satisfy_contract</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>): a
+sleeper-shaped transition that changes the effective authority surface,
+refuses to surface the indexed sacrifice, and does not preserve the
+kernel boundary derives <code>False</code>. A silent sleeper activation
+provably cannot inhabit the transition contract. The complementary
+tightness witness
+<code>unchecked_boundary_breach_allows_silent_shape</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>) shows that
+removing the bounded extractor contract is what would re-admit a silent
+shape, so the contract is load-bearing rather than decorative.</p>
+<h4 id="honest-scope-of-the-kernel-connector">5. Honest scope of the
+kernel connector</h4>
+<p>The connector from a bundled <code>LegitimacyKernel</code>
+self-modification trajectory to the policy-lifecycle layer is
+<code>policyTransitionOfKernelSelfmod</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>), with
+corollary <code>kernel_selfmod_policyTransition_corrigibility</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>): the
+connector transition preserves the lifecycle kernel boundary, and the
+original kernel self-modification theorem supplies the
+supervisory-algebra corrigibility invariant for the same action list.
+This connector uses a <em>graph-identity</em> action space
+<code>graphIdentityActionSpaceFromState</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/SelfModificationLifecycle.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/SelfModificationLifecycle.lean</code></a>): because
+the underlying kernel self-modification result tracks preservation of
+the supervisory algebra rather than graph rewrites, the adapter exposes
+the action list through an action space whose <code>apply</code> leaves
+the binary authority surface unchanged, and therefore takes the
+kernel-preservation branch. That is the honest scope limit of the
+connector: it does not lift arbitrary graph-rewriting self-modification
+into the lifecycle, only the supervisory-algebra-preserving case under
+the identity surface map. The escape boundary and lifecycle disjunction
+themselves remain general over the action space; the connector is the
+narrower bridge.</p>
+<h4 id="what-these-results-are-not">6. What these results are not</h4>
+<p>These are structural results on represented governance graphs, action
+spaces, and policy transitions. They do not establish that a deployed
+model has no hidden objective, do not model
+training-time-versus-deployment-time learning, and do not constitute an
+empirical sleeper-agent detector. The genuinely staged reflective and
+ASI-signature work that these objects are intended to support is not
+discharged here and is not surfaced as done. What is discharged is
+precise and reproducible: an indexed escape boundary general over the
+action space, a no-silent-degradation lifecycle disjunction general over
+the trajectory, a worked sleeper trajectory, and a proof that a silent
+sleeper activation cannot inhabit the lifecycle contract.</p>
+<hr />
+<h5 id="lean-substrate-references-2">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.selfmod_escape_requires_indexed_override_removal_step</code></li>
+<li><code>Legitimacy.selfmod_escape_requires_override_removal_step</code></li>
+<li><code>Legitimacy.no_selfmod_permit_under_override_preservation</code></li>
+<li><code>Legitimacy.selfmod_permit_refutes_override_preservation</code></li>
+<li><code>Legitimacy.not_overrideCorrigible_of_override_decomposition</code></li>
+<li><code>Legitimacy.policy_lifecycle_no_silent_degradation</code></li>
+<li><code>Legitimacy.lifecycle_no_silent_degradation</code></li>
+<li><code>Legitimacy.classify_raw_policy_transition</code></li>
+<li><code>Legitimacy.effective_surface_change_requires_indexed_event</code></li>
+<li><code>Legitimacy.sleeperLifecycleTrajectory_no_silent_degradation</code></li>
+<li><code>Legitimacy.sleeper_attempt_cannot_satisfy_contract</code></li>
+<li><code>Legitimacy.kernel_selfmod_policyTransition_corrigibility</code></li>
+</ul>
+<h2 id="conclusion-rule-layer-audits-as-a-program">8. Conclusion:
+Rule-layer Audits as a Program</h2>
+<p>Taken together, the case studies show what a structural audit adds
+once a safety mechanism has been represented as a typed rule layer. The
+audit can distinguish a genuine schema-aware verdict from a polarity
+artifact, expose a decomposition event as a compositional-safety
+sacrifice, and localize represented self-modification escape to an
+indexed override-removal step under a no-silent-degradation lifecycle.
+Its conclusions remain conditional on the trusted representation
+boundary stated in each case; within that boundary, the common
+contribution is a rerunnable certificate rather than an informal
+judgment about the mechanism.</p>
+<hr />
+<p><em>Part of the Legitimacy program: a machine-checked semantic
+legitimacy kernel with a Rust extractor and Lean 4 proofs. Repository:
+github.com/abenenson/legitimacy; project page:
+adambenenson.com/projects/legitimacy. Companion manuscripts: “Semantic
+Legitimacy Kernels: A Machine-Checked Compiler Target for the Governance
+Layer of AI Agents,” “A Verified Impossibility Theorem for Peer-Relative
+Governance,” and “Which Governance Structures Survive Unbounded
+Capability? Capacity and Stability Bounds for AI Governance
+Graphs.”</em></p>
+
+
+  <p class="source-line">
+    Machine-checked artifact (Lean&nbsp;4 + Rust): <a href="https://github.com/abenenson/legitimacy">github.com/abenenson/legitimacy</a>.
+  </p>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/writing/legitimacy-v1/">The Legitimacy v1.0.0 set</a>
+      <a href="/writing/">All writing</a>
+      <a href="/projects/legitimacy/">Legitimacy project</a>
+      <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </footer>
+</body>
+</html>

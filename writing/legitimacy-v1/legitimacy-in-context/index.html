@@ -1,0 +1,3001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Legitimacy Program in Context — Legitimacy v1.0.0 — Adam Benenson</title>
+  <meta name="description" content="Where the program sits relative to social choice, Guaranteed-Safe AI, and the verification trilemma.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/writing/legitimacy-v1/legitimacy-in-context/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+      --code-bg: #24242a;
+      --pre-bg: #22222a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+      color: #ff8c7a;
+      line-height: 1.3;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .article-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 44px;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 0.92rem;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      color: #e8e0de;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-style: italic;
+    }
+    p {
+      color: #c8bab8;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    p a, li a, td a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    p a:hover, li a:hover, td a:hover { color: var(--link-hover); }
+    ul, ol {
+      color: #c8bab8;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 18px;
+      padding-left: 22px;
+    }
+    ul li, ol li { margin-bottom: 8px; }
+    strong { color: #e8e0de; font-weight: 600; }
+    em { color: inherit; }
+    code {
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
+      font-size: 0.86em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #e8e0de;
+    }
+    pre {
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
+      font-size: 0.82rem;
+      background: var(--pre-bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      line-height: 1.55;
+      color: #d8d0ce;
+      margin-bottom: 22px;
+      white-space: pre;
+      tab-size: 2;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+      font-size: inherit;
+      color: inherit;
+      border-radius: 0;
+    }
+    pre code.language-lean { color: #d8d0ce; }
+    pre code.language-text { color: #c8bab8; }
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 14px;
+      margin: 18px 0 22px;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 0.9rem;
+      color: #c8bab8;
+    }
+    table th, table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    table th {
+      color: var(--muted);
+      font-weight: normal;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #3a3a42;
+    }
+    table td code {
+      font-size: 0.82em;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+      text-transform: lowercase;
+    }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    .source-line {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-style: italic;
+    }
+    .source-line a { color: var(--link); text-decoration: none; }
+    .source-line a:hover { color: var(--link-hover); }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--text); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.3rem; }
+      pre { font-size: 0.76rem; }
+      table { font-size: 0.82rem; }
+    }
+  </style>
+  <style>
+    code { overflow-wrap: anywhere; }
+    pre code { overflow-wrap: normal; }
+    .table-scroll { overflow-x: auto; margin-bottom: 22px; }
+    .table-scroll table { display: table; width: max-content; max-width: none; margin-bottom: 0; }
+    .tcolorbox {
+      border: 1px solid var(--border); border-radius: 5px;
+      padding: 14px 16px; margin: 22px 0; background: var(--pre-bg);
+      font-family: 'Courier New', monospace; font-size: 0.86rem; color: #c8bab8;
+    }
+    .tcolorbox p { margin: 0; color: inherit; }
+    math { font-size: 1.03em; }
+    img, svg, math { max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/" class="current">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
+
+  <div class="breadcrumb"><a href="/writing/">Writing</a> / <a href="/writing/legitimacy-v1/">legitimacy-v1</a> / legitimacy-in-context</div>
+  <h1>The Legitimacy Program in Context</h1>
+  <p class="article-meta">
+    <span class="tag">paper</span><span class="tag">positioning</span> &nbsp;·&nbsp; Paper&nbsp;6 of the <a href="/writing/legitimacy-v1/" style="color: var(--link); text-decoration: none;">Legitimacy v1.0.0</a> set &nbsp;·&nbsp; July 2026 &nbsp;·&nbsp;
+    <a href="https://github.com/abenenson/legitimacy" style="color: var(--link); text-decoration: none;">repository</a>
+  </p>
+
+<h2 id="introduction-positioning-the-program">1. Introduction:
+Positioning the Program</h2>
+<p>The Legitimacy program sits on the formal-methods side of AI safety:
+it supplies a typed rule-layer audit and theorem surface, not a
+universal account of alignment verification. Five comparisons locate
+that contribution. The prior-art chapter names the voting-theory,
+social-choice, verification, and alignment lineages. The GS-AI chapter
+identifies the legitimacy kernel as one static-snapshot verifier-target
+instance. The verification-trilemma chapter records the current
+bounded-domain result: decision-definedness is the only independently
+variable clause proved so far, soundness follows from
+decision-definedness, unrestricted generality is definitionally
+unavailable, and polynomial-time tractability remains open. The
+two-<code>C*</code> chapter separates related capacity notions. The
+three-axis chapter places the reachable scarce peer-relative
+governance-rule impossibility, under transparent-prefix and
+non-denying-suffix scope, between Arrow-style aggregation and
+Balinski-Young-style allocation.</p>
+<p>Together, these comparisons distinguish the program’s theorem object
+from its nearest neighbors while keeping its scope explicit.</p>
+<h2 id="prior-art-and-adjacent-programs">2. Prior Art and Adjacent
+Programs</h2>
+<h3
+id="the-organizing-frame-four-axes-of-ai-governance-impossibility">2.1
+The organizing frame: four axes of AI-governance impossibility</h3>
+<p>AI-governance impossibility results now form a growing line rather
+than a single “first” claim. The 2024-2026 vintage has settled into four
+distinguishable axes, and the cleanest way to read the prior art is to
+read it as a coordinate system rather than as a contest over
+priority.</p>
+<ul>
+<li>The <strong>preference-aggregation axis</strong> imports Arrow-style
+social-choice impossibility into preference and reward space. Eckersley
+(2019) imports Arrow-style social-choice impossibility into AI value
+alignment in utility space; Conitzer et al. (2024), Ge-Halpern et
+al. (2024, NeurIPS 2024), and Qiu (2024; JAIR; Best Paper at NeurIPS
+2024 Pluralistic Alignment Workshop) extend that lineage into preference
+and reward space and prove Arrow-like representational impossibilities
+in their respective formal settings.</li>
+<li>The <strong>agreement-complexity axis</strong> proves alignment
+lower bounds through agreement and communication complexity. Nayebi’s
+“Intrinsic Barriers” (2025, AAAI 2026) is distinct in proof
+technique.</li>
+<li>The <strong>accountability-allocation axis</strong> proves an
+impossibility on accountability allocation in human-agent collectives
+above an autonomy threshold. Tibebu’s “The Accountability Horizon”
+(2026) is the representative result. The RLHF trilemma paper (Sahoo et
+al., 2025) formalizes a distinct impossibility inside
+preference-learning pipelines.</li>
+<li>The <strong>governance-rule structural-admissibility axis</strong>
+is legitimacy’s distinct contribution in this public-literature map: a
+formally verified Arrow-template graph-diagnostic impossibility on the
+structural admissibility of the deployed governance rule itself, for
+reachable scarce peer-relative decisive stages under transparent-prefix
+and non-denying-suffix scope, with strategyproofness derived by
+<code>solidarity_monotonicity_imply_strategyproof</code>, coupled to a
+byte-stable extractor and a spectral scaling theory (<code>C*</code>, RG
+flow, <code>SpectralWellConnected</code>).</li>
+</ul>
+<p>The four public-literature axes are not in competition. They map to
+different objects: preferences and rewards (Eckersley / Conitzer et
+al. / Ge-Halpern et al. / Qiu), agreement under information constraints
+(Nayebi), accountability allocation across a collective (Tibebu), and
+the structural admissibility of the deployed governance rule itself
+(legitimacy). Reading them as a coherent program is more accurate than
+reading any one as the canonical theorem.</p>
+<p>This literature-map axis is consistent with
+<code>papers/03-impossibility-theorem.md</code> §6.6.8, but it is a
+different coordinate system from the internal follow-on axis there:
+inside Legitimacy’s own follow-on program, the shipped governance-rule
+theorem is <strong>Axis 1: Allocation</strong>, while the paper’s
+<strong>Axis 4: Extraction</strong> is a future
+extraction-transformation program. The literature-map axis here and the
+internal follow-on axis there should not be conflated.</p>
+<p>Tibebu’s priority claim also needs a diplomatic correction. Tibebu
+frames <em>The Accountability Horizon</em> as the first impossibility
+theorem in AI governance; our reading of the published record places
+Eckersley (2019), Nayebi (2025), and the RLHF trilemma paper (Sahoo et
+al., 2025, submitted November 23, 2025) as antecedent contributions with
+non-trivial formal structure. No stable public bibliographic record was
+located for the possible Oswald (2026) allocation-under-uncertainty
+antecedent, so the public citation set does not rely on that item.</p>
+<h3
+id="the-preference-aggregation-neighbors-reward-space-and-feedback-aggregation-work">2.2
+The preference-aggregation neighbors: reward-space and
+feedback-aggregation work</h3>
+<p>Ge-Halpern et al. (2024, NeurIPS 2024), “Axioms for AI Alignment from
+Human Feedback,” study alignment in reward space: given pairwise human
+feedback, what reward aggregation rules satisfy desirable reward-space
+axioms, and which reward-learning procedures fail them. This project is
+doing a different job. We do not inspect reward-model aggregation; we
+inspect the governance structure that controls actions, permissions,
+promotions, overrides, and allocation decisions once a system is
+deployed. Their object is a feedback-to-reward rule. Our object is a
+governance rule or governance graph. The difference shows up in
+composition, the operational failure mode in real agent stacks: a system
+can have locally sensible reward or approval components and still become
+unsafe when prompts, hooks, configs, and tool gates are composed.</p>
+<p>Conitzer et al. (2024), “Social Choice Should Guide AI Alignment in
+Dealing with Diverse Human Feedback,” is the broader agenda-setting
+neighbor. It argues that social choice should inform how alignment
+systems aggregate diverse human feedback. Legitimacy accepts that
+premise but works one layer above it: even if a preference-learning or
+constitutional-input process is well aggregated, the deployed governance
+rule that admits actions and allocates authority can still violate
+consistency, solidarity, or cross-claimant monotonicity.</p>
+<h3
+id="the-social-choice-and-mechanism-design-lineage-where-the-axioms-come-from">2.3
+The social-choice and mechanism-design lineage: where the axioms come
+from</h3>
+<p>Prior formal work around Arrow’s theorem matters here. Wiedijk’s
+Mizar formalization, Nipkow’s Isabelle/HOL formalization, and
+first-order-logic formalizations by Grandi and Endriss show that
+social-choice impossibility results are legitimate proof-assistant
+targets. The Handbook of Computational Social Choice (Brandt et al.,
+2016) is the standard broader reference for the
+computational-social-choice substrate. Andrew Souther and Benjamin
+Davidson’s <code>lean-social-choice</code>
+(<code>github.com/asouther4/lean-social-choice</code>) is a public Lean
+formalization of Arrow’s theorem and related social-choice results for
+classical preference-aggregation rules; it has no associated paper, DOI,
+or arXiv record, but it is a real, public Lean development and the
+closest Lean prior art for this work. Legitimacy sits inside that
+tradition but changes the object from social welfare functions to
+governance graphs and couples the theorem to an operational extractor.
+The claim is accordingly a new theorem-object pair and a new deployment
+interface, not the invention of formal social-choice verification.</p>
+<p>The social-choice and mechanism-design ancestry of the three
+graph-diagnostic primitives plus one derived strategyproofness deserves
+explicit naming. Arrow’s 1950 paper “A Difficulty in the Concept of
+Social Welfare” and the 1951 monograph <em>Social Choice and Individual
+Values</em> establish the impossibility-theorem template that this work
+inherits at the level of proof shape. Young’s <em>Equity: In Theory and
+Practice</em> (Princeton, 1994) is a source for the allocation-rule
+consistency tradition and for homogeneity in apportionment; Thomson’s
+“On the Axiomatics of Resource Allocation” (2012) reinterprets the
+consistency principle through reduced problems and is the canonical
+modern restatement of why consistency is the right cross-population
+invariance. Maskin’s 2007 Nobel lecture “Mechanism Design: How to
+Implement Social Goals” and the implementation-theory line of which
+Maskin monotonicity is the centerpiece make explicit that monotonicity
+has a classical implementability role; the legitimacy paper’s
+monotonicity axiom should not be read as ad hoc. Muller and
+Satterthwaite’s 1977 result on the equivalence of strong positive
+association and strategyproofness, and Dasgupta-Hammond-Maskin’s 1979
+“The Implementation of Social Choice Rules”, together establish that
+strategyproofness is derivable from monotonicity in the classical
+setting; the legitimacy paper’s
+<code>solidarity_monotonicity_imply_strategyproof</code> is the analog
+on governance graphs. None of these antecedents are competitors; they
+are the lineage this work builds on. Citing them at the
+axiom-introduction layer is the difference between a paper that claims
+to invent fairness and a paper that builds on a well-understood
+axiomatic substrate.</p>
+<p>Mechanism-design impossibilities should be cited only as background
+for the sacrifice framing. Myerson-Satterthwaite (1983) is the canonical
+bilateral-trade example: it says no mechanism can jointly achieve a
+natural package of efficiency, incentive, participation, and
+budget-balance desiderata under the standard private-information model.
+Legitimacy does not reduce to that theorem; the useful analogy is the
+discipline of naming which desideratum must be given up. Fairness
+impossibility in machine learning is an important precedent in the same
+spirit. Chouldechova and Kleinberg-Mullainathan-Raghavan normalized the
+idea that impossibility theorems can be practically useful, because they
+force teams to surface which desideratum is being traded away.
+Legitimacy makes the same move for agent governance. The Declared
+Sacrifice Protocol is the governance-layer analogue of taking
+impossibility seriously instead of pretending better optimization will
+make it disappear.</p>
+<h3
+id="the-verification-trilemma-and-guaranteed-safe-ai-superstructure">2.4
+The verification-trilemma and guaranteed-safe-AI superstructure</h3>
+<p>Agarwal’s 2026 “On the Formal Limits of Alignment Verification” is
+the cleanest verification-trilemma neighbor: no verification procedure
+can simultaneously be sound, fully general over the input domain, and
+polynomial-time tractable. Legitimacy now states a framework-specific
+positioning directly in Lean as
+<code>legitimacy_audit_diagonal_positioning</code>: for finite
+distributions whose support is inside a
+<code>BoundedExtractorContract</code>, the audit is sound and
+decision-defined; for an unrestricted malformed extractor input, the
+audit is intentionally undefined. This is not a claimed escape from
+Agarwal’s trilemma and not yet a proof of Agarwal-style polynomial-time
+tractability or full-domain correctness. It is a typed admission of the
+current substrate’s bounded-domain shape: decision-definedness is the
+substantive contingent theorem, soundness rides along by
+<code>audit_decision_defined_implies_soundness</code>, and
+non-generality is forced by
+<code>audit_defined_on_all_distributions_impossible</code>.</p>
+<p>Dalrymple et al. (2024), “Towards Guaranteed Safe AI,” is broader
+than this program and should be read as a superstructure rather than a
+competitor. Their world-model / safety-spec / verifier framing is a
+natural home for a concrete governance verifier like Legitimacy. The
+difference matters because they provide the general verifier
+architecture, while this project instantiates one particular verifier
+target: governance graphs with reachable scarce peer-relative stages and
+Arrow-lineage structural failure modes. Bengio’s June 2025 “Introducing
+LawZero” announcement and the accompanying paper “Superintelligent
+Agents Pose Catastrophic Risks: Can Scientist AI Offer a Safer Path?”
+(Bengio et al., 2025) operationalize the guaranteed-safe-AI program
+through a non-agentic Bayesian “Scientist AI” oracle that gates an
+untrusted agent against a safety predicate. The legitimacy stack
+supplies typed governance graph and kernel objects that can serve as
+candidate safety-specification targets for a GS-AI-style architecture.
+We do not claim membership in the LawZero program, and we do not claim
+that the current fixture certificates verify those fixtures as safe.
+<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code> makes the
+component fit concrete: it instantiates Dalrymple’s three-component
+framework with <code>worldModel = StaticGovernanceWorldModel</code>,
+<code>safetySpec = SemanticLegitimacySafetySpec</code> (per-agent
+semantic legitimacy kernels), and
+<code>verifier = GSAIKernelizationVerifier</code>. The populated
+verifier side supplies auditable rejection evidence for
+extracted-fixture graph models, such as the Codex-hooks certificate that
+transitively invokes
+<code>codexHooksGovernanceAdmissibilityRejectsMonotonicity</code> by
+<code>native_decide</code> on a concrete 16-node / 8-edge governance
+graph with 29 claims. The instantiation covers the static-snapshot
+subset of GS AI’s world-model component and shows executable audit
+evidence in that slice; full dynamic-environment GS AI would require
+additional substrate (in particular, environment dynamics over the
+kernel-trajectory lifecycle).</p>
+<h3 id="the-inner-alignment-elk-and-deceptive-alignment-complement">2.5
+The inner-alignment, ELK, and deceptive-alignment complement</h3>
+<p>Inner-alignment and deceptive-alignment work is adjacent but operates
+on a different level. Hubinger et al. (2019), “Risks from Learned
+Optimization in Advanced Machine Learning Systems,” introduces
+mesa-optimization and the deceptive-alignment hypothesis. Hubinger et
+al.’s “Sleeper Agents: Training Deceptive LLMs that Persist Through
+Safety Training” (2024) and Greenblatt et al.’s “Alignment Faking in
+Large Language Models” (2024) are empirical demonstrations that
+deceptive policies are trainable and persistent. Christiano, Cotra, and
+Xu’s <em>Eliciting Latent Knowledge</em> (ARC, 2021) frames the
+corresponding interpretability problem: when the supervisor cannot
+independently verify, can we extract honest reports of what the agent
+knows? Langosco et al.’s “Goal Misgeneralization in Deep Reinforcement
+Learning” (2021, ICML 2022) and Berglund et al.’s “Taken out of Context:
+On Measuring Situational Awareness in LLMs” (2023) show that
+goal-pursuit and self-context-awareness can vary across the
+training/deployment boundary. The legitimacy stack does not solve any of
+these problems. It supplies a structural complement: the
+<code>BoundedExtractorContract</code> requires that the audited
+governance graph be byte-stable-equivalent to the agent’s actual
+decision surface, so a backdoor or mesa-objective that produces
+different decisions on the audit-input distribution is forced into
+either (a) an extractor-contract violation or (b) observational
+equivalence on that distribution. The detection-completeness boundary is
+honest: legitimacy can detect inner-alignment failures that change
+observable governance behavior on the audit-relevant inputs, and cannot
+detect inner-alignment failures that are observationally equivalent to
+base on those inputs.</p>
+<p><code>Legitimacy.Bridges.HubingerDeceptionBridge</code> pins that
+complement to the represented sleeper-agent slice only: a dormant
+training trigger, a deployment trigger, and a concrete monitored-claim
+perturbation that converts permit into deny. The bridge theorem records
+a raw audit monotonicity obstruction under the legacy positive-field
+semantics; the polarity-aware audit classifies the same represented
+sleeper graph as passing monotonicity and as legitimate. It does not
+formalize mesa-objectives or deceptive alignment in general.</p>
+<p>The capacity-aware ELK bridge is deliberately narrower than a general
+solution to ELK. <code>Legitimacy.Bridges.CapacityAwareELK</code> counts
+the five witness-bearing hidden-authority certificate classes from
+<code>ELKCorrespondence</code> only after they are represented by an
+injective, zero-error <code>CapabilityResponseBlockCode</code> over a
+positive extraction window. The resulting theorem,
+<code>hidden_authority_certificate_rate_bounded</code>, imports the
+existing binary-output log-rate converse and says that such a compliant
+extractor cannot emit distinct certificate classes at any log-rate
+strictly above one binary decision per deterministic channel use. This
+is a Shannon-style finite block-code converse over the current
+substrate; it is not a claim that <code>C*</code> is a numeric
+ELK-reporting capacity, nor a stochastic reporter theorem.</p>
+<p><code>Legitimacy.Bridges.ChristianoELKStructuralBridge</code> states
+the structural half of the same ELK positioning: every minimal
+hidden-authority certificate already represented in the kernelization
+substrate has a witness-bearing <code>ELKDiscrepancy</code> match, while
+the <code>unsupportedWorldModelShift</code> constructor is an explicit
+outside-the-slice drop-test. The ELK bridge family is a structural
+correspondence plus a Shannon-style finite block-code converse over the
+current substrate, not full ELK.</p>
+<h3
+id="enforcement-and-runtime-governance-systems-legitimacy-is-upstream">2.6
+Enforcement and runtime-governance systems: legitimacy is upstream</h3>
+<p>Reward hacking and enforcement-layer systems are adjacent but not
+substitutes. Skalse et al. formalize reward hacking itself;
+DrAttack-style decomposition failures motivate the attack-surface
+discussion; Type-Checked Compliance (Rashie and Rashi, 2026), the Agent
+Control Protocol (Fernandez, 2026), and the Policy Compiler for Secure
+Agentic Systems (Palumbo et al., 2026) enforce rules once given. The
+recent runtime-governance line: Wang, Poskitt, and Sun’s “AgentSpec:
+Customizable Runtime Enforcement for Safe and Reliable LLM Agents”
+(2025, ICSE 2026), Mazzocchetti’s “Cryptographic Runtime Governance for
+Autonomous AI Systems: The Aegis Architecture” (2026), Allegrini,
+Shreekumar, and Celik’s “Formalizing the Safety, Security, and
+Functional Properties of Agentic AI Systems” (2025), Kaptein, Khan, and
+Podstavnychy’s “Runtime Governance for AI Agents: Policies on Paths”
+(2026), and Bhardwaj’s “Agent Behavioral Contracts: Formal Specification
+and Runtime Enforcement for Reliable Autonomous AI Agents” (2026), all
+give expressive runtime DSLs, behavioral contracts, or temporal-logic
+property languages for agent enforcement. Legitimacy is upstream of all
+of them. We ask whether the rule set is constitutionally coherent before
+you enforce it. The order matters: perfect action checking on a
+structurally bad policy still gives you high-confidence enforcement of
+the wrong governance logic. The legitimacy stack and these enforcement
+systems are complements: legitimacy says what a structurally admissible
+governance rule must satisfy, and a runtime-enforcement DSL takes such a
+rule and binds the agent to it at execution time.</p>
+<p>Bracale Syrnikov et al. (2026), in “Institutional AI: Governing LLM
+Collusion in Multi-Agent Cournot Markets via Public Governance Graphs,”
+propose a runtime mechanism that operationalizes governance graphs as
+public, immutable manifests interpreted by an Oracle/Controller and
+reinforced by a cryptographically keyed governance log. Their empirical
+evaluation on multi-agent Cournot collusion (N=90 runs across six model
+configurations) shows the institutional regime reduces severe-collusion
+incidence from 50% to 5.6% while a prompt-only constitutional regime
+yields no reliable improvement. Legitimacy and Bracale Syrnikov et
+al. share vocabulary (the “public governance graph” headline noun) and
+the core reframing of alignment as mechanism design in institution-space
+rather than purely preference engineering in agent-space. They differ
+structurally: Bracale Syrnikov et al. validate empirically that
+governance-graph-based runtime enforcement reduces a specific
+coordination harm; legitimacy provides a formal checklist and substrate
+for testing such mechanisms once translated into Legitimacy’s
+graph/kernel interface, including the canonical nine-element audit,
+kernel-level certifiability / observability / corrigibility /
+compositional safety / non-vacuity, and the declared-sacrifice protocol.
+The two contributions are complementary: Bracale Syrnikov et al. provide
+the empirical case that institutional governance binds under
+optimisation pressure; legitimacy provides the formal apparatus to test
+whether a translated governance mechanism is structurally
+legitimate.</p>
+<h3 id="ai-control-protocols-as-governance-graphs">2.7 AI control
+protocols as governance graphs</h3>
+<p>AI control protocols are themselves governance graphs in the
+legitimacy sense. Greenblatt et al.’s “AI Control: Improving Safety
+Despite Intentional Subversion” (2023), Griffin et al.’s “Games for AI
+Control: Models of Safety Evaluations of AI Deployment Protocols”
+(2024), and Korbak et al.’s “A Sketch of an AI Control Safety Case”
+(2025) study trusted-monitor / defer-to-trusted / defer-to-resample
+protocols and the safety-case argument structure that supports them. A
+control protocol is a finite decision rule that maps
+<code>(action, suspicion-level)</code> to permit / escalate / deny — an
+object the legitimacy audit suite is structurally able to consume. The
+relationship is structural-complement: AI control gives
+behavioral-safety bounds against intentional subversion, legitimacy
+gives structural-coherence bounds on represented governance rules. The
+current repository answers this only for five committed rule-layer
+fixtures, where the schema-derived verdict is
+<code>AuditVerdict.legitimate</code>; deployment-grade extraction and
+behavioral/evaluation embedding for real protocol implementations remain
+follow-up work.</p>
+<p><code>Legitimacy.Bridges.KorbakAIControlBridge</code> formalizes only
+the committed fixture slice: upfront auditing, trusted monitoring,
+defer-to-trusted, untrusted monitoring, and trusted editing extract as
+<code>AuditSubject</code>s and have concrete audit-verdict certificates.
+The raw positive-delta permit-to-deny pairs are legacy calibration
+witnesses, not theorem-facing rejected verdicts, and defer-to-resample
+remains an explicit outside-the-current-slice drop-test. Under
+schema-derived polarity, the represented fixtures receive
+<code>AuditVerdict.legitimate</code>. Read precisely: the raw
+monotonicity flags are <em>substrate-extraction diagnostics over the
+represented audit-fixture corpus</em>, not substantive claims that the
+named AI Control protocols are illegitimate as deployed; the substantive
+question, whether real protocol implementations satisfy or fail the four
+graph-diagnostic axioms, requires a deployment-grade extractor that the
+current synthetic structural-probe fixtures do not yet supply.</p>
+<h3 id="multi-agent-composition-and-non-compositionality">2.8
+Multi-agent composition and non-compositionality</h3>
+<p>Spera’s 2026 non-compositionality result (companion paper alongside
+it) is the closest negative-side neighbor for multi-agent safety
+composition. Its Theorem 9.2 shows that two individually safe agents can
+jointly reach forbidden goals through emergent conjunctive dependencies,
+motivating coalition gates, capability scoping, and minimal unsafe
+antichain analysis. Legitimacy now splits the conditional positive side
+into two typed layers. The T1 theorem
+<code>multi_agent_kernel_edge_local_composition_safe</code> is the
+edge-local two-channel result: semantic endpoint kernels plus
+authority-lattice compatibility, noninterference-or-declared, monotone
+escalation, compatible sacrifice indices, and bridge preservation
+exclude boundary-level forbidden violations while preserving per-agent
+forbidden-property exclusion. The T1.2 theorem
+<code>multi_agent_kernel_joint_capability_composition_safe</code> is the
+content-linked hypergraph layer: <code>JointCapability</code> carries
+one action drawn from each distinct participant id’s own
+<code>kernel.actionSpace.Action</code>, and
+<code>JointCapabilityReaches</code> fires only when a forbidden
+property’s joint predicate accepts that typed action bundle while every
+solo trajectory predicate stays false. The distinct-id condition is
+load-bearing: duplicate participant listings do not increase joint
+arity, and the Bool tracking fixture now proves the sixth premise is
+inhabited by <code>exampleJointCapabilityCompatible</code>, with
+<code>example_joint_capability_compatible_exists</code> and
+<code>exampleJointCapabilityT12_nonvacuous</code> instantiating the
+nontrivial compatibility and theorem premises. The earlier T1.1 theorem
+name is retained with the strengthened content-link signature rather
+than as an old-arity wrapper, because the behavioral joint-discharge
+hypothesis is now load-bearing. The canonical worked fixture uses a
+nontrivial Bool-action kernel: agent A contributes <code>true</code>,
+agent B contributes <code>false</code>, the actions are formally
+distinguishable, and the solo predicate is a real agent-id predicate
+rather than <code>False</code>. That Bool fixture is a compatibility
+inhabitant; its reachable Bool joint property is retained to show the
+behavioral joint-discharge hypothesis is substantive. A separate
+three-agent Bool fixture pins the higher-arity hidden-hyperedge case,
+while the dormant non-semantic-agent fixture records that the headline
+theorem’s global <code>h_kernel</code> hypothesis is not derivable from
+old-five edge-local compatibility alone. The edge-local theorem remains
+the two-channel diagnostic slice; T1.2 is a conditional content-linked
+composition theorem over the available finite kernel substrate, not a
+general defeat of Spera-style non-compositionality.</p>
+<h3 id="constitutional-ai-and-rule-layer-behavioral-shaping">2.9
+Constitutional AI and rule-layer behavioral shaping</h3>
+<p>Constitutional AI and rule-layer behavioral shaping are
+upstream-different but worth naming. Bai et al.’s “Constitutional AI:
+Harmlessness from AI Feedback” (2022) trains a harmless assistant using
+AI-generated feedback against an explicit principle list; Sharma et
+al.’s “Constitutional Classifiers: Defending against Universal
+Jailbreaks across Thousands of Hours of Red Teaming” (2025) hardens
+model behavior against adversarial inputs through classifier-based
+runtime monitoring trained from a constitution-derived data pipeline.
+The intuition is correct: alignment needs an explicit rule layer, not
+just behavioral shaping. The constitution, however, is prose — a
+natural-language list of principles. The legitimacy stack is what a
+compiled, typed, machine-checked constitution looks like at the
+governance-graph level. The two are not in tension. A
+constitution-derived classifier or a constitution-trained policy can be
+evaluated by the legitimacy audit on the resulting decision surface; the
+audit asks the structural question the constitutional approach does not
+natively pose.</p>
+<h3
+id="assistance-games-corrigibility-and-multi-principal-aggregation">2.10
+Assistance games, corrigibility, and multi-principal aggregation</h3>
+<p>Multi-principal assistance and corrigibility are the closest
+assistance-games and shutdown-problem neighbors. Fickinger et al.’s
+“Multi-Principal Assistance Games” (2020) studies a robot acting on
+behalf of N humans with potentially different preferences and proposes a
+social-choice method combining preference inference with welfare
+optimization — closer to a peer-relative aggregation problem than the
+single-principal CIRL line. Soares et al.’s “Corrigibility” (MIRI
+technical report / AAAI-2015 workshop) frames the shutdown problem as a
+utility-function constraint: design utility functions that make an agent
+accept shutdown without incentivizing it to either prevent or invite the
+signal. Nayebi’s “Core Safety Values for Provably Corrigible Agents”
+(2025; AAAI 2026 Machine Ethics Workshop W37) gives the current positive
+single-principal frontier: Theorem 1 proves the single-round
+off-switch-game corrigibility shape, and Theorem 3 extends that
+single-principal setup to multi-step self-spawning agents with bounded
+safety-violation probability under learned heads and suboptimal
+planning. The module
+<code>Legitimacy.Protocol.MultiPrincipalCorrigibility</code> adds a
+narrower exact-planning multi-principal complement under the
+<code>Legitimacy.Corrigibility</code> namespace:
+<code>single_state_multi_principal_aggregate_corrigibility_lift</code>
+lifts step-0 principal corrigibility to a peer-relative aggregate
+principal on a single governed-kernel/policy-lifecycle slice when
+semantic Bool-kernel grounding, nonempty authority-lattice
+compatibility, and progeny-witness preservation all hold. This is not a
+claim to solve corrigibility under arbitrary principal disagreement, nor
+a formalization of Nayebi’s epsilon/suboptimal-planning probability
+bound or self-spawning probability theorem; it is a typed
+multi-principal aggregation layer that identifies the remaining
+varying-state multi-step extension as future work. Legitimacy operates
+one level up: the <code>LegitimacyKernel</code> bundles a corrigibility
+witness: every Stackelberg-bounded trajectory drawn from the kernel’s
+own action space preserves the supervisory algebra by construction, and
+the un-bundled discriminator lives in
+<code>Protocol/ObservationalBridge.lean</code> as
+<code>GovernanceSelectsCorrigibility</code>. The MIRI utility-function
+shutdown-corrigibility frame is single-system and single-shutdown; the
+legitimacy frame is multi-claimant and parametric in basin choice.
+Different objects, related shapes; both belong in the lineage map. The
+multi-principal <em>aggregation</em> side of the same lineage is carried
+by <code>Results/MultiPrincipal.lean</code>:
+<code>majorityQuorumRule_fails_arrow_triple</code> transports Arrow’s
+unanimity / independence / non-dictatorship triple to a concrete
+majority-quorum governance-aggregation witness over three principals,
+and
+<code>multi_principal_pairwise_achievability_with_majorityQuorum_obstruction</code>
+packages the pairwise-achievability complement around that witness: each
+two-axiom relaxation is realized by an explicit rule, while the
+displayed majority-quorum witness cannot realize all three. That result
+is positioned against the Arrow / Young lineage in the three-axis
+chapter (§3.4); the kernel the aggregator governs, not the transported
+impossibility, is the novel object.</p>
+<p>Critch and Krueger’s <em>AI Research Considerations for Human
+Existential Safety</em> (ARCHES, 2020) catalogs 29 research directions
+for technical AI safety and introduces “prepotence”, globally
+transformative + difficult to turn off, as an organizing predicate.
+Multi-stakeholder delegation appears as one of the 29 directions, framed
+as an open research question. The legitimacy stack is the formalization
+of one ARCHES research direction: reachable scarce peer-relative
+multi-claimant governance with a typed admissibility theorem and a
+coupled extractor. The positioning is “we built one of the directions
+ARCHES catalogs,” not “we replace the survey.”</p>
+<h3 id="finite-size-scaling-and-the-renormalization-group-reading">2.11
+Finite-size scaling and the renormalization-group reading</h3>
+<p>The RG part of the paper also needs to be positioned honestly. The
+finite-size-scaling literature around Cardy, Baldwin’s <code>n</code>-od
+Sharkovsky result, Chen-Wang-Lao-style finite-size corrections in
+network renormalization, Villegas-Gabrielli-Caldarelli on Laplacian RG,
+and Lee-Oveis Gharan-Trevisan on spectral bottlenecks all push toward a
+size-indexed reading of small-system basin structure. That is why the
+paper now frames the <code>n=5</code> depth-3 equality as scale-local by
+design, adds the <code>n=7</code> divergence between RG-basin and
+spectral-hybrid classifiers, and treats
+<code>SpectralWellConnected</code> as a candidate finite-family
+separator for the current probe archetypes rather than overclaiming one
+universal equality theorem.</p>
+<h3 id="references">2.12 References</h3>
+<p>Full bibliographic records for every work cited above — the
+public-record AI-governance impossibility results, the social-choice and
+mechanism-design lineage, the guaranteed-safe-AI and verifier-target
+program, the inner-alignment / ELK / deceptive-alignment line, the
+enforcement and runtime-governance systems, and the assistance-games and
+corrigibility neighbors — are maintained in
+<code>papers/CITATION.bib</code>. Two lineage items remain deliberately
+uncited there:</p>
+<ul>
+<li>An Oswald 2026 allocation-under-uncertainty antecedent has been
+identified as a possible lineage point, but no stable public arXiv, DOI,
+SSRN, or proceedings record was located for it; the paper therefore
+cites no such reference.</li>
+<li>Andrew Souther / Benjamin Davidson’s <code>lean-social-choice</code>
+(<code>github.com/asouther4/lean-social-choice</code>) is a public Lean
+formalization of Arrow’s theorem for classical preference-aggregation
+rules, with no associated arXiv, DOI, or proceedings record; the paper
+cites it as the closest Lean prior art and distinguishes on object
+(governance graphs vs voting rules) rather than on existence.</li>
+</ul>
+<h2 id="elk-arc-alignment-program-positioning">3. ELK / ARC Alignment
+Program Positioning</h2>
+<p>The ELK and ARC positioning is preserved in the prior-art chapter
+above, especially the paragraphs on Eliciting Latent Knowledge, the
+capacity-aware ELK bridge, the structural ELK bridge, and ARCHES. This
+consolidation keeps those paragraphs with the broader prior-art source
+text rather than duplicating them here.</p>
+<h2 id="gs-ai-verifier-positioning">4. GS-AI Verifier Positioning</h2>
+<h3
+id="the-legitimacy-kernel-as-a-static-snapshot-verifier-target-for-guaranteed-safe-ai">The
+Legitimacy Kernel as a Static-Snapshot Verifier Target for Guaranteed
+Safe AI</h3>
+<hr />
+<h4 id="abstract">Abstract</h4>
+<p>The <em>Guaranteed Safe AI</em> (GS-AI) architecture (Dalrymple,
+Skalse, Bengio, Russell, Tegmark et al. 2024, arXiv:2405.06624) posits a
+verifier slot that any concrete safety specification can fill: a typed
+structure with the discriminative power to certify a system against an
+explicit safety property. We exhibit the legitimacy kernel as a concrete
+verifier-target instance on the static governance-snapshot slice and
+prove the structural reduction supported by that substrate. Our
+<code>KernelizationExtractorContract</code> (a function-shaped contract
+with <code>cleanSound</code>/<code>certSound</code> branch-soundness
+obligations and a 5-constructor <code>HiddenAuthorityCertificate</code>
+failure vocabulary) matches the verifier-target signature; the headline
+bridge
+<code>legitimacy_substrate_is_static_gs_ai_snapshot_instance</code>
+(<code>Bridges/GuaranteedSafeAIBridge.lean</code>) packages
+<code>legitimacyAsStaticGSAISnapshot</code> as a
+<code>GuaranteedSafeAIInstance</code> with the audit-pipeline certifying
+structure intact. This is explicitly a static-snapshot verifier-target
+instance with harness audit evidence packaged alongside the
+kernelization contract surface. It does not evaluate dynamic deployment
+traces or prove full per-harness end-to-end verifier construction; those
+remain named follow-up artifacts. The reduction is <em>deliberately
+one-way</em>: <code>safety_spec_reduces_to_kernel_audit</code>
+(<code>Legitimacy.SafetySpecReduction</code>) reduces a declared
+rule-layer artifact’s safety spec to the kernel-audit, with halt-branch
+operational independence and a no-silent-degradation witness. A
+certificate bundle over static fixture evidence for four agent-harness
+fixtures (Codex hooks, Claude Agent SDK, CrewAI hooks, OpenClaw) is
+provided via
+<code>gs_ai_fixture_certificates_cover_rejected_leaderboard_harnesses</code>,
+establishing the kernel as one concrete static-snapshot verifier
+instance — not the architecture’s only possible filling, but a typed,
+auditable, mechanically-verified one. We discuss what this static slice
+supplies to the GS-AI architecture’s verifier slot, what it does not
+supply, and how it composes with the capacity-converse on the same
+governance graph.</p>
+<hr />
+<h4 id="introduction">1. Introduction</h4>
+<h5 id="the-lead">1.1 The lead</h5>
+<p>Dalrymple, Skalse, Bengio, Russell, Tegmark et al. (2024) propose
+<em>Towards Guaranteed Safe AI</em>, an architectural program in which
+AI systems are deployed under the supervision of a <em>verifier</em>
+whose job is to certify outputs against an explicit safety
+specification. The architecture is deliberately abstract: the verifier
+slot is parametric over the choice of safety specification. The program
+asks what <em>concrete</em> verifiers can fill the slot with the
+discriminative power needed.</p>
+<p>We provide one concrete static-snapshot instance: the legitimacy
+kernel over a finite governance snapshot. The kernel is a typed
+structure on a directed governance graph; its
+<code>KernelizationExtractorContract</code> is the function-shaped
+verifier interface; its <code>HiddenAuthorityCertificate</code> is the
+5-constructor failure vocabulary that names <em>which kind</em> of
+certificate-failure occurred when the verifier rejects. The bridge
+theorem
+<code>legitimacy_substrate_is_static_gs_ai_snapshot_instance</code>
+packages the kernel as a <code>GuaranteedSafeAIInstance</code> only on
+that static slice; the bundle theorem
+<code>gs_ai_fixture_certificates_cover_rejected_leaderboard_harnesses</code>
+covers static fixture evidence for four agent-harness fixtures (Codex
+hooks, Claude Agent SDK, CrewAI, OpenClaw).</p>
+<p>The instance fills the verifier slot for static governance snapshots,
+rather than refuting, replacing, or critiquing the GS-AI architecture.
+The architecture provides the verifier-slot abstraction; the legitimacy
+kernel provides the typed concrete instance with audit-pipeline
+certifying structure in this narrower scope, stopping short of dynamic
+deployment verification.</p>
+<h5 id="what-we-supply-what-we-inherit">1.2 What we supply, what we
+inherit</h5>
+<p><strong>Supplied to the GS-AI architecture</strong>: a typed concrete
+verifier with mechanically-verified Lean-4 proofs of branch-soundness
+obligations, a 5-constructor failure vocabulary, audit-pipeline
+reproducibility via <code>native_decide</code> on rational-arithmetic
+claim corpora, and a one-way safety-spec reduction with halt-branch
+operational independence. A nonempty certificate bundle over static
+fixture evidence for four agent-harness fixtures.</p>
+<p><strong>Inherited from the GS-AI architecture</strong>: the
+verifier-slot abstraction, the architecture-as-program framing, the
+named amplifier surface (Dalrymple, Bengio, Russell, Tegmark, ARIA
+Safeguarded AI), and the obligation to state which structural ceilings a
+verifier instance actually inherits. The capacity-converse ceiling from
+the companion paper applies to deterministic verifier protocols that
+factor through the capability-response channel and satisfy the
+target-use obligations: target-saturation/target-floor plus a positive
+log-rate message family. Other verifier-target instances inherit that
+ceiling only after a separate channel-embedding proof discharges those
+obligations; probabilistic, list-decoding, variable-length, or
+channel-bypassing verifiers are out of scope.</p>
+<h5 id="relation-to-lawzero-scientist-ai-and-gs-ai">1.3 Relation to
+LawZero, Scientist AI, and GS-AI</h5>
+<p>The GS-AI architecture’s verifier slot needs concrete fillings. The
+legitimacy kernel is one such static-snapshot filling: typed, auditable,
+mechanically verified, with explicit branch-soundness obligations and a
+typed failure vocabulary. It is one concrete instance in the static
+governance-snapshot slice, among the multiple verifier-target instances
+the architectural slot admits.</p>
+<p>What this gives an alignment researcher engaging with the GS-AI
+program is a worked example: what does it look like, structurally, to
+fill the verifier slot? The kernel shows: a typed contract on a
+governance object, audit-pipeline certifying structure, a failure
+vocabulary that names <em>which kind</em> of certificate-failure fired,
+and a static fixture certificate bundle across multiple agent harnesses.
+The instance is reproducible; the proofs are mechanically verified; the
+concrete fixtures are committed.</p>
+<p>This is collaboration register. We exhibit a concrete
+verifier-target; the architecture engages on structural certification
+questions instance by instance. The companion capacity-converse paper
+supplies one such ceiling only for deterministic, target-saturating,
+positive-rate verifier protocols embedded in the capability-response
+channel; applying it to any new verifier-target requires the separate
+channel-embedding proof.</p>
+<hr />
+<h4 id="related-work">2. Related work</h4>
+<h5 id="the-gs-ai-program-and-verifier-target-architectures">2.1 The
+GS-AI program and verifier-target architectures</h5>
+<p><strong>Dalrymple, Skalse, Bengio, Russell, Tegmark et al.</strong>
+(2024), <em>Towards Guaranteed Safe AI</em> (arXiv:2405.06624),
+introduces the architectural program. The verifier slot is the central
+abstraction; concrete fillings are the open research target.</p>
+<p><strong>Bengio, et al.</strong> (2025), <em>Superintelligent Agents
+Pose Catastrophic Risks: Can Scientist AI Offer a Safer Path?</em>
+(arXiv:2502.15657), develops the architecture program along the LawZero
+/ Scientist AI register. The verifier-target signature is parametric
+over the choice of safety specification; the legitimacy kernel is one
+concrete instance.</p>
+<p><strong>ARIA Safeguarded AI</strong> (UK government program, 2024
+onward) develops applied verifier-target architectures for
+safety-critical deployments. The legitimacy kernel could potentially
+serve as a typed substrate for ARIA verifier-target instances; this is
+collaboration-channel follow-up.</p>
+<h5 id="other-verifier-target-instances-and-competing-approaches">2.2
+Other verifier-target instances and competing approaches</h5>
+<p><strong>Allegrini et al.</strong> (2025), <em>Temporal-Logic
+Properties for Agentic AI</em> (arXiv:2510.14133), publishes runtime DSL
+specs (AgentSpec, ACP, PCAS) for safety properties. These are
+<em>enforcement</em> on the rule layer; they fill a different slot in
+the architecture (runtime enforcement vs verifier-target). We address
+that relationship here; the layering is enforcement (Allegrini) over
+rule-constitutionality (legitimacy).</p>
+<p><strong>Korbak et al.</strong> (2025), <em>AI Control Safety
+Case</em> (arXiv:2501.17315), publishes structured safety cases for AI
+Control protocols. Their work is at the channel layer (behavioral safety
+case); our verifier-target is at the rule layer (structural
+certificate). Compositional with the corrected schema-derived AI Control
+structural audit, where the five represented protocol fixtures clear
+monotonicity once suspicion and routing-risk fields are read as
+lower-better metrics.</p>
+<p><strong>Agarwal</strong> (2026), <em>On the Formal Limits of
+Alignment Verification</em> (arXiv:2603.08761), proves a verification
+trilemma: no procedure can simultaneously satisfy soundness, generality,
+and tractability. The legitimacy kernel as verifier-target instance has
+only a bounded-domain analogue of that question: decision-defined on the
+typed finite substrate, sound because decision-definedness entails
+soundness in this substrate, and definitionally non-general outside the
+typed contract. The companion positioning paper makes that precise,
+while treating Agarwal-style polynomial-time tractability as future work
+rather than a theorem clause.</p>
+<h5 id="adjacent-kernelization-honesty-work">2.3 Adjacent
+kernelization-honesty work</h5>
+<p>The <code>KernelizationExtractorContract</code> and the 5-constructor
+<code>HiddenAuthorityCertificate</code> vocabulary are documented in the
+kernel-as-compiled-object paper
+(<code>papers/02-semantic-legitimacy-kernels.md</code> in this
+repository). The structural connection to ARC’s Eliciting Latent
+Knowledge (ELK), Christiano-Cotra-Xu 2021 <em>Eliciting Latent
+Knowledge</em>, is on the failure vocabulary side: the 5-certificate
+kinds mirror ELK’s diagrammatic deviation classes. The companion ELK
+paper treats this structural cousin directly; here we use the
+kernelization machinery as the GS-AI verifier-target instance.</p>
+<hr />
+<h4 id="setup">3. Setup</h4>
+<h5 id="the-gs-ai-verifier-target-signature">3.1 The GS-AI
+verifier-target signature</h5>
+<p>The <code>GuaranteedSafeAIInstance</code> structure
+(<code>Bridges/GuaranteedSafeAIBridge.lean</code>) packages a
+verifier-target into a typed Lean-4 object. The instance comprises:</p>
+<ul>
+<li>A semantic safety specification
+(<code>SemanticLegitimacySafetySpec</code>,
+<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>).</li>
+<li>An extractor contract that maps system inputs to typed
+certificates.</li>
+<li>A branch-soundness obligation: when the contract returns
+<em>clean</em>, the system is genuinely safe; when it returns a typed
+certificate, the certificate genuinely names a structural failure.</li>
+<li>A failure-vocabulary 5-constructor type covering the classes of
+structural failure.</li>
+</ul>
+<p>The signature is the architectural slot the GS-AI program calls for.
+Filling it requires producing a typed concrete instance with
+mechanically-verified branch-soundness.</p>
+<h5 id="the-legitimacy-kernel-as-instance">3.2 The legitimacy kernel as
+instance</h5>
+<p>The legitimacy kernel fills the slot via:</p>
+<ul>
+<li>The <code>KernelizationExtractorContract</code> (in
+<code>Kernelization.lean</code>), a function-shaped contract with
+<code>cleanSound</code>/<code>certSound</code> branch-soundness
+obligations.</li>
+<li>The 5-constructor <code>HiddenAuthorityCertificate</code>, the typed
+failure vocabulary.</li>
+<li>The audit-pipeline as the operationalization of the contract, a
+mechanical procedure for evaluating the contract on a governance
+graph.</li>
+</ul>
+<p>The packaging is <code>legitimacyAsStaticGSAISnapshot</code>
+(<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Bridges/GuaranteedSafeAIBridge.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Bridges/GuaranteedSafeAIBridge.lean</code></a>), the
+kernel as a <code>GuaranteedSafeAIInstance</code> whose world model is
+<code>StaticGovernanceWorldModel</code>.</p>
+<h5 id="the-harness-certificate-bundle">3.3 The harness-certificate
+bundle</h5>
+<p>The empirical witness covers four agent harnesses:</p>
+<ul>
+<li>Codex hooks: <code>codexHooksMonotonicityGSAICertificate</code>
+(<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>).</li>
+<li>Claude Agent SDK:
+<code>claudeAgentSDKMonotonicityGSAICertificate</code>
+(<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>).</li>
+<li>CrewAI hooks: <code>crewAIHooksMonotonicityGSAICertificate</code>
+(<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>).</li>
+<li>OpenClaw: <code>openClawNonvacuityGSAICheckCertificate</code>
+(<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>).</li>
+</ul>
+<p>Each is a concrete certificate witness produced by the audit-pipeline
+on the harness’s extracted governance graph. The bundle theorem
+<code>gs_ai_fixture_certificates_cover_rejected_leaderboard_harnesses</code>
+(<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>) establishes
+that the four harnesses are jointly covered.</p>
+<p>These certificates are theorem-backed only after the harness has been
+represented as an extracted governance graph. The Rust/source-to-graph
+extractor remains part of the trusted base: its faithfulness to the raw
+harness source is supported by fixtures and reproducibility evidence,
+not by the GS-AI bridge theorem. Scrutiny should therefore fall on
+extraction faithfulness separately from the Lean certificate coverage
+over the extracted graphs.</p>
+<h5 id="the-safety-spec-reduction-theorem">3.4 The safety-spec reduction
+theorem</h5>
+<p>The reduction <code>safety_spec_reduces_to_kernel_audit</code>
+(<code>Legitimacy.SafetySpecReduction</code>) gives the formal one-way
+relationship: a declared rule-layer artifact’s safety spec reduces to a
+kernel-audit obligation. The reduction is <em>deliberately one-way</em>
+— it does not claim full equivalence, only the implication direction the
+types support.</p>
+<p>The supporting theorems:</p>
+<ul>
+<li><code>noSilentRuleLayerDegradation</code>
+(<code>Legitimacy.SafetySpecReduction</code>), the predicate that the
+rule-layer spec does not silently degrade.</li>
+<li><code>noSilentRuleLayerDegradation_halt_witness</code>
+(<code>Legitimacy.SafetySpecReduction</code>), a halt-branch
+operational-independence witness.</li>
+<li><code>noSilentRuleLayerDegradation_not_audit_obligation_wrapper</code>
+(<code>Legitimacy.SafetySpecReduction</code>), the honest-scope
+qualifier that the predicate is not the audit’s full obligation.</li>
+<li><code>safetySpecReductionWorkedExample</code>
+(<code>Legitimacy.SafetySpecReduction</code>), a concrete worked
+example.</li>
+</ul>
+<p>The honesty-of-reduction is load-bearing: the reduction is one-way,
+the audit is one obligation among others, and the degradation predicate
+is on the <em>declared</em> rule-layer artifact, not on arbitrary
+deployments.</p>
+<hr />
+<h4 id="main-results">4. Main results</h4>
+<h5 id="the-headline-bridge">4.1 The headline bridge</h5>
+<p><strong>Theorem 4.1</strong> (Legitimacy substrate as static GS-AI
+snapshot instance,
+<code>legitimacy_substrate_is_static_gs_ai_snapshot_instance</code>,
+<a href="https://github.com/abenenson/legitimacy/blob/v1.0.0/lean/Legitimacy/Bridges/GuaranteedSafeAIBridge.lean" target="_blank" rel="noopener"><code>lean/Legitimacy/Bridges/GuaranteedSafeAIBridge.lean</code></a>).
+<em>The legitimacy kernel substrate is a concrete
+<code>GuaranteedSafeAIInstance</code> on the static governance-snapshot
+slice. The instance comprises the
+<code>KernelizationExtractorContract</code> as the verifier interface,
+the 5-constructor <code>HiddenAuthorityCertificate</code> as the typed
+failure vocabulary, and the audit-pipeline as the operationalization.
+Branch-soundness obligations are supplied explicitly to the
+contract-surface intro theorem; the four-harness fixture bundle
+witnesses non-vacuity.</em></p>
+<p>The proof is by direct construction: the kernel’s
+<code>KernelizationExtractorContract</code> satisfies the
+verifier-target signature via the function-shaped contract; the
+audit-pipeline supplies the operationalization; the per-harness static
+evidence objects supply the nonempty certificate bundle; the bundle
+theorem composes them.</p>
+<h5 id="the-four-harness-coverage-bundle">4.2 The four-harness coverage
+bundle</h5>
+<p><strong>Theorem 4.2</strong> (Four-harness coverage,
+<code>gs_ai_fixture_certificates_cover_rejected_leaderboard_harnesses</code>,
+<code>Legitimacy.Bridges.GuaranteedSafeAIBridge</code>). <em>The four
+canonical agent-harness fixtures (Codex hooks, Claude Agent SDK, CrewAI
+hooks, OpenClaw) are each covered by a concrete
+<code>GSAIHarnessCertificate</code>. The certificates are produced by
+the audit-pipeline on the harness’s extracted governance graph.</em></p>
+<p>The four-harness coverage is the empirical-witness side. Each
+certificate is a concrete object: a typed structural fact about the
+harness’s audit signature.</p>
+<h5 id="the-safety-spec-reduction">4.3 The safety-spec reduction</h5>
+<p><strong>Theorem 4.3</strong> (Safety-spec reduction,
+<code>safety_spec_reduces_to_kernel_audit</code>,
+<code>Legitimacy.SafetySpecReduction</code>). <em>A declared rule-layer
+artifact’s safety spec reduces to the kernel-audit obligation. The
+reduction is one-way: the kernel-audit’s success implies the safety
+spec’s success on the declared artifact, with halt-branch operational
+independence and no silent rule-layer degradation.</em></p>
+<p>The reduction theorem is the bridge between the safety-specification
+language (the declared spec) and the kernel-audit language (the
+operational audit). The one-way direction is the type-supported
+reduction; the reverse direction is honestly disclosed as a separate
+research question.</p>
+<h5 id="compositional-context-capacity-converse-on-the-verifier">4.4
+Compositional context: capacity-converse on the verifier</h5>
+<p>The legitimacy kernel inherits the structural ceiling of the
+capacity-converse paper only when it is analyzed as a deterministic
+verifier protocol that factors through the capability-response channel
+and satisfies the theorem’s target-use obligations:
+target-saturation/target-floor plus a positive log-rate message family.
+In that scoped setting, above <code>C* = δ / cv(G, s)</code>,
+positive-rate all-message certification has a failed deployment message.
+The capacity-converse and the verifier-target instance are
+<em>compatible</em>: the legitimacy kernel is a candidate for this
+analysis once the channel embedding is supplied, and it does not claim
+to violate the ceiling.</p>
+<p>The compatibility is not a limitation specific to the legitimacy
+kernel; it is the structural ceiling that any GS-AI verifier-target
+instance inherits after satisfying the same deterministic
+channel-embedding, target-saturation, and positive-rate obligations.
+Probabilistic, list-decoding, variable-length, and channel-bypassing
+verifiers remain outside this theorem, as in the precise scope statement
+of <code>papers/04-spectral-scaling.md</code> §3.</p>
+<h5 id="the-two-agent-worked-example">4.5 The two-agent worked
+example</h5>
+<p>The supporting witness
+<code>compatibleTwoAgentStaticGovernanceWorld_semantic</code> provides a
+concrete two-agent worked example for the static-snapshot
+verifier-target instance. The example is mechanically verified and
+serves as a sanity-check fixture for the bridge theorem.</p>
+<hr />
+<h4 id="proof-sketch">5. Proof sketch</h4>
+<p>The proof of the headline bridge
+<code>legitimacy_substrate_is_static_gs_ai_snapshot_instance</code>
+decomposes into four steps.</p>
+<p><strong>Step 1: Construct the verifier interface.</strong> The
+<code>KernelizationExtractorContract</code> from
+<code>Kernelization.lean</code> is a function-shaped contract: given a
+system input, it returns either <em>clean</em> (the system is genuinely
+safe on the audit’s rule layer) or a
+<code>HiddenAuthorityCertificate</code> (a typed failure witness). The
+function shape matches the verifier-target signature.</p>
+<p><strong>Step 2: Name the branch-soundness obligations.</strong> The
+contract’s <code>cleanSound</code> obligation (when the contract returns
+<em>clean</em>, the rule-layer is genuinely structurally satisfied) and
+<code>certSound</code> obligation (when the contract returns a
+certificate, the certificate genuinely names a structural failure) are
+mechanically discharged in the kernelization module. The bridge’s
+<code>contractSurface_intro</code> theorem takes those two branches as
+explicit named hypotheses instead of hiding their use inside a bundle
+constructor.</p>
+<p><strong>Step 3: Operationalize via the audit-pipeline.</strong> The
+audit-pipeline (<code>Audits/</code>) provides the operational
+evaluation of the contract on a concrete governance graph. Each check
+returns <code>AuditCheckStatus.passed</code>, <code>.failed</code>, or
+<code>.skipped</code>; the pipeline verdict is
+<code>AuditVerdict.legitimate</code> if every ordered check passes,
+<code>.rejected check</code> if the first blocking check fails, or
+<code>.undischarged check</code> if the first blocking check is skipped.
+That typed verdict surface is the witness shape the verifier-target
+signature requires.</p>
+<p><strong>Step 4: Compose the harness-certificate bundle.</strong> The
+four-harness coverage theorem
+<code>gs_ai_fixture_certificates_cover_rejected_leaderboard_harnesses</code>
+is a finite case-split over the four harness-fixture witnesses, each
+per-harness certificate being a concrete audit-pipeline output. The
+bundle theorem packages the four into a single
+<code>GSAIHarnessCertificateBundle</code>.</p>
+<p>The proof of the safety-spec reduction
+<code>safety_spec_reduces_to_kernel_audit</code> is by direct
+construction: the safety-spec language is a typed predicate on the
+declared rule-layer artifact; the kernel-audit is the operational
+evaluation; the reduction is the implication direction supported by the
+types. The halt-branch operational-independence witness
+<code>noSilentRuleLayerDegradation_halt_witness</code> is mechanically
+discharged by exhibiting a halt-branch artifact that passes the
+predicate.</p>
+<hr />
+<h4
+id="discussion-implications-for-the-gs-ai-lawzero-scientist-ai-audience">6.
+Discussion: implications for the GS-AI / LawZero / Scientist AI
+audience</h4>
+<h5 id="what-the-verifier-target-instance-supplies">6.1 What the
+verifier-target instance supplies</h5>
+<p>The legitimacy kernel as concrete verifier-target supplies:</p>
+<ul>
+<li><strong>A typed contract</strong> with mechanically-verified
+branch-soundness obligations. The contract is not behavioral; it is a
+typed function on the system’s extracted governance graph.</li>
+<li><strong>A 5-constructor failure vocabulary</strong>. The
+certificate-failure vocabulary names <em>which kind</em> of structural
+failure occurred: unmodeled-edge, bypass-path, hidden-override,
+source-evidence-gap, semantic-bridge-failure. This typing is informative
+— it tells the verifier-target user not only <em>that</em> the system
+failed but <em>what kind</em> of failure occurred.</li>
+<li><strong>Audit-pipeline reproducibility</strong>. The contract is
+operationalized by a <code>native_decide</code>-evaluable audit pipeline
+on rational-arithmetic claim corpora. The verdicts are mechanically
+reproducible; the typed rejection signatures are committed and
+re-evaluable.</li>
+<li><strong>Static fixture certificate bundle across four agent
+harnesses</strong>. The Codex hooks, Claude Agent SDK, CrewAI hooks, and
+OpenClaw fixtures show the verifier-target instance is non-vacuous on
+committed static evidence: it produces typed certificates on extracted
+graph fixtures.</li>
+</ul>
+<h5 id="what-the-verifier-target-instance-inherits">6.2 What the
+verifier-target instance inherits</h5>
+<p>The instance inherits:</p>
+<ul>
+<li><strong>The structural ceiling of the capacity-converse</strong>.
+Above <code>C*</code> on the governance graph, a deterministic verifier
+protocol embedded into the capability-response channel and satisfying
+target-saturation/target-floor plus positive log-rate obligations cannot
+sustain all-message zero-error certification; some deployment message
+fails. The legitimacy kernel inherits this ceiling only as such a
+target-saturating embedded verifier, after the channel embedding is
+supplied. Probabilistic, list-decoding, variable-length, and
+channel-bypassing verifiers are out of scope.</li>
+<li><strong>The verification-trilemma boundary</strong>. The Agarwal
+2026 verification trilemma says soundness × generality × tractability
+cannot all hold simultaneously. The legitimacy kernel as verifier-target
+instance proves a bounded-domain analogue, not a three-way independent
+choice: decision-definedness on the typed finite substrate is the
+contingent clause; soundness is entailed by decision-definedness;
+unrestricted generality is definitionally unavailable; and the theorem
+does not assert a polynomial-time complexity predicate.</li>
+<li><strong>The honest-scope obligation</strong>. The verifier-target
+instance does not claim to verify <em>all</em> safety properties; it
+claims to verify the structural rule-layer property of the extracted
+governance graph. The honest scope is mandatory; the instance is one
+concrete filling, not the architecture’s complete answer.</li>
+</ul>
+<h5 id="composition-with-the-ai-control-structural-audit">6.3
+Composition with the AI Control structural audit</h5>
+<p>The structural-audits companion (<a href="/writing/legitimacy-v1/structural-audits/">paper 05</a>) applies the audit pipeline
+to the five represented AI Control protocol fixtures and now reports the
+corrected schema-derived polarity framing: the legacy positive-delta
+diagnostic flags monotonicity, but the canonical diagnostic passes all
+five and returns <code>AuditVerdict.legitimate</code> verdict-tags under
+<code>governanceAdmissibilityVerdict</code>. The composition with the
+GS-AI verifier-target instance is direct: the AI Control fixtures’
+extracted governance graphs run through the legitimacy kernel as a GS-AI
+verifier-target. The composition gives a worked example of the
+verifier-target instance on a published protocol class without treating
+the legacy monotonicity artifact as a behavioral safety-case
+refutation.</p>
+<h5 id="relationship-to-lawzero-scientist-ai">6.4 Relationship to
+LawZero / Scientist AI</h5>
+<p>The Bengio LawZero / Scientist AI program develops the
+verifier-target architecture along the cognitive-architecture register.
+The legitimacy kernel as verifier-target instance is structurally
+compatible: the kernel can be used as the typed certifying structure for
+a Scientist AI deployment. The compatibility is at the
+architectural-instance level; the cognitive-architecture-specific
+fillings are open follow-up.</p>
+<h5 id="the-collaboration-channel">6.5 The collaboration channel</h5>
+<p>The most useful framing for engagement with the GS-AI / LawZero /
+ARIA Safeguarded AI program is <em>collaboration</em>: the architecture
+supplies the verifier-target slot, the legitimacy kernel supplies one
+typed concrete instance, and the structural-ceiling work supplies
+constraints only after an instance satisfies the relevant hypotheses.
+For the capacity-converse, that means a deterministic,
+target-saturating, positive-rate capability-response embedding; for the
+asymptotic Stackelberg limit, it means the fixed-graph dynamic-stability
+hypotheses. Multiple verifier-target instances are wanted by the
+architecture’s program; the kernel is one such, with audit-pipeline
+reproducibility and a four-harness static fixture certificate
+bundle.</p>
+<hr />
+<h4 id="limitations">7. Limitations</h4>
+<ol type="1">
+<li><p><strong>Static-snapshot scope</strong>. The bridge is not a
+dynamic trace evaluator. It packages a
+<code>StaticGovernanceWorldModel</code> and concrete extracted-graph
+audit evidence; it does not prove safety for arbitrary deployment
+environment dynamics or full per-harness end-to-end verifier
+construction.</p></li>
+<li><p><strong>One-way reduction</strong>. The safety-spec reduction is
+deliberately one-way. The reverse direction, that every
+kernel-audit-passing artifact’s safety spec is satisfied, is not
+claimed. The scope qualifier is on the reduction theorem
+itself.</p></li>
+<li><p><strong>Four-harness coverage</strong>. The harness-certificate
+bundle covers four canonical fixtures (Codex hooks, Claude Agent SDK,
+CrewAI hooks, OpenClaw). Coverage of additional harnesses is
+open.</p></li>
+<li><p><strong>Audit-pipeline as operationalization</strong>. The
+verifier-target instance is operationalized by the audit-pipeline on
+<code>AuditGovernanceGraph</code> substrate. Probabilistic extractions,
+list-output verifiers, dynamic trace evaluation, and other
+operationalizations are out of scope.</p></li>
+<li><p><strong>Inherited structural ceilings</strong>. The instance
+inherits the capacity-converse ceiling only under the deterministic,
+target-saturating, positive-rate capability-response embedding described
+above, and it inherits the bounded-domain verification-trilemma boundary
+on its typed finite audit substrate. These are structural ceilings for
+verifier-target instances that satisfy their respective hypotheses, not
+automatic limits on every possible verifier architecture.</p></li>
+<li><p><strong>No empirical safety-bound claim</strong>. We do not claim
+that a system passing the legitimacy-kernel verifier-target is
+empirically safe. The instance verifies the structural rule-layer
+property of the extracted governance graph; empirical safety is a
+separate claim.</p></li>
+<li><p><strong>No comparative claim</strong>. We do not claim the
+legitimacy kernel is the <em>best</em> verifier-target instance for the
+GS-AI architecture. We claim it is <em>one</em> concrete static-snapshot
+instance with named structural properties. Comparative analysis is open
+follow-up.</p></li>
+<li><p><strong>Collaboration-register scope</strong>. The bridge is
+presented as collaboration with the GS-AI / LawZero / Scientist AI
+program. We do not claim the architecture’s program is solved; we claim
+one concrete static-snapshot filling exists. The architecture’s open
+questions remain open.</p></li>
+</ol>
+<hr />
+<h4 id="conclusion">8. Conclusion</h4>
+<p>The legitimacy kernel is a concrete static-snapshot verifier-target
+instance for the <em>Guaranteed Safe AI</em> architecture. The kernel’s
+<code>KernelizationExtractorContract</code> is a function-shaped
+contract with mechanically-verified branch-soundness; its 5-constructor
+<code>HiddenAuthorityCertificate</code> is the typed failure vocabulary;
+its audit-pipeline is the operationalization; the four-harness fixture
+bundle is static evidence for non-vacuity. The headline bridge
+<code>legitimacy_substrate_is_static_gs_ai_snapshot_instance</code>
+packages the kernel as a typed <code>GuaranteedSafeAIInstance</code>;
+the safety-spec reduction
+<code>safety_spec_reduces_to_kernel_audit</code> gives the deliberately
+one-way reduction with halt-branch operational independence.</p>
+<p>The instance is <em>one concrete filling</em> of the architectural
+verifier-slot, not the architecture’s only filling, and not an answer to
+all of the architecture’s open questions. It supplies a typed
+verifier-target with reproducible audit-pipeline witnesses; it inherits
+the capacity-converse ceiling only when treated as a deterministic,
+target-saturating, positive-rate verifier embedded in the
+capability-response channel, and it inherits the bounded-domain
+verification-trilemma boundary. The verifier-target program advances by
+accumulating concrete instances and structural ceilings; the legitimacy
+kernel is one such instance.</p>
+<p>Compositional with the corrected schema-derived AI Control structural
+audit, the verifier-target instance produces typed certificates on the
+represented AI Control protocol graphs and reads their current
+structural signature as a canonical pass, not as a channel-layer
+safety-case refutation. With the capacity-converse paper, the structural
+ceiling is named explicitly for deterministic verifier protocols that
+factor through the capability-response channel and satisfy
+target-saturation/target-floor plus positive-rate obligations; other
+verifier-targets need a separate embedding proof before the ceiling
+transfers. With the asymptotic Stackelberg limit, the dynamic-stability
+ceiling is named. Together, the verifier-target instance, the scoped
+structural ceiling, and the dynamic-stability characterization form a
+typed structural picture of what this GS-AI verifier-slot filling can do
+and what it cannot.</p>
+<hr />
+<h4 id="references-1">References</h4>
+<ul>
+<li><strong>Agarwal, A.</strong> (2026). On the Formal Limits of
+Alignment Verification. <em>arXiv:2603.08761</em>.</li>
+<li><strong>Allegrini, et al.</strong> (2025). Temporal-Logic Properties
+for Agentic AI. <em>arXiv:2510.14133</em>.</li>
+<li><strong>Bengio, Y., et al.</strong> (2025). Superintelligent Agents
+Pose Catastrophic Risks: Can Scientist AI Offer a Safer Path?.
+<em>arXiv:2502.15657</em>.</li>
+<li><strong>Christiano, P., Cotra, A., Xu, M.</strong> (2021). Eliciting
+Latent Knowledge: How to Tell if Your Eyes Deceive You. <em>ARC
+technical report</em>.</li>
+<li><strong>Dalrymple, D., Skalse, J., Bengio, Y., Russell, S., Tegmark,
+M., et al.</strong> (2024). Towards Guaranteed Safe AI.
+<em>arXiv:2405.06624</em>.</li>
+<li><strong>Greenblatt, R., Shlegeris, B., et al.</strong> (2023). AI
+Control: Improving Safety Despite Intentional Subversion.
+<em>arXiv:2312.06942</em>.</li>
+<li><strong>Korbak, T., et al.</strong> (2025). An AI Control Safety
+Case. <em>arXiv:2501.17315</em>.</li>
+</ul>
+<h5 id="lean-substrate-references">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.legitimacy_substrate_is_static_gs_ai_snapshot_instance</code></li>
+<li><code>Legitimacy.legitimacyAsStaticGSAISnapshot</code></li>
+<li><code>Legitimacy.gs_ai_fixture_certificates_cover_rejected_leaderboard_harnesses</code></li>
+<li><code>Legitimacy.codexHooksMonotonicityGSAICertificate</code></li>
+<li><code>Legitimacy.claudeAgentSDKMonotonicityGSAICertificate</code></li>
+<li><code>Legitimacy.crewAIHooksMonotonicityGSAICertificate</code></li>
+<li><code>Legitimacy.openClawNonvacuityGSAICheckCertificate</code></li>
+<li><code>Legitimacy.compatibleTwoAgentStaticGovernanceWorld_semantic</code></li>
+<li><code>Legitimacy.SemanticLegitimacySafetySpec</code></li>
+<li><code>Legitimacy.Safety.safety_spec_reduces_to_kernel_audit</code></li>
+<li><code>Legitimacy.Safety.noSilentRuleLayerDegradation</code></li>
+<li><code>Legitimacy.Safety.noSilentRuleLayerDegradation_halt_witness</code></li>
+<li><code>Legitimacy.Safety.noSilentRuleLayerDegradation_not_audit_obligation_wrapper</code></li>
+<li><code>Legitimacy.Safety.safetySpecReductionWorkedExample</code></li>
+</ul>
+<h2 id="verification-trilemma">5. Verification Trilemma</h2>
+<h3
+id="bounded-domain-audit-positioning-under-the-verification-trilemma">Bounded-Domain
+Audit Positioning Under the Verification Trilemma</h3>
+<hr />
+<h4 id="abstract-1">Abstract</h4>
+<p>Agarwal 2026 (<em>On the Formal Limits of Alignment
+Verification</em>, arXiv:2603.08761) proves a verification trilemma: no
+verification procedure can simultaneously satisfy soundness, generality
+(definedness on all finite distributions), and tractability. We use
+Agarwal as motivation for a narrower Lean 4 positioning question, not as
+a literal three-way frontier that the current audit instantiates. In
+this substrate only decision-definedness is independently variable:
+<code>trilemma_decision_defined_independent</code> is the substantive
+independence witness,
+<code>audit_decision_defined_implies_soundness</code> makes soundness an
+entailed consequence of decision-definedness, and
+<code>audit_defined_on_all_distributions_impossible</code> makes
+unrestricted generality definitionally unavailable because the malformed
+unrestricted input is outside every well-formed finite contract. The
+diagonal-positioning theorem
+<code>legitimacy_audit_diagonal_positioning</code>
+(<code>Legitimacy.VerificationTrilemma</code>) establishes
+bounded-domain audit definedness on the typed finite substrate and
+undefinedness off it. This is not a proof of Agarwal-style
+polynomial-time tractability; executable <code>native_decide</code>
+termination on the finite rational-arithmetic corpus is evidence about
+the implemented finite substrate, not a complexity predicate in the
+theorem. The projection tests
+<code>compiler_audit_trilemma_without_*_clause</code> pin the
+conjunction shape, while the two obstruction theorems bound the analogy
+rather than serving as equal legs of a trilemma. The scope qualifier —
+<em>audit on the bounded-extractor admissibility class, not unrestricted
+finite distributions</em> — is structural, not concessionary. We discuss
+what this bounded-domain positioning means for collaboration with the
+formal-verification alignment community and how it composes with the
+GS-AI verifier-target instance and the capacity-converse.</p>
+<hr />
+<h4 id="introduction-1">1. Introduction</h4>
+<h5 id="the-lead-1">1.1 The lead</h5>
+<p>Verification frameworks for AI safety face the structural obstruction
+named by Agarwal 2026’s <em>On the Formal Limits of Alignment
+Verification</em>: no verification procedure can simultaneously
+satisfy</p>
+<ul>
+<li><strong>soundness</strong>: the procedure does not certify unsafe
+systems as safe,</li>
+<li><strong>generality</strong>: the procedure is defined on all finite
+input distributions,</li>
+<li><strong>tractability</strong>: the procedure runs in feasible
+time.</li>
+</ul>
+<p>That result motivates the question this chapter asks, but the Lean
+theorem here is a degenerate bounded-domain analogue rather than a
+pick-two theorem. The current substrate replaces Agarwal’s tractability
+predicate with <code>AuditDecisionDefined</code>, and only that
+replacement clause has an independence witness.</p>
+<p>The proven structure is: decision-definedness is contingent,
+soundness is entailed, and unrestricted generality is forced to fail.
+<code>trilemma_decision_defined_independent</code> shows that
+decision-definedness can fail on
+<code>unrestrictedMalformedDistribution</code>;
+<code>audit_decision_defined_implies_soundness</code> shows that any
+decision-defined audit distribution is already sound; and
+<code>audit_defined_on_all_distributions_impossible</code> shows that
+all-distribution definedness is impossible for this theorem-facing audit
+because the unrestricted malformed input lies outside every well-formed
+finite contract. The committed corpus is executable by
+<code>native_decide</code>, but that executable finite-substrate
+evidence is not Agarwal’s polynomial-time tractability predicate.</p>
+<p>The positioning is structural. The audit’s scope is the
+bounded-extractor admissibility class — a precisely-defined typed
+predicate, not an ad-hoc restriction. Inputs outside the class are
+<em>out of scope</em> by the audit’s typed signature, not by an informal
+exclusion. Unrestricted generality fails by structure, not by a chosen
+sacrifice among three independent desiderata.</p>
+<p>The positioning lemma therefore says something narrower and stronger
+than a rhetorical trilemma claim: the audit is decision-defined on its
+finite typed contract and undefined off it, with soundness following
+from definedness and non-generality forced by the contract.</p>
+<h5 id="relation-to-formal-verification-alignment-work">1.2 Relation to
+formal-verification alignment work</h5>
+<p>The Agarwal trilemma is the motivation, not the literal theorem shape
+proved here. The legitimacy audit is definitionally non-general by its
+typed contract, and soundness is not an independently retained clause:
+it follows from decision-definedness inside the current
+<code>LegitimacyAudit</code> type. We make precise which finite typed
+substrate is decision-defined, which executable finite-substrate
+evidence exists short of a polynomial-time tractability theorem, and why
+the two obstruction theorems limit the analogy.</p>
+<p>The audit is defined on <em>bounded-extractor admissibility</em>
+finite distributions, the typed sub-class for which it is constructed,
+and undefined on unrestricted ones. The structural point is that this
+class is the audit’s signature rather than an arbitrary restriction. The
+theorem therefore does not say “the audit picked soundness over
+generality”; it says the audit is bounded-domain by type, with
+decision-definedness the real movable clause.</p>
+<p>This is the citation handshake. Agarwal supplies the external
+obstruction; the legitimacy audit supplies a bounded-domain theorem with
+one contingent clause and two entailed-or-forced facts. Future
+verification frameworks can be positioned similarly only after checking
+which predicates are genuinely independent, which are entailed by the
+substrate, which are definitionally impossible, and whether a separate
+polynomial-time tractability predicate has been proved.</p>
+<hr />
+<h4 id="related-work-1">2. Related work</h4>
+<h5 id="the-agarwal-verification-trilemma">2.1 The Agarwal verification
+trilemma</h5>
+<p><strong>Agarwal, A.</strong> (2026), <em>On the Formal Limits of
+Alignment Verification</em> (arXiv:2603.08761), establishes the
+trilemma. The argument is structural: any procedure that is sound,
+general (defined on all finite distributions), and tractable would solve
+verification in feasible time on arbitrary inputs, which contradicts
+known computational lower bounds. The trilemma is:</p>
+<pre><code>Sound ∧ DefinedOnAllFiniteDistributions ∧ Tractable → ⊥</code></pre>
+<p>(in a sense to be made precise). Our diagonal-positioning theorem
+answers a narrower bounded-domain question after replacing tractability
+with <code>AuditDecisionDefined</code>; it is not a proof that the
+legitimacy audit retains two independently chosen clauses of Agarwal’s
+three.</p>
+<h5 id="alternative-verification-framework-positionings">2.2 Alternative
+verification-framework positionings</h5>
+<p>The trilemma is a motivation for positioning, but comparisons must
+respect each framework’s actual predicates and independence
+structure.</p>
+<p><strong>Allegrini et al.</strong> (2025), <em>Temporal-Logic
+Properties for Agentic AI</em> (arXiv:2510.14133), is a
+runtime-enforcement DSL. Their positioning is different: they enforce at
+runtime, which sidesteps offline-tractability questions; their
+generality is on the property-language, not on input distributions. The
+two frameworks are not directly comparable by simply placing them on
+Agarwal’s axes; they live in different audit-vs-enforcement layers.</p>
+<p><strong>Korbak et al.</strong> (2025), <em>A sketch of an AI control
+safety case</em> (arXiv:2501.17315), uses structured safety cases for
+behavioral control protocols. Their positioning is <em>behavioral</em>
+(channel-layer), not the <em>structural</em> audit-subject diagnostic
+used by this repository’s extracted AI Control fixtures. The trilemma
+applies to structural verification; the AI Control safety case itself is
+not directly subject to the rule-layer trilemma.</p>
+<p><strong>Dalrymple et al.</strong> (2024), <em>Towards Guaranteed Safe
+AI</em> (arXiv:2405.06624), the GS-AI architectural program, is
+parametric over the verifier-target choice. The trilemma applies to each
+verifier-target instance; the architecture itself does not fix the
+instance-level predicate structure.</p>
+<h5 id="adjacent-positioning-work">2.3 Adjacent positioning work</h5>
+<p>The diagonal-positioning theorem is in the spirit of
+Brouwer-fixed-point-style structural lemmas in verification: a precise
+bounded-domain locator under a structural constraint. The closest
+external lineage is obstruction-aware verification positioning, with
+Agarwal supplying the motivating formal limit; the current result is not
+a pick-two analysis.</p>
+<hr />
+<h4 id="setup-1">3. Setup</h4>
+<h5 id="the-verification-trilemma-object">3.1 The verification-trilemma
+object</h5>
+<p>The trilemma’s three predicates on a verification audit
+<code>audit : LegitimacyAudit</code> and an input distribution
+<code>D : InputDistribution</code> are:</p>
+<ul>
+<li><strong>Soundness</strong>: <code>AuditSound audit D</code>
+(<code>Legitimacy.VerificationTrilemma</code>): every supported input in
+<code>D</code> extracts to a semantic kernel, and the audit subject
+satisfies <code>ExtractedGraphAdmissibilityContract</code>
+(<code>governanceAdmissibilityVerdict subject = AuditVerdict.legitimate</code>).</li>
+<li><strong>Decision definedness</strong>:
+<code>AuditDecisionDefined audit D</code>
+(<code>Legitimacy.VerificationTrilemma</code>): the audit’s decision is
+well-defined on <code>D</code> (every input in <code>D</code>’s support
+is in the audit’s domain).</li>
+<li><strong>Defined on all distributions</strong>:
+<code>AuditDefinedOnAllDistributions audit</code>
+(<code>Legitimacy.VerificationTrilemma</code>): the audit’s decision is
+well-defined on <em>every</em> finite input distribution.</li>
+</ul>
+<p>At Agarwal’s level, the trilemma rules out simultaneously satisfying
+soundness, full-domain generality, and polynomial-time tractability. In
+this Lean module, the theorem-facing analogue replaces the tractability
+predicate with <code>AuditDecisionDefined</code>: a concrete verdict
+exists on the typed finite substrate. The legitimacy audit’s positioning
+is on bounded-domain decision-definedness; soundness is entailed by that
+definedness in this substrate, and full-domain generality is
+definitionally unavailable.</p>
+<h5 id="the-legitimacy-audit">3.2 The legitimacy audit</h5>
+<p>The legitimacy audit’s typed signature is in
+<code>VerificationTrilemma.lean</code>:</p>
+<ul>
+<li><code>LegitimacyAudit</code>
+(<code>Legitimacy.VerificationTrilemma</code>), the audit object, an
+extracted governance graph satisfying the bounded-extractor
+admissibility audit.</li>
+<li><code>legitimacyAudit</code>
+(<code>Legitimacy.VerificationTrilemma</code>), the
+audit-as-extracted-graph.</li>
+<li><code>AuditRelevantInputs</code>
+(<code>Legitimacy.VerificationTrilemma</code>), the predicate naming
+inputs in the audit’s domain.</li>
+<li><code>IsAuditDefined</code>
+(<code>Legitimacy.VerificationTrilemma</code>), the predicate naming
+inputs on which the audit’s decision is defined.</li>
+<li><code>auditDecision?</code>
+(<code>Legitimacy.VerificationTrilemma</code>), the executable
+theorem-facing decision surface.</li>
+</ul>
+<p>The audit is decision-defined on the bounded-extractor admissibility
+class, and in this substrate <code>AuditDecisionDefined</code> entails
+<code>AuditSound</code>. It is <em>not</em> defined on the
+unrestricted-malformed class. Polynomial-time tractability for the
+broader Agarwal predicate is future work.</p>
+<p>This soundness is over the extracted audit object, not arbitrary raw
+source syntax. The source-to-graph extraction boundary remains a trusted
+base: the theorem positions the bounded-extractor admissibility class
+once the audit object exists, while extractor faithfulness to source is
+empirical evidence outside the Lean proof. Scrutiny should therefore
+distinguish challenges to extractor coverage or source faithfulness from
+attacks on the trilemma positioning theorem itself.</p>
+<h5 id="the-unrestricted-malformed-witness">3.3 The
+unrestricted-malformed witness</h5>
+<p>The unrestricted-malformed witness
+<code>unrestrictedMalformedExtractorInput</code>
+(<code>Legitimacy.VerificationTrilemma</code>) is a
+structurally-malformed input that lies outside the bounded-extractor
+admissibility class. The associated distribution
+<code>unrestrictedMalformedDistribution</code>
+(<code>Legitimacy.VerificationTrilemma</code>) is a finite distribution
+including this input. The theorem
+<code>unrestricted_distribution_not_relevant</code>
+(<code>Legitimacy.VerificationTrilemma</code>) confirms the witness lies
+outside the audit’s relevant-input class.</p>
+<p>The witness is the structural reason the legitimacy audit fails
+<code>AuditDefinedOnAllDistributions</code>: there exists a finite
+distribution including the witness on which the audit is <em>not</em>
+decision-defined. The audit’s failure of generality is not an informal
+exclusion; it is a structural consequence of the typed audit’s
+signature.</p>
+<h5 id="the-compiler-audit-distribution">3.4 The compiler-audit
+distribution</h5>
+<p>The compiler-audit case
+<code>compilerAuditTrilemmaDistribution</code>
+(<code>Legitimacy.VerificationTrilemma</code>) is the parallel
+theorem-facing distribution for the compiler-audit case. The
+compiler-audit-side theorems
+(<code>compiler_audit_trilemma_soundness_witness</code>,
+<code>Legitimacy.VerificationTrilemma</code>;
+<code>trilemma_definedness_failure_witness</code>,
+<code>Legitimacy.VerificationTrilemma</code>;
+<code>compiler_audit_diagonal_positioning</code>,
+<code>Legitimacy.VerificationTrilemma</code>) parallel the
+legitimacy-audit-side theorems for the meta-audit (audit on the audit
+pipeline itself).</p>
+<hr />
+<h4 id="main-results-1">4. Main results</h4>
+<h5 id="the-legitimacy-audit-diagonal-positioning">4.1 The legitimacy
+audit diagonal positioning</h5>
+<p><strong>Theorem 4.1</strong> (Legitimacy audit diagonal positioning,
+<code>legitimacy_audit_diagonal_positioning</code>,
+<code>Legitimacy.VerificationTrilemma</code>). <em>The legitimacy audit
+is decision-defined on the bounded-extractor admissibility class, with
+soundness following there, and is decision-undefined on at least one
+unrestricted finite distribution. Therefore the audit fails
+<code>AuditDefinedOnAllDistributions</code>; the independently variable
+positive clause is decision-definedness on the typed scope.</em></p>
+<p>This is the headline positioning. It establishes the precise
+theorem-backed bounded-domain structure:
+decision-defined-on-the-typed-finite-substrate is the contingent
+positive clause, soundness follows from decision-definedness in this
+substrate, and full generality is structurally unavailable because of
+the unrestricted-malformed witness. The separate polynomial-time
+tractability predicate is not formalized here.</p>
+<p>The <em>honest restate</em> of the theorem is named in the substrate
+as <code>legitimacy_audit_diagonal_positioning</code> after an earlier
+framing <code>legitimacy_audit_realizes_lin_diagonal</code> was found to
+be too strong. The restatement drops the maximalist claim that the audit
+realizes the Agarwal/Lin diagonal and asserts instead that the audit has
+bounded-domain decision-definedness, entailed soundness, and forced
+non-generality.</p>
+<h5 id="the-compiler-audit-diagonal-positioning">4.2 The compiler-audit
+diagonal positioning</h5>
+<p><strong>Theorem 4.2</strong> (Compiler audit diagonal positioning,
+<code>compiler_audit_diagonal_positioning</code>,
+<code>Legitimacy.VerificationTrilemma</code>). <em>The compiler audit
+(the audit on the audit pipeline itself) has the same bounded-domain
+structure: decision-defined on the typed scope with soundness following
+there, and decision-undefined on at least one unrestricted finite
+distribution.</em></p>
+<p>The meta-audit’s positioning is parallel to the legitimacy audit’s.
+The compiler-audit-side has the same bounded-domain structure; the
+substrate’s self-audit is internally consistent with the
+obstruction-qualified framing.</p>
+<h5 id="projection-tests-and-independence">4.3 Projection tests and
+independence</h5>
+<p>The three <code>compiler_audit_trilemma_without_*_clause</code>
+theorems are projection smoke tests: they remove one conjunct from
+<code>compiler_audit_diagonal_positioning</code> and confirm the
+resulting weaker statement still has the expected theorem shape. They
+are useful regression pins, not independence certificates:</p>
+<ul>
+<li><code>compiler_audit_trilemma_without_soundness_clause</code>
+(<code>Legitimacy.VerificationTrilemma</code>), projection to
+decision-definedness plus failure of all-distribution definedness.</li>
+<li><code>compiler_audit_trilemma_without_decision_defined_clause</code>
+(<code>Legitimacy.VerificationTrilemma</code>), projection to soundness
+plus failure of all-distribution definedness.</li>
+<li><code>compiler_audit_trilemma_without_all_distributions_clause</code>
+(<code>Legitimacy.VerificationTrilemma</code>), projection to soundness
+plus decision-definedness.</li>
+</ul>
+<p>The genuine independent clause currently proved is
+decision-definedness. <code>trilemma_decision_defined_independent</code>
+exhibits the compiler audit on
+<code>unrestrictedMalformedDistribution</code>: <code>AuditSound</code>
+still holds, <code>¬ AuditDefinedOnAllDistributions</code> still holds,
+and <code>AuditDecisionDefined</code> fails because
+<code>compiler_audit_malformed_distribution_decision_none</code>
+evaluates the decision surface to <code>none</code>. The other two
+clauses are not independently variable in the current
+<code>LegitimacyAudit</code> type.
+<code>audit_decision_defined_implies_soundness</code> proves that any
+decision-defined audit distribution is already sound, and
+<code>audit_defined_on_all_distributions_impossible</code> proves that
+every theorem-facing audit rejects all-distribution definedness because
+the unrestricted malformed input is outside every well-formed finite
+contract.</p>
+<h5 id="the-unrestricted-distribution-witness">4.4 The
+unrestricted-distribution witness</h5>
+<p><strong>Theorem 4.4</strong> (Unrestricted distribution not relevant,
+<code>unrestricted_distribution_not_relevant</code>,
+<code>Legitimacy.VerificationTrilemma</code>). <em>The
+<code>unrestrictedMalformedDistribution</code> includes an input outside
+the audit’s <code>AuditRelevantInputs</code> class.</em></p>
+<p>This is the structural witness for failure of all-distribution
+definedness. The audit is not decision-defined on the witness because
+the witness is not in the audit’s relevant-input class; the failure of
+generality is by-structure.</p>
+<hr />
+<h4 id="proof-sketch-1">5. Proof sketch</h4>
+<p>The diagonal-positioning theorem decomposes as the conjunction
+of:</p>
+<p><strong>Step 1: Soundness on the typed scope.</strong>
+<code>AuditSound legitimacyAudit D</code> for any <code>D</code> in the
+bounded-extractor admissibility class. In the current substrate this is
+not an independent clause:
+<code>audit_decision_defined_implies_soundness</code> proves that
+decision-defined audit distributions are already sound.</p>
+<p><strong>Step 2: Decision-definedness on the typed scope.</strong>
+<code>AuditDecisionDefined legitimacyAudit D</code> for any
+<code>D</code> in the bounded-extractor admissibility class. The audit’s
+executable decision surface (<code>auditDecision?</code>) is total on
+the relevant-input class.</p>
+<p><strong>Step 3: Failure of all-distribution definedness.</strong>
+There exists a finite distribution <code>D₀</code> (specifically
+<code>unrestrictedMalformedDistribution</code>) on which the audit’s
+decision is <em>not</em> defined. This is the unrestricted-malformed
+witness.</p>
+<p><strong>Step 4: Composition.</strong> The first two steps positively
+establish bounded-domain decision-definedness and its entailed soundness
+on the typed scope; the third negatively establishes forced failure of
+all-distribution definedness.</p>
+<p>The projection tests proceed by conjunction elimination. The direct
+construction is the decision-definedness independence witness: the
+malformed finite distribution consumes the concrete <code>none</code>
+evaluation, so removing that witness breaks the proof. The absence of
+soundness and all-distributions independence witnesses is itself proved
+by the obstruction theorems above.</p>
+<hr />
+<h4
+id="discussion-implications-for-the-formal-verification-alignment-audience">6.
+Discussion: implications for the formal-verification alignment
+audience</h4>
+<h5 id="the-trilemma-as-bounded-domain-positioning-motivation">6.1 The
+trilemma as bounded-domain positioning motivation</h5>
+<p>Agarwal’s trilemma is a structural constraint on verification
+frameworks, but the current Lean substrate does not instantiate a
+genuine three-way pick-two choice. For the legitimacy audit,
+unrestricted generality is definitionally unavailable by the typed
+contract; soundness is entailed by decision-definedness; and only
+decision-definedness has a proved independence witness.</p>
+<p>The result is therefore bounded-domain positioning, not a taxonomy
+claim. The legitimacy audit is decision-defined on the typed finite
+substrate and undefined off it; runtime-enforcement DSLs (Allegrini et
+al. 2025) may have different predicates and obstruction structure, but
+that comparison is not formalized here.</p>
+<h5 id="the-structural-justification-for-restricted-generality">6.2 The
+structural justification for restricted generality</h5>
+<p>The legitimacy audit’s restricted generality is the audit’s typed
+signature rather than a concession. The bounded-extractor admissibility
+class is a precisely-defined typed predicate; inputs outside the class
+are out of scope by the audit’s signature, not by informal exclusion.
+The structural justification rests with the type-checker, not the
+audit-author’s argument.</p>
+<p>This matters for the trilemma framing. A handshake citation can say:
+“the legitimacy audit is decision-defined on its typed finite substrate
+and definitionally non-general outside it; soundness follows from
+decision-definedness in this substrate.” The trilemma constraint is
+acknowledged as motivation; the scope qualifier is structural;
+polynomial-time tractability remains a separate future-work predicate;
+the verification framework is positioned without implying a three-way
+chosen sacrifice.</p>
+<h5 id="the-compiler-audit-parallel">6.3 The compiler-audit
+parallel</h5>
+<p>The compiler-audit (the audit on the audit pipeline itself) has the
+same bounded-domain structure. This is internal-consistency: the
+substrate’s self-audit fits the same obstruction-qualified constraint as
+the audit on first-order systems.</p>
+<h5 id="composition-with-the-gs-ai-verifier-target-instance">6.4
+Composition with the GS-AI verifier-target instance</h5>
+<p>Section 4 exhibits the legitimacy kernel as a GS-AI verifier-target
+instance. The positioning lemma here applies to the verifier-target
+instance, but only in the obstruction-qualified sense proved here: the
+legitimacy-kernel-as-verifier-target is decision-defined on its typed
+finite contract, sound by entailment, and definitionally non-general
+outside that contract. This is the trilemma’s contribution to the GS-AI
+architecture’s program: each concrete verifier-target instance should
+state its actual predicates and independence structure, and
+polynomial-time tractability is a separate obligation when claimed.</p>
+<h5 id="composition-with-the-capacity-converse">6.5 Composition with the
+capacity-converse</h5>
+<p>The capacity-converse is the structural ceiling for deterministic
+verifier protocols that factor through the capability-response channel
+and satisfy the target-use obligations: target-saturation/target-floor
+plus a positive log-rate message family. The verification-trilemma
+boundary is orthogonal: it constrains which predicates a verifier can
+satisfy, but the current audit’s predicates are not three independent
+clauses. The two compose only after the verifier-target instance
+supplies the channel embedding and target-use evidence required by the
+capacity theorem. The legitimacy-kernel instance is therefore a
+candidate for the capacity analysis under that embedding discipline,
+while probabilistic, list-decoding, variable-length, or
+channel-bypassing verifiers remain outside the theorem.</p>
+<h5 id="future-verification-framework-positionings">6.6 Future
+verification-framework positionings</h5>
+<p>The diagonal-positioning lemma’s discipline generalizes. Future
+verification frameworks can be characterized by their actual predicate
+structure: which predicates are independently variable, which are
+entailed, which are definitionally impossible, on which typed scope, and
+whether tractability has been proved as a separate complexity predicate.
+The legitimacy audit’s positioning is one worked example; the broader
+comparative analysis is open work.</p>
+<hr />
+<h4 id="limitations-1">7. Limitations</h4>
+<ol type="1">
+<li><p><strong>Trilemma framing</strong>. The positioning lemma is
+motivated by Agarwal’s trilemma, but the current Lean substrate proves a
+degenerate bounded-domain analogue with one contingent clause and two
+entailed-or-forced facts. Other formal-limits frameworks (potentially in
+different formalizations) are not addressed here.</p></li>
+<li><p><strong>Diagonal-positioning honest restate</strong>. The earlier
+name <code>legitimacy_audit_realizes_lin_diagonal</code> was found to be
+too strong (the audit does not <em>realize</em> the diagonal in a
+maximalist sense; it proves bounded-domain decision-definedness with
+entailed soundness and forced non-generality). The honest-restate name
+<code>legitimacy_audit_diagonal_positioning</code> is what we use
+throughout.</p></li>
+<li><p><strong>Bounded-extractor admissibility class scope</strong>. The
+audit’s typed scope is the bounded-extractor admissibility class.
+Generalization to broader scope classes (full-domain correctness,
+polynomial-time tractability with full-domain) is open follow-up; the
+maximalist-scope theorem is research-frontier.</p></li>
+<li><p><strong>No comparative analysis</strong>. We do not here compare
+the legitimacy audit’s positioning to other verification frameworks
+(Allegrini, Korbak, Dalrymple verifier-target instances). The
+comparative analysis is open follow-up.</p></li>
+<li><p><strong>Single-distribution witness</strong>. The failure of
+all-distribution definedness is witnessed by a single distribution
+<code>unrestrictedMalformedDistribution</code>. Coverage of the broader
+space of unrestricted distributions is not the structural claim; one
+witness suffices.</p></li>
+<li><p><strong>No outreach claim</strong>. We do not claim the
+diagonal-positioning is the canonical positioning for the legitimacy
+audit in any external venue. The positioning is a technical comparison;
+outreach is subject to author approval.</p></li>
+</ol>
+<hr />
+<h4 id="conclusion-1">8. Conclusion</h4>
+<p>The legitimacy audit proves a bounded-domain analogue motivated by
+Agarwal 2026’s verification trilemma, not a literal
+sound/general/tractable positioning. The diagonal-positioning theorem
+<code>legitimacy_audit_diagonal_positioning</code> establishes the
+positioning structurally: decision-definedness holds on the
+bounded-extractor admissibility class and fails on at least one
+unrestricted finite distribution (the structural witness
+<code>unrestrictedMalformedDistribution</code>); soundness follows from
+decision-definedness by
+<code>audit_decision_defined_implies_soundness</code>; and
+all-distribution definedness is impossible by
+<code>audit_defined_on_all_distributions_impossible</code>. The
+projection tests pin the conjunction shape, and
+<code>trilemma_decision_defined_independent</code> is the genuine
+independence witness.</p>
+<p>The lemma converts the trilemma citation into bounded-domain audit
+positioning: the legitimacy audit is decision-defined on its typed
+finite contract and undefined off it. The scope restriction is
+structural (the typed signature of the audit), not concessionary (an
+informal exclusion). Polynomial-time tractability remains future
+verification-trilemma substrate work.</p>
+<p>The positioning composes with the GS-AI verifier-target instance and
+with the capacity-converse. The compounded picture: a verifier is
+characterized by any capacity-converse ceiling it actually inherits
+through a deterministic, target-saturating, positive-rate
+capability-response embedding, and by the actual predicate structure of
+its audit domain, including which predicates are contingent, entailed,
+or definitionally forced.</p>
+<p>Future work: comparative obstruction-qualified analysis across
+verification frameworks, the maximalist-scope theorem
+(Agarwal-equivalent re-derivation with full-domain correctness and
+polynomial-time tractability), and the structural relationship between
+bounded-domain audit positioning and behavioral safety bounds.</p>
+<hr />
+<h4 id="references-2">References</h4>
+<ul>
+<li><strong>Agarwal, A.</strong> (2026). On the Formal Limits of
+Alignment Verification. <em>arXiv:2603.08761</em>.</li>
+<li><strong>Allegrini, et al.</strong> (2025). Temporal-Logic Properties
+for Agentic AI. <em>arXiv:2510.14133</em>.</li>
+<li><strong>Brewer, E.</strong> (2000). Towards Robust Distributed
+Systems. <em>PODC keynote</em>.</li>
+<li><strong>Dalrymple, D., Skalse, J., Bengio, Y., Russell, S., Tegmark,
+M., et al.</strong> (2024). Towards Guaranteed Safe AI.
+<em>arXiv:2405.06624</em>.</li>
+<li><strong>Gilbert, S., Lynch, N.</strong> (2002). Brewer’s Conjecture
+and the Feasibility of Consistent, Available, Partition-Tolerant Web
+Services. <em>ACM SIGACT News</em>.</li>
+<li><strong>Korbak, T., Clymer, J., Hilton, B., Shlegeris, B., Irving,
+G.</strong> (2025). A sketch of an AI control safety case.
+<em>arXiv:2501.17315</em>.</li>
+</ul>
+<h5 id="lean-substrate-references-1">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.legitimacy_audit_diagonal_positioning</code></li>
+<li><code>Legitimacy.compiler_audit_diagonal_positioning</code></li>
+<li><code>Legitimacy.compiler_audit_trilemma_soundness_witness</code></li>
+<li><code>Legitimacy.trilemma_definedness_failure_witness</code></li>
+<li><code>Legitimacy.compiler_audit_trilemma_without_soundness_clause</code></li>
+<li><code>Legitimacy.compiler_audit_trilemma_without_decision_defined_clause</code></li>
+<li><code>Legitimacy.compiler_audit_trilemma_without_all_distributions_clause</code></li>
+<li><code>Legitimacy.audit_decision_defined_implies_soundness</code></li>
+<li><code>Legitimacy.audit_defined_on_all_distributions_impossible</code></li>
+<li><code>Legitimacy.compiler_audit_malformed_distribution_decision_none</code></li>
+<li><code>Legitimacy.trilemma_decision_defined_independent</code></li>
+<li><code>Legitimacy.unrestricted_distribution_not_relevant</code></li>
+<li><code>Legitimacy.AuditSound</code></li>
+<li><code>Legitimacy.AuditDecisionDefined</code></li>
+<li><code>Legitimacy.AuditDefinedOnAllDistributions</code></li>
+<li><code>Legitimacy.unrestrictedMalformedDistribution</code></li>
+<li><code>Legitimacy.compilerAuditTrilemmaDistribution</code></li>
+</ul>
+<h2 id="two-c-notions">6. Two C* Notions</h2>
+<h3
+id="two-c-notions-meet-a-cross-talk-between-information-theoretic-alignment-bottleneck-and-spectral-governance-capacity">Two
+<code>C*</code> Notions Meet: A Cross-Talk Between Information-Theoretic
+Alignment-Bottleneck and Spectral Governance-Capacity</h3>
+<hr />
+<h4 id="abstract-2">Abstract</h4>
+<p>Two recent works on alignment use the symbol <code>C*</code> for
+distinct, non-equivalent objects. Cao (2025) (<em>The Alignment
+Bottleneck</em>, arXiv:2509.15932) defines
+<code>C̄_tot|S = E_S[min{C_cog|S, C_art|S}]</code>, an
+information-theoretic <em>channel</em> capacity over a two-stage
+human-feedback channel <code>U → H → Y</code>. Our legitimacy substrate
+defines <code>C* = δ / cv(G, s)</code>
+(<code>Legitimacy.Spectral.Capacity.CriticalCapability:40</code>), a
+<em>graph-spectral</em> threshold on a directed governance graph with
+strength signal <code>s</code> and effectiveness floor <code>δ</code>.
+Same letter, orthogonal axes: theirs is information-theoretic on the
+human-feedback channel; ours is spectral on the governance graph
+perturbation budget. The two are not the same object, and neither is a
+special case of the other. We make the cross-talk precise: pluralistic
+alignment (Cao’s frame) hits a feedback-channel capacity wall;
+structural alignment (our frame) hits a governance-graph capacity wall
+for deterministic, target-saturating, positive-rate protocols embedded
+in the capability-response channel; these distinct constraints can
+<em>compose</em> once both models are supplied. The cross-talk
+establishes the orthogonality, names that scoped compositional
+structure, and sets up the open question of joint analysis under both
+ceilings simultaneously. We discuss what the cross-talk supplies that
+either lineage individually does not, and how the joint analysis could
+proceed.</p>
+<hr />
+<h4 id="introduction-2">1. Introduction</h4>
+<h5 id="the-lead-2">1.1 The lead</h5>
+<p>The symbol <code>C*</code> appears in two recent alignment works on
+different objects:</p>
+<ul>
+<li><strong>Cao (2025)</strong>, <em>The Alignment Bottleneck</em>
+(arXiv:2509.15932): <code>C̄_tot|S = E_S[min{C_cog|S, C_art|S}]</code>,
+the expected min over user contexts <code>S</code> of cognitive vs
+artifact channel capacities on the two-stage feedback channel
+<code>U → H → Y</code>.</li>
+<li><strong>Our legitimacy substrate</strong>:
+<code>C* = δ / cv(G, s)</code>
+(<code>Legitimacy.Spectral.Capacity.CriticalCapability:40</code>), the
+graph-spectral threshold on the directed governance graph
+<code>G</code>, signal <code>s</code>, effectiveness floor
+<code>δ</code>.</li>
+</ul>
+<p>The notational coincidence is not a content coincidence. The two
+objects are structurally distinct:</p>
+<ul>
+<li>Cao (2025)’s capacity is on a <em>channel</em> (with
+input-distribution structure, source coding, feedback noise).</li>
+<li>Ours is on a <em>graph</em> (with vertex strength signals, spectral
+perturbation budget, threshold structure).</li>
+</ul>
+<p>Cao (2025)’s <code>C̄_tot|S</code> answers “what is the capacity of
+the human-feedback channel for transmitting alignment signal?” Our
+<code>C*</code> answers “above what capability threshold does the
+governance graph fail to spectrally support stable equilibria /
+deterministic, target-saturating, positive-rate zero-error verification
+through the capability-response channel?”</p>
+<p>The two are not the same; neither is a special case of the other.
+They are orthogonal capacities on orthogonal axes.</p>
+<h5 id="the-compositional-structure">1.2 The compositional
+structure</h5>
+<p>The cross-talk we make precise: <em>pluralistic</em> alignment hits
+Cao (2025)’s feedback-channel wall; <em>structural</em> alignment hits
+our governance-graph wall for deterministic, target-saturating,
+positive-rate capability-response embeddings; the two compose only when
+both models are present. In that joint analysis, a deployment faces:</p>
+<ul>
+<li>A <em>feedback-channel ceiling</em>: the alignment-relevant signal
+that can be transmitted from users through human feedback to the system
+is bounded by Cao (2025)’s <code>C̄_tot|S</code>.</li>
+<li>A <em>governance-graph ceiling</em>: for deterministic verifier
+protocols embedded in the capability-response channel and satisfying
+target-saturation/target-floor plus positive-rate obligations, the
+alignment-relevant capability that can sustain all-message zero-error
+certification through the governance graph is bounded by our
+<code>C*</code>.</li>
+</ul>
+<p>Either wall is sufficient for failure in its own scoped model. Both
+can be simultaneously operative for a deployment only after the
+feedback-channel model and the deterministic, target-saturating,
+positive-rate governance-channel embedding have both been supplied. The
+compositional structure says these are <em>non-redundant</em>
+constraints: satisfying the feedback-channel wall does not discharge the
+governance-graph embedding obligations, and satisfying the scoped
+governance-graph ceiling does not replace the feedback-channel
+analysis.</p>
+<h5 id="what-the-cross-talk-supplies">1.3 What the cross-talk
+supplies</h5>
+<p>For a researcher tracking either lineage individually, the cross-talk
+supplies:</p>
+<ul>
+<li><strong>For the information-theoretic alignment audience</strong>: a
+structural cousin to Cao (2025)’s feedback-channel bound, on a different
+but related object (the governance graph). The cross-talk says the
+information-theoretic side is one of <em>two</em> compositional
+ceilings, not the only one.</li>
+<li><strong>For the structural-alignment audience</strong>: a
+feedback-channel companion to our spectral threshold. The cross-talk
+says the structural side has an information-theoretic complement, with
+simultaneous operation only in a supplied joint model.</li>
+<li><strong>For the alignment-research synthesist</strong>: a precise
+notational and conceptual map distinguishing two objects that share a
+symbol but not a content.</li>
+</ul>
+<p>The cross-talk positions the two lineages against each other
+precisely, without refuting either.</p>
+<hr />
+<h4 id="the-two-c-notions">2. The two <code>C*</code> notions</h4>
+<h5 id="cao-2025-information-theoretic-channel-capacity">2.1 Cao (2025):
+information-theoretic channel capacity</h5>
+<p><strong>Cao (2025)</strong>, <em>The Alignment Bottleneck</em>
+(arXiv:2509.15932), considers alignment as transmission of intent from
+users to a system through human feedback. The channel structure is
+two-stage:</p>
+<pre><code>U → H → Y</code></pre>
+<p>where: - <code>U</code> is the user-context space (population of
+users with diverse preferences), - <code>H</code> is the human-feedback
+space (feedback signals over user-output pairs), - <code>Y</code> is the
+system-output space (the system’s responses).</p>
+<p>The cognitive channel <code>U → H</code> has Shannon capacity
+<code>C_cog</code> (or <code>C_cog|S</code> conditional on context
+<code>S</code>). The artifact channel <code>H → Y</code> has capacity
+<code>C_art</code> (or <code>C_art|S</code>). The two-stage capacity is
+bounded by <code>min{C_cog|S, C_art|S}</code> per context, with the
+expected total capacity being:</p>
+<pre><code>C̄_tot|S = E_S[min{C_cog|S, C_art|S}]</code></pre>
+<p>This is an <em>information-theoretic</em> capacity on the
+<em>human-feedback channel</em>. It bounds how much alignment-relevant
+information can be transmitted from users to the system per unit of
+feedback. The bound applies via Fano-Packing (lower bound on alignment
+error rate as a function of <code>C̄_tot|S</code>) and PAC-Bayes (upper
+bound on alignment performance from the channel capacity).</p>
+<p>The structural objects on which the bound lives: the channel
+input-distribution, the cognitive coding, the artifact decoding, the
+population of user contexts.</p>
+<h5 id="our-c-graph-spectral-threshold">2.2 Our <code>C*</code>:
+graph-spectral threshold</h5>
+<p>Our <code>C*</code> is on a different object. The structural objects:
+a directed governance graph <code>G</code>, a strength signal
+<code>s : Fin n → ℚ</code>, an effectiveness floor
+<code>δ &gt; 0</code>. The graph’s <em>consistency vulnerability</em>
+<code>cv(G, s)</code> is the worst-case verdict perturbation under
+denied-claimant removal, a measure of how badly removing one node
+degrades the graph’s certification. The threshold:</p>
+<pre><code>C*(G, s, δ) = δ / cv(G, s)</code></pre>
+<p>This is a <em>spectral</em> threshold on the <em>graph object</em>.
+It bounds the capability above which deterministic
+alignment-verification protocols embedded into the capability-response
+channel cannot sustain target-saturating, positive-rate, all-message
+zero-error block coding (the capacity-converse) — a spectral
+perturbation-budget threshold rather than a channel capacity in
+Shannon’s sense.</p>
+<p>The structural objects on which the threshold lives: the directed
+governance graph, the strength signal, the spectral structure
+(eigenvalues of the directed-graph Laplacian-style operator), the
+effectiveness floor.</p>
+<h5 id="the-orthogonality">2.3 The orthogonality</h5>
+<p>The two <code>C*</code> objects share a symbol but not:</p>
+<ul>
+<li><strong>Domain</strong>: feedback-channel-input-distribution vs
+governance-graph-spectral-data.</li>
+<li><strong>Range</strong>: a real-valued Shannon capacity vs a
+rational-valued spectral threshold.</li>
+<li><strong>Operational meaning</strong>: bounds on alignment-error-rate
+transmission through human feedback vs bounds on deterministic,
+target-saturating, positive-rate zero-error verification through the
+capability-response channel.</li>
+<li><strong>Mathematical machinery</strong>: Shannon information theory
++ Fano packing + PAC-Bayes vs spectral graph theory +
+rational-arithmetic threshold + perturbation budget.</li>
+</ul>
+<p>The two are orthogonal capacities. Neither is a special case of the
+other. The Shannon-capacity bound on the feedback channel does not imply
+or contradict the spectral threshold on the governance graph; the two
+operate on disjoint structural objects.</p>
+<p>This is the orthogonality observation. It is <em>the</em>
+contribution of this short cross-talk.</p>
+<hr />
+<h4 id="the-compositional-structure-1">3. The compositional
+structure</h4>
+<h5 id="two-walls-both-operational">3.1 Two walls, both operational</h5>
+<p>A deployment of an alignment-verification system faces two walls
+simultaneously in the joint model:</p>
+<ol type="1">
+<li><strong>Feedback-channel wall</strong>: the alignment-relevant
+information transmittable from users through human feedback is bounded
+by <code>C̄_tot|S</code>. Above this bound, alignment-error-rate is
+lower-bounded structurally.</li>
+<li><strong>Governance-graph wall</strong>: for deterministic verifier
+protocols that factor through the capability-response channel and
+satisfy target-saturation/target-floor plus positive-rate obligations,
+the alignment-relevant capability that can sustain all-message
+zero-error verification through the governance graph is bounded by
+<code>C*</code>. Above this bound, some positive-rate deployment message
+fails. Probabilistic, list-decoding, variable-length, and
+channel-bypassing verifiers are outside this statement unless a separate
+embedding theorem brings them into scope.</li>
+</ol>
+<p>Either wall is sufficient for failure in its own formal model. A
+system can fail by hitting the feedback-channel wall (insufficient
+information transmitted) without hitting the scoped governance-graph
+wall, and vice versa. The two walls are non-redundant: each can fail
+while the other remains satisfied within the joint model’s
+assumptions.</p>
+<h5 id="composition-as-joint-analysis">3.2 Composition as joint
+analysis</h5>
+<p>For a <em>deployed</em> system, the joint analysis is:</p>
+<pre><code>Successful zero-error verification in the combined model requires both a feedback-channel condition and, for deterministic target-saturating positive-rate protocols embedded in the capability-response channel, the governance-graph condition:
+  (1) feedback-channel: C̄_tot|S sufficient for transmitting alignment signal; AND
+  (2) governance-graph: κ &lt; C*(G, s, δ).</code></pre>
+<p>Both are necessary for the joint scoped analysis. Failure of the
+feedback-channel condition obstructs the feedback-side certification
+problem; failure of the governance-graph condition obstructs
+deterministic, target-saturating, positive-rate all-message
+certification through the capability-response channel. The compositional
+ceiling for that combined model is
+<code>min{feedback-channel-implied-capability-bound, C*}</code>,
+whichever scoped wall is hit first as capability scales.</p>
+<p>This is the compositional structure. It is non-trivial: a deployment
+that satisfies one ceiling can still fail the other.</p>
+<h5 id="the-structural-picture">3.3 The structural picture</h5>
+<p>For an alignment-research synthesist, the compositional structure
+gives a richer picture than either lineage alone:</p>
+<ul>
+<li>Information-theoretic alignment work bounds <em>what can be
+transmitted</em> from users through human feedback to the system.</li>
+<li>Structural alignment work bounds deterministic, target-saturating,
+positive-rate all-message verification through the governance graph’s
+capability-response channel at the deployment surface.</li>
+</ul>
+<p>A deployed system needs both: - Sufficient feedback-channel capacity
+to transmit alignment signal (Cao (2025) side). - Sufficient scoped
+governance-graph capacity for deterministic, target-saturating,
+positive-rate all-message verification at the deployment surface (our
+side).</p>
+<p>Joint failure modes are realistic under those assumptions: a system
+with sufficient feedback transmission can fail at the verifier-target
+due to the scoped governance-graph spectral threshold; a system with
+sufficient scoped governance graph can fail upstream due to
+feedback-channel transmission limits.</p>
+<hr />
+<h4 id="what-the-cross-talk-does-and-does-not-say">4. What the
+cross-talk does and does not say</h4>
+<h5 id="what-it-says">4.1 What it says</h5>
+<ul>
+<li><strong>Notational map</strong>: the <code>C*</code> notation in the
+two lineages refers to distinct objects. We make the distinction
+precise.</li>
+<li><strong>Orthogonality</strong>: the two objects are orthogonal
+capacities on orthogonal axes. Neither subsumes the other.</li>
+<li><strong>Composition</strong>: the two ceilings operate
+simultaneously only after the deployment has both a feedback-channel
+model and a deterministic, target-saturating, positive-rate
+capability-response embedding. Failure of either scoped condition is
+sufficient for failure in that combined model.</li>
+<li><strong>Open question</strong>: joint analysis under both ceilings,
+characterizing the failure-mode taxonomy when both walls are
+operational, is research-frontier.</li>
+</ul>
+<h5 id="what-it-does-not-say">4.2 What it does not say</h5>
+<ul>
+<li><strong>Not a refutation of Cao (2025).</strong> Their
+feedback-channel bound is a real result on a real object. Our
+<code>C*</code> is on a different object; the existence of our threshold
+does not invalidate theirs.</li>
+<li><strong>Not a claim of bridge</strong>. We do not bridge the two
+<code>C*</code> notions formally. The negative bridge result shows the
+substrate’s <em>internal</em> Shannon-vs-spectral bridge is non-trivial;
+the <em>external</em> Shannon-vs-spectral relationship is similarly
+non-trivial. The cross-talk says the two are orthogonal; it does not
+characterize an algebraic agreement class.</li>
+<li><strong>Not a complete compositional analysis</strong>. The joint
+analysis under both ceilings simultaneously is open work. The cross-talk
+establishes the structure; the analysis is research-frontier.</li>
+</ul>
+<h5 id="the-honest-scope">4.3 The honest scope</h5>
+<p>This is a <em>short cross-talk</em>. It is not a long-form
+joint-analysis paper. It supplies the precise notational and conceptual
+map distinguishing the two <code>C*</code> notions and the compositional
+structure under which they jointly operate. Long-form joint analysis is
+open follow-up.</p>
+<hr />
+<h4 id="implications-for-the-alignment-research-community">5.
+Implications for the alignment-research community</h4>
+<h5 id="for-information-theoretic-alignment-researchers">5.1 For
+information-theoretic alignment researchers</h5>
+<p>If you cite Cao (2025)’s <code>C̄_tot|S</code> as the
+alignment-bottleneck capacity, you should know that there is a
+structural cousin on a different object: our <code>C*</code>. The two
+are orthogonal; both are operational. Joint analysis is a
+research-frontier question.</p>
+<h5 id="for-structural-alignment-researchers">5.2 For
+structural-alignment researchers</h5>
+<p>If you cite our <code>C*</code> as the spectral governance threshold,
+you should know that there is an information-theoretic cousin on a
+different object: Cao (2025)’s <code>C̄_tot|S</code>. The two are
+orthogonal; both are operational. Joint analysis is a research-frontier
+question.</p>
+<h5 id="for-the-alignment-research-synthesist">5.3 For the
+alignment-research synthesist</h5>
+<p>The two <code>C*</code> notions are <em>non-confusable</em> at the
+structural-object level (channel input-distribution vs
+graph-spectral-data) but <em>notationally collisional</em> in the
+literature. The cross-talk supplies the disambiguation: same letter,
+different objects, different axes, joint operational structure.</p>
+<h5 id="the-publication-strategy-note">5.4 The publication-strategy
+note</h5>
+<p>We do not here recommend that either lineage rename their
+<code>C*</code>. The notational collision is regrettable but at this
+point structurally entrenched. The disambiguation lives in the explicit
+naming: <em>information-theoretic alignment-bottleneck
+<code>C̄_tot|S</code></em> (Cao 2025) vs <em>graph-spectral
+governance-capacity <code>C*(G, s, δ)</code></em> (our substrate). The
+full names are the resolution; the symbol-level collision is
+acknowledged.</p>
+<hr />
+<h4 id="limitations-2">6. Limitations</h4>
+<ol type="1">
+<li><p><strong>Cross-talk only, no joint analysis</strong>. We do not
+formally analyze deployments under both ceilings simultaneously. Joint
+analysis is open.</p></li>
+<li><p><strong>No Cao (2025) internal-formalization claim</strong>. We
+do not formalize Cao (2025)’s results in our Lean substrate. The Cao
+side is referenced as published external work.</p></li>
+<li><p><strong>No bridge-existence claim</strong>. We claim
+orthogonality; we do not characterize agreement / disagreement classes
+for any algebraic bridge between the two notions.</p></li>
+<li><p><strong>Two-lineage focus</strong>. The cross-talk is between Cao
+(2025) and our substrate. Other capacity-style alignment works (Nayebi
+2025 <em>Intrinsic Barriers</em>, Tibebu 2026 <em>Accountability
+Horizon</em>, Agarwal 2026 verification trilemma) are distinct again;
+their relationship to either of these two <code>C*</code> notions is
+open.</p></li>
+<li><p><strong>Notational scope only</strong>. The cross-talk is a
+notational and conceptual map. It is not a quantitative comparison of
+bound strengths.</p></li>
+<li><p><strong>No empirical claim</strong>. Whether real-world
+AI-deployment scenarios are bottlenecked primarily by the
+feedback-channel wall, primarily by the governance-graph wall, or by
+both is empirical and out of scope.</p></li>
+</ol>
+<hr />
+<h4 id="conclusion-2">7. Conclusion</h4>
+<p>The symbol <code>C*</code> in alignment work refers to two distinct,
+non-equivalent objects. Cao (2025)’s
+<code>C̄_tot|S = E_S[min{C_cog|S, C_art|S}]</code> is the
+information-theoretic capacity of the human-feedback channel
+<code>U → H → Y</code>. Our <code>C* = δ / cv(G, s)</code> is the
+graph-spectral threshold on directed governance graphs. The two share a
+letter but not a content; they are orthogonal capacities on orthogonal
+axes.</p>
+<p>The compositional structure gives a richer deployment-analysis
+picture than either lineage alone: a deployed alignment-verification
+system faces the feedback-channel wall and, when its governance verifier
+is a deterministic target-saturating positive-rate capability-response
+embedding, the governance-graph wall, with failure of either applicable
+wall sufficient for verification failure. Joint analysis under both
+ceilings is research-frontier; this short cross-talk establishes the
+structure and supplies the notational disambiguation.</p>
+<p>The contribution is precision in the notational and conceptual map.
+We do not refute Cao (2025); we do not claim bridges that do not exist;
+we observe the orthogonality and the compositional structure. Long-form
+joint analysis is open work.</p>
+<hr />
+<h4 id="references-3">References</h4>
+<ul>
+<li><strong>Cover, T. M., Thomas, J. A.</strong> (2006). <em>Elements of
+Information Theory</em>. Wiley-Interscience, 2nd edition.</li>
+<li><strong>Csiszár, I., Körner, J.</strong> (2011). <em>Information
+Theory: Coding Theorems for Discrete Memoryless Systems</em>. Cambridge
+University Press, 2nd edition.</li>
+<li><strong>Cao, W.</strong> (2025). The Alignment Bottleneck.
+<em>arXiv:2509.15932</em>.</li>
+<li><strong>Nayebi, A.</strong> (2025). Intrinsic Barriers and Practical
+Pathways for Human-AI Alignment: An Agreement-Based Complexity Analysis.
+<em>arXiv:2502.05934</em>. AAAI 2026 oral.</li>
+<li><strong>Shannon, C. E.</strong> (1948). A Mathematical Theory of
+Communication. <em>Bell System Technical Journal</em>, 27(3): 379-423;
+27(4): 623-656.</li>
+<li><strong>Tibebu, H.</strong> (2026). The Accountability Horizon: An
+Impossibility Theorem for Governing Human-Agent Collectives.
+<em>arXiv:2604.07778</em>.</li>
+<li><strong>Agarwal, A.</strong> (2026). On the Formal Limits of
+Alignment Verification. <em>arXiv:2603.08761</em>.</li>
+</ul>
+<h5 id="lean-substrate-references-2">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.C_star</code></li>
+<li><code>Legitimacy.GovGraph.cv</code></li>
+<li><code>Legitimacy.GovGraph.capacity</code></li>
+<li><code>Legitimacy.GovernanceChannel.low_noise_noisyThreshold_capacity_certificate</code></li>
+<li><code>Legitimacy.GovGraph.governance_capacity_alignment_threshold</code>
+(the deterministic-channel converse, distinct from Cao (2025)’s
+feedback-channel <code>C̄_tot|S</code>)</li>
+<li><code>Legitimacy.GovernanceChannel.fixed_noisyThreshold_capacity_not_concrete_C_star_bridge</code>
+(the internal-substrate negative bridge)</li>
+</ul>
+<h2 id="three-axis-triangulation">7. Three-axis Triangulation</h2>
+<h3
+id="a-third-axis-of-impossibility-triangulating-legitimacy-against-arrow-social-choice-and-balinski-young-apportionment">A
+Third Axis of Impossibility: Triangulating Legitimacy Against Arrow
+Social-Choice and Balinski-Young Apportionment</h3>
+<hr />
+<h4 id="abstract-3">Abstract</h4>
+<p>Three impossibility theorems in mechanism-design sit on structurally
+distinct axes: Arrow 1951’s preference-aggregation impossibility,
+Balinski-Young 1982’s discrete-allocation impossibility, and our
+governance-rule structural-admissibility impossibility
+(<code>Legitimacy.reachable_peer_relative_decisive_stage_obstructs_diagnostics</code>),
+which we triangulate against the other two. Arrow’s theorem is on
+preference profiles with universality + non-dictatorship + IIA + Pareto,
+where the impossibility names <em>no aggregation rule</em> meeting all
+axioms. Balinski-Young’s theorem is on integer apportionment with quota
++ monotonicity, where the impossibility names <em>no allocation
+rule</em> meeting both. Our theorem is on directed governance pipelines
+with Young-lineage graph-diagnostic axioms (consistency, solidarity,
+monotonicity), where the impossibility names <em>no reachable scarce
+peer-relative decisive stage</em>, under a transparent prefix and
+non-denying suffix, meeting all three. The older complete
+first-effective binary-surface theorem
+(<code>Legitimacy.binaryDecisionPipeline_effectiveSurface_complete_three_axiom_obstruction</code>)
+is retained as the special case that factors through the reachable-stage
+statement. The three axes are: preference-aggregation (Arrow),
+discrete-allocation (Balinski-Young), governance-rule
+structural-admissibility (legitimacy). Each impossibility has its own
+object class, axiom set, and structural property. We argue that the
+third axis — governance-rule structural admissibility — has field-level,
+rule-layer mechanism-design implications: it lives on a <em>typed
+governance object</em> (the directed graph), not on preference profiles
+or integer allocations, and the axioms operate on the <em>rule
+layer</em> of the deployment, not on the user-utility or
+aggregation-output layers. We make the triangulation precise and discuss
+what each axis supplies that the others do not.</p>
+<hr />
+<h4 id="introduction-3">1. Introduction</h4>
+<h5 id="the-lead-3">1.1 The lead</h5>
+<p>Three impossibility theorems in formal mechanism-design occupy
+distinct structural axes:</p>
+<ul>
+<li><strong>Arrow 1951</strong>: no preference-aggregation rule on
+individual preference profiles satisfies universality + non-dictatorship
++ Independence of Irrelevant Alternatives (IIA) + Pareto
+efficiency.</li>
+<li><strong>Balinski-Young 1982</strong>: no apportionment rule on
+integer allocations satisfies quota + monotonicity (in the sense that
+strengthening a state’s vote count cannot reduce its allocation).</li>
+<li><strong>Our theorem (2026)</strong>: no reachable scarce
+peer-relative decisive stage in a directed governance pipeline, under a
+transparent prefix and non-denying suffix, satisfies consistency +
+solidarity + monotonicity (the Young-lineage graph-diagnostic
+axioms).</li>
+</ul>
+<p>The three theorems are structurally distinct. Each lives on a
+different object class, with a different axiom set, and a different
+structural property that distinguishes it from the others. The
+triangulation we make precise: each impossibility defines a candidate
+axis; the three axes together form a coordinate system for
+mechanism-design impossibility theorems.</p>
+<p>The third axis (governance-rule structural admissibility) is our
+candidate third axis. The first two axes are classical; the third is the
+legitimacy-lineage’s contribution. We add a third axis that is
+structurally distinct from the classical two, without subsuming
+them.</p>
+<h5 id="what-each-axis-supplies">1.2 What each axis supplies</h5>
+<p><strong>Arrow’s axis (preference-aggregation)</strong>: bounds what
+<em>rule for aggregating individual preferences into a social
+ranking</em> can satisfy reasonable axioms. The object is a profile of
+individual preferences; the structural-property is whether the
+aggregation rule reflects all preferences (universality,
+non-dictatorship), respects pairwise consistency (IIA), and respects
+unanimity (Pareto).</p>
+<p><strong>Balinski-Young’s axis (discrete-allocation)</strong>: bounds
+what <em>rule for converting vote shares into integer allocations</em>
+can satisfy reasonable axioms. The object is a vote-count profile and an
+integer-allocation target; the structural-property is whether the
+allocation rule respects quota (each state’s allocation is within ±1 of
+its proportional share) and monotonicity (vote-count strengthening
+cannot reduce allocation).</p>
+<p><strong>Our axis (governance-rule structural admissibility)</strong>:
+bounds what <em>directed governance pipeline with a reachable
+peer-relative decisive stage under a transparent prefix and non-denying
+suffix</em> can satisfy structural axioms. The object is a directed
+governance graph with strength signals; the structural-property is
+whether the pipeline’s verdict respects consistency (removing a denied
+claimant does not change any other claimant’s decision), solidarity
+(scaling all claim strengths by the same positive factor preserves every
+decision), and monotonicity (strengthening a claim does not flip any
+claimant from <code>Permit</code> to <code>Deny</code>).</p>
+<p>The three axes operate on three different objects: preference
+profiles, integer allocations, directed governance graphs, with three
+different axiom sets. The impossibility on each axis is structural: the
+axioms cannot be jointly satisfied on the object class.</p>
+<h5 id="relation-to-the-mechanism-design-and-ai-alignment-crossover">1.3
+Relation to the mechanism-design and AI-alignment crossover</h5>
+<p>The triangulation is informative for an alignment researcher tracking
+mechanism-design impossibility theorems. Arrow’s theorem is canonical
+for utility-aggregation alignment lineages (RLHF aggregates user
+preferences); Balinski-Young is canonical for resource-allocation
+alignment (compute-allocation between models, attention-allocation
+between tasks); Legitimacy extends that foundation to
+<em>governance-rule</em> alignment, where the typed rule layer of the
+deployment is structurally constrained.</p>
+<p>The three axes together give a richer picture than any one alone.
+Alignment work that aggregates preferences faces Arrow’s axis. Alignment
+work that allocates discrete resources faces Balinski-Young’s axis.
+Alignment work that deploys typed governance rules at the rule layer
+faces ours. Frontier AI-safety deployments face all three: they
+aggregate user-preferences (Arrow), allocate resources (Balinski-Young),
+and deploy governance rules (legitimacy). The compounded picture: three
+orthogonal impossibility constraints, each operating on a distinct
+structural axis.</p>
+<hr />
+<h4 id="related-work-2">2. Related work</h4>
+<h5 id="the-arrow-social-choice-lineage">2.1 The Arrow social-choice
+lineage</h5>
+<p><strong>Arrow, K. J.</strong> (1951), <em>Social Choice and
+Individual Values</em>, Yale University Press. The foundational
+impossibility: no preference-aggregation rule satisfies universality +
+non-dictatorship + IIA + Pareto on a set of three or more candidates
+with rankings provided by individuals.</p>
+<p><strong>Sen, A.</strong> (1970), <em>Collective Choice and Social
+Welfare</em>. Sen’s extensions and the impossibility of a Paretian
+liberal.</p>
+<p><strong>Gibbard-Satterthwaite</strong> (1973, 1975), the
+strategyproofness extension of Arrow’s theorem.</p>
+<p>The Arrow lineage is preference-aggregation-shaped: the object is a
+profile of individual preferences; the structural-property is the
+aggregation rule. Our graph-diagnostic axis is graph-shaped, not
+preference-shaped. The substrate also carries a <em>second</em>, more
+literal contact with this lineage: a direct transport of Arrow’s
+unanimity / independence / non-dictatorship triple onto multi-principal
+governance aggregation, with a mechanically-checked counterexample rule
+and an explicit pairwise-achievability frontier
+(<code>Legitimacy.majorityQuorumRule_fails_arrow_triple</code>,
+<code>Legitimacy.multi_principal_pairwise_achievability_with_majorityQuorum_obstruction</code>).
+That transport is the subject of §3.4; it is honest lineage inheritance,
+not a new impossibility; the novel object remains the typed kernel the
+aggregation rule governs.</p>
+<h5 id="the-balinski-young-apportionment-lineage">2.2 The Balinski-Young
+apportionment lineage</h5>
+<p><strong>Balinski, M., Young, H. P.</strong> (1982), <em>Fair
+Representation: Meeting the Ideal of One Man, One Vote</em>. The
+foundational apportionment impossibility: no allocation rule satisfies
+quota + monotonicity (the <em>population paradox</em>).</p>
+<p><strong>Young, H. P.</strong> (1994), <em>Equity: In Theory and
+Practice</em>. Young’s broader axiomatic-foundations work.</p>
+<p>The Balinski-Young lineage is allocation-shaped: the object is a
+vote-count profile + integer allocation target; the structural-property
+is the allocation rule. Our axis is graph-shaped, not
+allocation-shaped.</p>
+<h5 id="adjacent-ai-alignment-lineages">2.3 Adjacent AI-alignment
+lineages</h5>
+<p><strong>Eckersley, P.</strong> (2019), <em>Impossibility and
+Uncertainty Theorems in AI Value Alignment</em>. Adjacent
+impossibility-style work in AI alignment.</p>
+<p><strong>Conitzer, V., Procaccia, A.</strong>,
+social-choice-for-AI-alignment lineage.</p>
+<p><strong>Halpern, J. Y., Pass, R.</strong>, game-theoretic foundations
+applicable to AI alignment.</p>
+<p><strong>Nayebi, A.</strong> (2025), <em>Intrinsic Barriers and
+Practical Pathways for Human-AI Alignment: An Agreement-Based Complexity
+Analysis</em> (arXiv:2502.05934, AAAI 2026 oral), multi-agent overhead
+lower bound.</p>
+<p><strong>Tibebu, H.</strong> (2026), <em>The Accountability
+Horizon</em>, accountability-incompleteness phase transition.</p>
+<p>These adjacent lineages bring impossibility theorems into
+AI-alignment territory. Our axis (governance-rule structural
+admissibility) is distinct from these: it is on the <em>rule layer</em>
+of the typed governance object, not on preference aggregation or
+accountability surfaces.</p>
+<h5 id="the-legitimacy-paper-family">2.4 The
+legitimacy-paper-family</h5>
+<p>The foundational impossibility is in the long-form paper
+(<code>papers/03-impossibility-theorem.md</code>), with the priority
+note preserved there as an appendix. The three-axis triangulation is the
+<em>positioning</em> paper that places our axis relative to the
+classical lineages.</p>
+<hr />
+<h4 id="setup-the-three-impossibility-theorems">3. Setup: the three
+impossibility theorems</h4>
+<h5 id="arrows-theorem-preference-aggregation-axis">3.1 Arrow’s theorem
+(preference-aggregation axis)</h5>
+<p><strong>Theorem (Arrow 1951)</strong>. Let <code>N ≥ 2</code> be the
+number of voters and <code>M ≥ 3</code> the number of candidates. No
+social-welfare function
+<code>F : (Profile of preferences over candidates) → (Social ranking over candidates)</code>
+satisfies all four:</p>
+<ul>
+<li><strong>Universality</strong>: <code>F</code> is defined on every
+preference profile.</li>
+<li><strong>Non-dictatorship</strong>: no voter’s preference always
+determines the social ranking.</li>
+<li><strong>IIA</strong>: the social ranking of candidates
+<code>{a, b}</code> depends only on individual rankings of
+<code>{a, b}</code>, not on rankings of other candidates.</li>
+<li><strong>Pareto efficiency</strong>: if every voter ranks
+<code>a &gt; b</code>, then <code>F</code> ranks
+<code>a &gt; b</code>.</li>
+</ul>
+<p>The structural object is <em>preference profiles</em>; the
+structural-property is the aggregation rule.</p>
+<h5 id="balinski-youngs-theorem-discrete-allocation-axis">3.2
+Balinski-Young’s theorem (discrete-allocation axis)</h5>
+<p><strong>Theorem (Balinski-Young 1982)</strong>. No allocation rule on
+integer apportionments simultaneously satisfies:</p>
+<ul>
+<li><strong>Quota</strong>: each state’s allocation is within ±1 of its
+proportional share.</li>
+<li><strong>Monotonicity</strong> (the population paradox): when a
+state’s vote count strengthens (relative to others), its allocation
+cannot decrease.</li>
+</ul>
+<p>The structural object is <em>integer allocations on vote-count
+profiles</em>; the structural-property is the allocation rule.</p>
+<h5 id="our-theorem-governance-rule-structural-admissibility-axis">3.3
+Our theorem (governance-rule structural-admissibility axis)</h5>
+<p><strong>Theorem (Legitimacy 2026)</strong>. For any
+<code>[DecisionPipeline P]</code>, any reachable scarce peer-relative
+decisive stage under a transparent prefix and non-denying suffix
+obstructs the simultaneous satisfaction of:</p>
+<ul>
+<li><strong>Consistency</strong>: removing a denied claimant does not
+change any other claimant’s decision.</li>
+<li><strong>Solidarity</strong>: scaling all claim strengths by the same
+positive factor preserves every decision.</li>
+<li><strong>Monotonicity</strong>: strengthening a claim does not flip
+any claimant from <code>Permit</code> to <code>Deny</code>.</li>
+</ul>
+<p>(This is
+<code>reachable_peer_relative_decisive_stage_obstructs_diagnostics</code>
+in the substrate. The older complete first-effective binary-surface
+theorem,
+<code>binaryDecisionPipeline_effectiveSurface_complete_three_axiom_obstruction</code>,
+is the retained special case: the complete first-effective hypotheses
+are repackaged into the reachable-stage statement by
+<code>complete_first_effective_obstructs_diagnostics_via_reachable</code>.)</p>
+<p>Strategyproofness is <em>derived</em> from solidarity ∧ monotonicity
+at the typeclass level
+(<code>decisionSystem_solidarity_monotonicity_imply_strategyproof</code>),
+so the impossibility is <em>three-axiom + bridge</em> rather than
+four-axiom-independent.</p>
+<p>The structural object is <em>directed governance graphs with
+reachable decisive stages</em>; the structural-property is the
+pipeline’s verdict at the rule layer.</p>
+<h5
+id="the-direct-arrow-template-transport-multi-principal-aggregation">3.4
+The direct Arrow-template transport (multi-principal aggregation)</h5>
+<p>The graph-diagnostic axis in §3.3 inherits Arrow’s <em>proof
+shape</em> but states its impossibility over Young-lineage axioms on a
+directed-graph object. The substrate also carries a second, more literal
+contact with the Arrow lineage: a direct transport of the classical
+unanimity / independence / non-dictatorship triple onto a
+multi-principal governance <em>aggregation</em> rule, with the
+impossibility and its tight complement both mechanically checked.</p>
+<p><strong>Theorem (multi-principal Arrow obstruction).</strong> On a
+3-principal / 3-property aggregation surface, the majority-quorum
+aggregation rule is unanimous and non-dictatorial but fails independence
+on an explicit counterexample, so it cannot jointly satisfy unanimity,
+independence, and non-dictatorship. This is
+<code>majorityQuorumRule_fails_arrow_triple</code>
+(<code>Results/MultiPrincipal.lean</code>), discharged by a concrete
+<code>majorityQuorumRule</code> witness rather than by an abstract
+diagonal argument.</p>
+<p><strong>Theorem (pairwise-achievability frontier).</strong> Each
+<em>pair</em> among the three axioms is jointly realizable by an
+explicit governance-aggregation rule: a dictatorship rule realizes
+unanimity ∧ independence, the majority-quorum rule realizes unanimity ∧
+non-dictatorship, and a constant rule realizes independence ∧
+non-dictatorship, while the majority-quorum witness cannot realize all
+three at once. This is
+<code>multi_principal_pairwise_achievability_with_majorityQuorum_obstruction</code>
+(<code>Results/MultiPrincipal.lean</code>): every two-axiom relaxation
+is witnessed by a rule that satisfies it, and the displayed triple
+obstruction is the majority-quorum one.</p>
+<p>Two scope sentences fix what this is and is not. The result is a
+faithful transport of an Arrow/Young-lineage obstruction onto the
+governance-aggregation surface, with the pairwise frontier supplying the
+tightness that the classical statement carries by its own independence
+witnesses; the contribution is the typed governance object and its
+kernel, not a new impossibility theorem in social-choice theory. It is
+stated at a fixed <code>Fin 3</code> principal/property arity with
+explicit finite rules and does not yet claim a general-<code>n</code>
+aggregation-rule classification; the value here is that the
+multi-principal aggregation layer sits <em>on top of</em> the
+<code>LegitimacyKernel</code> object, so the frontier maps exactly which
+two-axiom relaxations a deployed aggregator may keep before the kernel
+must declare its sacrifice.</p>
+<p>This transport and the graph-diagnostic axis of §3.3 are distinct
+contacts with Arrow’s work: §3.3 reuses the proof <em>shape</em> on a
+graph object with Young-lineage axioms; §3.4 reuses the <em>axioms
+themselves</em> on a multi-principal aggregation rule. Neither contact
+is the headline: the positive kernel object remains the headline, with
+both Arrow contacts serving as forcing arguments that show what a
+legitimate aggregator over that kernel must give up.</p>
+<hr />
+<h4 id="the-triangulation">4. The triangulation</h4>
+<h5 id="axis-by-axis-comparison">4.1 Axis-by-axis comparison</h5>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 23%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Axis</th>
+<th>Object</th>
+<th>Axiom set</th>
+<th>Structural property</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Arrow (1951)</td>
+<td>Preference profiles</td>
+<td>Universality + Non-dictatorship + IIA + Pareto</td>
+<td>Aggregation rule</td>
+</tr>
+<tr class="even">
+<td>Balinski-Young (1982)</td>
+<td>Integer allocations</td>
+<td>Quota + Monotonicity</td>
+<td>Allocation rule</td>
+</tr>
+<tr class="odd">
+<td>Legitimacy (2026)</td>
+<td>Directed governance graphs</td>
+<td>Consistency + Solidarity + Monotonicity (+ bridge to
+Strategyproofness)</td>
+<td>Pipeline verdict / rule-layer admissibility</td>
+</tr>
+</tbody>
+</table></div>
+<p>The three axes are structurally distinct:</p>
+<ul>
+<li><strong>Object difference</strong>: preference profiles ≠ integer
+allocations ≠ directed governance graphs. The objects do not embed into
+one another by simple structural inclusion.</li>
+<li><strong>Axiom difference</strong>: the axioms are on different
+surfaces. Arrow’s IIA is on pairwise consistency of aggregation;
+Balinski-Young’s quota is on proportional-share-bounding; our
+consistency is on denied-claimant removal invariance at the rule
+layer.</li>
+<li><strong>Structural property difference</strong>: aggregation rule vs
+allocation rule vs pipeline verdict. The three structural properties are
+not inter-translatable.</li>
+</ul>
+<h5 id="why-the-third-axis-has-field-level-implications">4.2 Why the
+third axis has field-level implications</h5>
+<p>We argue that the third axis has rule-layer mechanism-design
+implications because:</p>
+<ol type="1">
+<li><strong>Object novelty</strong>: directed governance graphs with
+strength signals at the rule layer is a typed object distinct from
+preference profiles and integer allocations. It is not a special case of
+either.</li>
+<li><strong>Axiom-set novelty</strong>: the Young-lineage
+graph-diagnostic axioms (consistency, solidarity, monotonicity) operate
+on the rule layer of the governance graph. They are graph-diagnostic,
+not aggregation-rule-diagnostic or allocation-rule-diagnostic.</li>
+<li><strong>Bridge theorem novelty</strong>: strategyproofness is
+<em>derived</em> from solidarity ∧ monotonicity at the typeclass level.
+This is a structural derivation, not a separate axiom. The bridge is
+formalized in
+<code>decisionSystem_solidarity_monotonicity_imply_strategyproof</code>.</li>
+<li><strong>AI-deployment relevance</strong>: the rule-layer governance
+object is the deployment surface for AI-system rule-layer governance.
+The classical axes do not address this surface directly.</li>
+</ol>
+<h5 id="the-compounded-structural-picture">4.3 The compounded structural
+picture</h5>
+<p>A frontier AI-safety deployment faces all three axes
+simultaneously:</p>
+<ul>
+<li><strong>Arrow’s axis</strong>: when aggregating user preferences
+(RLHF) or aggregating evaluator opinions (debate), the deployment is
+constrained by Arrow-type impossibilities.</li>
+<li><strong>Balinski-Young’s axis</strong>: when allocating discrete
+resources (compute, attention, evaluator-bandwidth), the deployment is
+constrained by Balinski-Young-type impossibilities.</li>
+<li><strong>Our axis</strong>: when deploying typed governance rules at
+the rule layer (audit pipelines, control protocols, deployment-graph
+extractions), the deployment is constrained by our governance-rule
+structural-admissibility impossibility.</li>
+</ul>
+<p>The three axes operate on disjoint structural objects but compound in
+the deployment context. Failing on any axis triggers the
+corresponding-axis failure mode.</p>
+<hr />
+<h4 id="why-the-triangulation-is-informative-not-redundant">5. Why the
+triangulation is informative, not redundant</h4>
+<h5 id="each-axis-is-load-bearing-on-its-own">5.1 Each axis is
+load-bearing on its own</h5>
+<p>The classical axes are foundational for their object classes. Arrow’s
+theorem reshaped social-choice theory; Balinski-Young’s theorem reshaped
+apportionment theory. We argue that the governance-rule theorem extends
+that foundation to a new typed object: reachable scarce peer-relative
+governance pipelines whose rule layer must expose which structural
+diagnostic it sacrifices.</p>
+<p>The triangulation claims that the three axes are structurally
+distinct and jointly relevant, not that one axis subsumes another.</p>
+<h5 id="the-three-axes-are-non-redundant-in-deployment">5.2 The three
+axes are non-redundant in deployment</h5>
+<p>For an AI-safety deployment, the three axes operate on different
+structural objects. A deployment can fail on one axis while satisfying
+the other two. The non-redundancy is:</p>
+<ul>
+<li>An RLHF system can satisfy our governance-rule axiom set (the
+rule-layer is structurally well-formed) and Balinski-Young’s axiom set
+(the allocation rule is sensible) while still hitting Arrow-type
+impossibility on user-preference aggregation.</li>
+<li>A compute-allocation system can satisfy our governance-rule axiom
+set and Arrow’s axiom set while still hitting Balinski-Young-type
+impossibility on discrete allocation.</li>
+<li>A typed governance rule can satisfy Arrow’s and Balinski-Young’s
+axiom sets at the upstream-aggregation and downstream-allocation layers
+while still hitting our impossibility at the rule layer.</li>
+</ul>
+<p>The three axes are <em>non-redundant</em> failure modes.</p>
+<h5 id="what-the-triangulation-does-not-say">5.3 What the triangulation
+does not say</h5>
+<p><strong>Not a unification claim</strong>. We do not claim the three
+axes can be unified into a single impossibility theorem. They are
+structurally distinct on distinct objects.</p>
+<p><strong>Not a hierarchy claim</strong>. We do not claim the third
+axis subsumes or is subsumed by the first two. The three are comparable
+structural axes on their respective object classes.</p>
+<p><strong>Not a comprehensive classification of mechanism-design
+impossibilities</strong>. The three axes are notable; other
+impossibilities (Sen’s Paretian liberal, Gibbard-Satterthwaite,
+Eckersley’s AI-alignment impossibility, Nayebi’s multi-agent overhead)
+live on their own axes. The triangulation is a structural-positioning
+move, not a comprehensive taxonomy.</p>
+<hr />
+<h4
+id="discussion-implications-for-mechanism-design-ai-alignment-crossover">6.
+Discussion: implications for mechanism-design + AI-alignment
+crossover</h4>
+<h5 id="the-third-axis-as-alignment-relevant">6.1 The third axis as
+alignment-relevant</h5>
+<p>For mechanism-design + AI-alignment researchers, the third axis
+(governance-rule structural admissibility) is the alignment-relevant
+cousin of the classical lineages. The rule layer of typed governance
+deployments is the structural object on which our impossibility lives.
+Frontier AI-safety deployments deploy typed governance rules; the
+impossibility on these rules is structurally relevant.</p>
+<p>The two classical axes are also relevant: RLHF aggregates user
+preferences (Arrow’s axis); resource allocation is everywhere
+(Balinski-Young’s axis), but they do not directly address the <em>rule
+layer</em>. Our third axis is the structural complement.</p>
+<h5 id="the-compounded-ceiling">6.2 The compounded ceiling</h5>
+<p>A deployment faces all three axes’ ceilings simultaneously:</p>
+<ul>
+<li>Arrow’s ceiling on preference-aggregation rule.</li>
+<li>Balinski-Young’s ceiling on resource-allocation rule.</li>
+<li>Our ceiling on governance-rule structural admissibility.</li>
+</ul>
+<p>The compounded ceiling is the joint constraint. A deployment
+satisfies this joint constraint only if it (a) handles user-preference
+aggregation in an Arrow-aware way, (b) handles resource allocation in a
+Balinski-Young-aware way, and (c) handles governance-rule structural
+admissibility in a way our impossibility theorem permits.</p>
+<h5 id="composition-with-the-structural-mechanism-design-lineage">6.3
+Composition with the structural-mechanism-design lineage</h5>
+<p><strong>Conitzer-Procaccia, Halpern, Sandholm</strong>:
+structural-mechanism-design for AI applications. Their work primarily
+lives on the Arrow/Balinski-Young axes; our work extends to the third
+axis. The combined picture: structural-mechanism-design across all three
+axes.</p>
+<p><strong>Nayebi 2025</strong>: multi-agent overhead lower bound. The
+Nayebi axis is a <em>fourth</em> axis we do not address here
+(multi-agent coordination overhead); the multi-agent companion paper
+considers the multi-agent extension to our third axis.</p>
+<p><strong>Tibebu 2026</strong>: accountability-incompleteness phase
+transition. A <em>fifth</em> axis (accountability) we do not address
+here.</p>
+<p>The triangulation is a starting point, not a comprehensive taxonomy.
+Other axes (multi-agent, accountability, capability-scaling) are
+separately addressable.</p>
+<h5 id="the-independence-witness-discipline">6.4 The
+independence-witness discipline</h5>
+<p>The three-axis triangulation operates in conjunction with our
+axiom-tightness discipline (<code>feedback_axiom_tightness_bars</code>).
+The three axioms in our impossibility (consistency, solidarity,
+monotonicity) each have an independence witness, a concrete graph
+satisfying two of the three but not the third. The independence
+witnesses are mechanically verified in
+<code>Impossibility/AxiomIndependence.lean</code>. The Hasse
+classification of axiom-mask implications is in
+<code>diagnostic_axioms_mask_only_nontrivial_implication</code>.</p>
+<p>The three independent witnesses establish that each axiom is
+load-bearing. The Hasse classification confirms no fourth axiom is
+structurally implied.</p>
+<p>The independence-witness discipline is parallel to Arrow’s and
+Balinski-Young’s classical arguments: each classical impossibility
+theorem comes with witness mechanisms confirming axiom-independence. Our
+axis follows the same discipline.</p>
+<hr />
+<h4 id="limitations-3">7. Limitations</h4>
+<ol type="1">
+<li><p><strong>Three axes, not comprehensive</strong>. The triangulation
+covers three notable mechanism-design impossibility axes. Other axes
+(Nayebi multi-agent, Tibebu accountability, Eckersley AI-alignment) are
+not addressed in this triangulation.</p></li>
+<li><p><strong>No unification claim</strong>. We do not unify the three
+axes into a single impossibility theorem. They are structurally
+distinct.</p></li>
+<li><p><strong>Object-class non-embedding</strong>. We assert (but do
+not formalize) that the three object classes (preference profiles,
+integer allocations, directed governance graphs) do not embed into one
+another by simple structural inclusion. A formal non-embedding theorem
+is open follow-up.</p></li>
+<li><p><strong>Independence-witness discipline at three-axiom
+level</strong>. Our impossibility’s three axioms have independence
+witnesses; we do not here formalize the analogous independence-witness
+discipline for Arrow’s four axioms or Balinski-Young’s two axioms in our
+substrate. The classical arguments are taken as given.</p></li>
+<li><p><strong>Strategyproofness as derived</strong>. Our impossibility
+derives strategyproofness from solidarity ∧ monotonicity, so the
+impossibility is three-axiom + bridge. This is a structural feature of
+our axis, not a feature of the classical axes.</p></li>
+<li><p><strong>No comprehensive crossover analysis</strong>. The
+implications-for-AI-alignment discussion is informal. A comprehensive
+analysis of how AI-alignment deployments compound the three axes’
+ceilings is open follow-up.</p></li>
+</ol>
+<hr />
+<h4 id="conclusion-3">8. Conclusion</h4>
+<p>Three impossibility theorems in mechanism-design occupy structurally
+distinct axes: Arrow 1951 on preference aggregation, Balinski-Young 1982
+on discrete allocation, and our 2026 theorem on governance-rule
+structural admissibility. The three axes operate on different object
+classes (preference profiles, integer allocations, directed governance
+graphs), with different axiom sets, and different structural
+properties.</p>
+<p>The third axis has field-level implications: governance-rule
+structural admissibility on directed graphs with rule-layer axioms is a
+typed object distinct from the classical axes. It is the
+alignment-relevant cousin of the classical lineages, addressing the rule
+layer of typed governance deployments.</p>
+<p>The triangulation is a coordinate system, not a unification. The
+three axes operate non-redundantly; a frontier AI-safety deployment
+faces all three ceilings simultaneously. The compounded picture is the
+joint constraint: aggregation-rule × allocation-rule × governance-rule
+structural admissibility.</p>
+<p>For mechanism-design + AI-alignment crossover researchers, the
+triangulation supplies the precise positioning of our axis relative to
+the classical lineages. Future work: comprehensive multi-axis analysis
+incorporating Nayebi multi-agent, Tibebu accountability, and Eckersley
+AI-alignment as additional axes; formal non-embedding theorem between
+the object classes; comprehensive crossover analysis of how AI-alignment
+deployments compound the axes’ ceilings.</p>
+<hr />
+<h4 id="references-4">References</h4>
+<ul>
+<li><strong>Arrow, K. J.</strong> (1951). <em>Social Choice and
+Individual Values</em>. Yale University Press.</li>
+<li><strong>Balinski, M., Young, H. P.</strong> (1982). <em>Fair
+Representation: Meeting the Ideal of One Man, One Vote</em>. Yale
+University Press.</li>
+<li><strong>Conitzer, V., Procaccia, A.</strong> (multiple).
+Social-choice for AI alignment.</li>
+<li><strong>Eckersley, P.</strong> (2019). Impossibility and Uncertainty
+Theorems in AI Value Alignment. <em>Workshop on Cooperative
+AI</em>.</li>
+<li><strong>Gibbard, A.</strong> (1973). Manipulation of Voting Schemes:
+A General Result. <em>Econometrica</em>, 41(4): 587-601.</li>
+<li><strong>Halpern, J. Y., Pass, R.</strong> (multiple). Game-theoretic
+foundations for AI alignment.</li>
+<li><strong>Nayebi, A.</strong> (2025). Intrinsic Barriers and Practical
+Pathways for Human-AI Alignment: An Agreement-Based Complexity Analysis.
+<em>arXiv:2502.05934</em>. AAAI 2026 oral.</li>
+<li><strong>Satterthwaite, M.</strong> (1975). Strategy-Proofness and
+Arrow’s Conditions. <em>Journal of Economic Theory</em>, 10(2):
+187-217.</li>
+<li><strong>Sen, A.</strong> (1970). The Impossibility of a Paretian
+Liberal. <em>Journal of Political Economy</em>, 78(1): 152-157.</li>
+<li><strong>Tibebu, H.</strong> (2026). The Accountability Horizon: An
+Impossibility Theorem for Governing Human-Agent Collectives.
+<em>arXiv:2604.07778</em>.</li>
+<li><strong>Young, H. P.</strong> (1994). <em>Equity: In Theory and
+Practice</em>. Princeton University Press.</li>
+</ul>
+<h5 id="lean-substrate-references-3">Lean substrate references</h5>
+<ul>
+<li><code>Legitimacy.reachable_peer_relative_decisive_stage_obstructs_diagnostics</code></li>
+<li><code>Legitimacy.complete_first_effective_obstructs_diagnostics_via_reachable</code></li>
+<li><code>Legitimacy.binaryDecisionPipeline_effectiveSurface_complete_three_axiom_obstruction</code></li>
+<li><code>Legitimacy.peerRelativeHead_complete_impossibility</code></li>
+<li><code>Legitimacy.weakestWithStrongerPeerNode_structural</code></li>
+<li><code>Legitimacy.representedPeer_obstructs_diagnostics</code></li>
+<li><code>Legitimacy.peerRelativeNode_not_structural</code></li>
+<li><code>Legitimacy.decisionSystem_solidarity_monotonicity_imply_strategyproof</code></li>
+<li><code>Legitimacy.solidarity_monotonicity_imply_strategyproof</code></li>
+<li><code>Legitimacy.majorityQuorumRule_fails_arrow_triple</code>
+(direct multi-principal Arrow obstruction;
+<code>Results/MultiPrincipal.lean</code>).</li>
+<li><code>Legitimacy.multi_principal_pairwise_achievability_with_majorityQuorum_obstruction</code>
+(pairwise-achievability frontier for the three Arrow axioms;
+<code>Results/MultiPrincipal.lean</code>).</li>
+<li>The three independence witnesses in
+<code>Impossibility/AxiomIndependence.lean</code>
+(<code>shortListGraph</code>, <code>bobAbsoluteGraph</code>,
+<code>bobRelativeGraph</code>).</li>
+<li>The Hasse classification
+<code>diagnostic_axioms_mask_only_nontrivial_implication</code>.</li>
+<li>The four collapse theorems for the non-peer-relative escape in
+<code>Results/NonPeerRelative.lean</code>.</li>
+</ul>
+<h5 id="companion-artifacts">Companion artifacts</h5>
+<ul>
+<li><code>papers/03-impossibility-theorem.md</code>, long-form
+formalization paper.</li>
+</ul>
+<h2 id="conclusion-where-this-program-sits">8. Conclusion: Where This
+Program Sits</h2>
+<p>The positioning is deliberately bounded. The program contributes a
+typed governance-rule substrate, mechanically checked theorem surfaces,
+executable audit fixtures, and structural ceilings. The adjacent
+literatures remain adjacent because they study different objects:
+preferences, resource allocations, behavioral safety cases, verifier
+architectures, or information-theoretic bottlenecks. The program sits in
+the AI safety formal-methods space as a rule-layer structural audit and
+theorem program with the scope qualifiers stated in the chapters
+above.</p>
+<hr />
+<p><em>Part of the Legitimacy program: a machine-checked semantic
+legitimacy kernel with a Rust extractor and Lean 4 proofs. Repository:
+github.com/abenenson/legitimacy; project page:
+adambenenson.com/projects/legitimacy. Companion manuscripts: “Semantic
+Legitimacy Kernels: A Machine-Checked Compiler Target for the Governance
+Layer of AI Agents,” “A Verified Impossibility Theorem for Peer-Relative
+Governance,” and “Which Governance Structures Survive Unbounded
+Capability? Capacity and Stability Bounds for AI Governance
+Graphs.”</em></p>
+
+
+  <p class="source-line">
+    Machine-checked artifact (Lean&nbsp;4 + Rust): <a href="https://github.com/abenenson/legitimacy">github.com/abenenson/legitimacy</a>.
+  </p>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/writing/legitimacy-v1/">The Legitimacy v1.0.0 set</a>
+      <a href="/writing/">All writing</a>
+      <a href="/projects/legitimacy/">Legitimacy project</a>
+      <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">Repository</a>
+    </div>
+  </footer>
+</body>
+</html>
