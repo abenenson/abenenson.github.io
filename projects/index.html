@@ -160,6 +160,29 @@
 
   <h1>Projects</h1>
 
+  <section id="legitimacy">
+    <h2>Machine-Checked AI Governance</h2>
+
+    <div class="item">
+      <div class="item-title">
+        <a href="/projects/legitimacy/">legitimacy</a>
+      </div>
+      <div class="item-meta">Rust · Lean 4 · sorry-free · v1.0.0 public</div>
+      <div class="item-desc">
+        The rules that decide what an AI agent may do — which tool runs, what is escalated to a
+        human, which of several competing requests gets the one scarce review slot — are an agent's
+        governance layer, and today they are mostly unverified scripts. Legitimacy asks whether that
+        rule is even coherent, and proves an impossibility: on scarce, peer-relative surfaces no rule
+        can satisfy every reasonable guarantee at once, so a legitimate one must declare what it
+        sacrifices. A Rust audit pipeline extracts governance graphs from real agent-harness source
+        and checks them against the kernel's obligations; the Lean&nbsp;4 / Mathlib development is
+        sorry-free. Read the six papers <a href="/writing/legitimacy-v1/">on the site</a> or get the
+        signed release from the <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">repository</a>.
+      </div>
+    </div>
+
+  </section>
+
   <section id="quantitative-systems">
     <h2>Quantitative Systems</h2>
 
@@ -245,16 +268,6 @@
   <section id="formal-methods">
     <h2>Formal Methods</h2>
 
-    <div class="item">
-      <div class="item-title">
-        <a href="/projects/legitimacy/">legitimacy</a>
-      </div>
-      <div class="item-meta">Rust · Lean 4 · sorry-free</div>
-      <div class="item-desc">
-        An Arrow-lineage impossibility theorem for AI governance and a machine-checked
-        semantic legitimacy kernel. A research program in active development.
-      </div>
-    </div>
 
     <div class="item">
       <div class="item-title">Stigmergic Field Theory</div>
