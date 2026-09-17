@@ -31,3 +31,17 @@ No build step required — pure HTML/CSS, no dependencies.
 - Prism/Snowball have no GitHub links — private repos; description only
 - Prism copy must never name the consulting client or cite client-derived numbers
 - `llms.txt` is the LLM-readable profile; keep it in sync with structural changes
+
+## Legitimacy companion reader
+
+`projects/legitimacy/reader.html` is an unchanged copy of the self-contained
+composition reader from public Legitimacy commit `1949f4033bf9dcb8370d249ca8f33e40c0b9e863`:
+
+https://raw.githubusercontent.com/abenenson/legitimacy/1949f4033bf9dcb8370d249ca8f33e40c0b9e863/docs/executed-composition-reader.html
+
+SHA-256: `9a7133552fb52342ec7ce821282ce757c31124a2d7bb7c31f1b2b36dc968689b`.
+
+Keep its embedded fixtures, script hash, and scope statements together. Update
+from a reviewed public upstream revision, rather than editing this copy. The
+browser recomputes finite semantics; signed-receipt verification and execution
+reproduction belong to the separate CLI. No server or build is required.
