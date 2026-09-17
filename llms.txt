@@ -76,13 +76,26 @@ Forethink's B2B research-intelligence platform for professional services firms �
 
 ## Legitimacy Framework
 
-A formal research program on agentic AI governance — distinct from Forethink Labs.
+A formal research program on checkable rules for AI agents, distinct from Forethink Labs. The institutional question is how authority, cooperation, competing claims, and correction can remain coherent as capabilities grow.
 
-The legitimacy thread pursues a question upstream of mainstream AI governance work (rate limits, PII guards, prompt-injection detection, audit logs): is the rule being enforced actually coherent? The forcing move is an impossibility theorem in the Arrow-Young-Thomson tradition, made executable by a machine-checked semantic legitimacy kernel.
+Project: https://adambenenson.com/projects/legitimacy/
+Browser example: https://adambenenson.com/projects/legitimacy/reader.html
+Source and current manuscripts: https://github.com/abenenson/legitimacy
+Signed release: https://github.com/abenenson/legitimacy/releases/tag/v1.1.1
+Automatic verification: https://github.com/abenenson/legitimacy/actions/workflows/ci.yml
 
-Core impossibility: no reached scarce peer-relative governance system can jointly satisfy consistency, solidarity, and cross-claimant monotonicity. Strategyproofness follows as a bridge-derived consequence of solidarity and monotonicity, not an independent fourth axiom. Every deployed system sacrifices at least one of the three primitives — typically without declaring which, bounding how much, or specifying a monitor for the sacrificed axiom. The theorem and its Young-style graph diagnostics make that sacrifice explicit and checkable.
+The executed composition experiment shows two locally authorized synthetic disclosures causing a jointly forbidden effect. A stateful guard blocks that combination while preserving useful alternatives. Lean proves the repair for every finite request sequence in the declared sequential model. The browser presents seven captured examples, checks pinned fixture bytes and recomputes finite semantics; it neither runs agents nor verifies signed receipts. The CLI provides the separate execution and authentication route.
 
-The artifact stack: a Rust crate that extracts governance graphs from source or policy files and audits them against the kernel obligations — a runtime layer (certifiable, governance-observable, corrigible, compositionally safe, non-vacuous), social-choice graph diagnostics, a spectral scaling witness, and an explicit bridge contract — backed by a Lean 4 / Mathlib development. Modeled and source-walked audits across deployed agent harnesses (Codex, Claude Agent SDK, OpenClaw) produce machine-checked rejection certificates that surface real classifier failures rather than theoretical possibilities. Zero `sorry`, `admit`, or first-party axiom under the verification gate. Version 1.0.0 is public at https://github.com/abenenson/legitimacy, with the signed release and paper artifacts at https://github.com/abenenson/legitimacy/releases/tag/v1.0.0. The six papers are also readable on this site at https://adambenenson.com/writing/legitimacy-v1/ (overview, semantic legitimacy kernels, the verified impossibility theorem, capacity-and-stability bounds, structural audits, and positioning). Development continues in a private upstream repository; accepted public contributions are reviewed and integrated through the curated release process.
+The wider governance-rule theorem applies to a specified class of symmetric, scarce, coupled allocators, including the median rule: consistency, solidarity, and cross-claimant monotonicity cannot all hold. Separating examples establish the strength and limits of that conclusion. The semantic legitimacy kernel specifies certifiability, observability, preservation of supervisory operations, compositional safety, and non-vacuity. Current constructions demonstrate changing-state correction and an edged causal handoff separately, not a general deployed kernel combining both. Capacity/stability results are conditional on the stated modeled carrier and scaling assumptions, not empirical ASI predictions.
+
+Rust extraction and committed Lean harness models are distinct evidence paths. Fresh extractions are diagnostics, not automatically theorem-backed certificates. The accepted Rust source fragment has execution-based fidelity tests; mechanical translation into the Lean program and production-graph semantics remain open. The proof gate checks zero sorry, admit, or first-party axiom, with model and toolchain assumptions stated separately.
+
+Evidence map: https://github.com/abenenson/legitimacy/blob/master/docs/claim-ledger.md#read-the-evidence-in-five-minutes
+Trust chain: https://github.com/abenenson/legitimacy/blob/master/docs/extractor-boundary.md
+Formal overview: https://github.com/abenenson/legitimacy/blob/master/docs/formal-overview.md
+Module map: https://github.com/abenenson/legitimacy/blob/master/docs/lean-module-architecture.md
+Prior art: https://github.com/abenenson/legitimacy/blob/master/papers/06-positioning.md
+The original six-paper v1.0.0 archive remains readable at https://adambenenson.com/writing/legitimacy-v1/; current revisions live in the repository.
 
 ---
 

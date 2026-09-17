@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>legitimacy — Adam Benenson</title>
-  <meta name="description" content="The legitimacy research thread: an Arrow-lineage impossibility theorem for AI governance and a machine-checked semantic legitimacy kernel in Rust and Lean 4.">
+  <title>Legitimacy — Checkable Rules for AI Agents</title>
+  <meta name="description" content="Checkable rules for AI agents: institutional design, Lean proofs, and an executable experiment in how individually approved actions can become unsafe together.">
   <meta name="author" content="Adam Benenson">
   <link rel="canonical" href="https://adambenenson.com/projects/legitimacy/">
 
@@ -14,16 +14,16 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:image" content="https://adambenenson.com/og-image.png">
-  <meta property="og:title" content="legitimacy — Adam Benenson">
-  <meta property="og:description" content="Arrow-lineage impossibility for AI governance, machine-checked semantic legitimacy kernel in Rust and Lean 4.">
+  <meta property="og:title" content="Legitimacy — Checkable Rules for AI Agents">
+  <meta property="og:description" content="Checkable rules for AI agents: institutional design, Lean proofs, and an executable experiment in how individually approved actions can become unsafe together.">
   <meta property="og:url" content="https://adambenenson.com/projects/legitimacy/">
   <meta property="og:site_name" content="Adam Benenson">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@ashbenen">
   <meta name="twitter:creator" content="@ashbenen">
-  <meta name="twitter:title" content="legitimacy — Adam Benenson">
-  <meta name="twitter:description" content="Arrow-lineage impossibility for AI governance, machine-checked semantic legitimacy kernel in Rust and Lean 4.">
+  <meta name="twitter:title" content="Legitimacy — Checkable Rules for AI Agents">
+  <meta name="twitter:description" content="Checkable rules for AI agents: institutional design, Lean proofs, and an executable experiment in how individually approved actions can become unsafe together.">
 
   <script type="application/ld+json">
   {
@@ -207,100 +207,134 @@
     <a href="/projects/" class="current">Projects</a>
   </nav>
 
-  <div class="breadcrumb"><a href="/projects/">Projects</a> / legitimacy</div>
-  <h1>legitimacy</h1>
-  <p class="tagline">Machine-checked coherence for the rules that govern AI agents.</p>
-  <p class="top-repo"><a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">github.com/abenenson/legitimacy&nbsp;↗</a></p>
+  <div class="breadcrumb"><a href="/projects/">Projects</a> / Legitimacy</div>
+  <h1>Legitimacy</h1>
+  <p class="tagline">Checkable rules for AI agents.</p>
+  <p class="top-repo"><a href="/projects/legitimacy/reader.html">Open the browser example&nbsp;→</a><br><a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">Source, proofs, and evidence on GitHub&nbsp;↗</a></p>
 
-  <section>
+  <section aria-label="Introduction">
     <p>
-      An AI agent is constantly making decisions that aren't about any single output: which tool
-      call runs, what gets written to memory, when something is escalated to a human, which of
-      several competing requests gets the one scarce review slot. That is a governance layer — an
-      institution deciding who gets what authority — and today it is mostly unverified scripts.
-      The usual answer, &ldquo;AI governance,&rdquo; checks whether each action is allowed;
-      legitimacy asks a prior question about the rule doing the checking: <em>is it even
-      coherent?</em> On exactly these surfaces, some coherence turns out to be
-      <strong>provably impossible</strong> — worth knowing before you trust the rule.
+      As AI systems become more capable, alignment increasingly concerns the organization of power.
+      An agent that allocates resources, delegates work, or determines what another agent may do is
+      exercising authority. When agents act together, the consequences depend on how their decisions
+      interact and on the rules that give those decisions force.
+    </p>
+    <p>
+      Institutional design offers a way to think about this problem. Cooperation within a group can
+      coexist with disregard for people outside it. Individually reasonable decisions can produce
+      an unacceptable collective outcome. Rules that work under ordinary conditions can become
+      vulnerable as participants gain the ability to exploit them. Trustworthy autonomy requires
+      ways to justify decisions, examine consequences, resolve competing claims, and preserve the
+      ability to change course.
+    </p>
+    <p>
+      <strong>Legitimacy studies the rules that could make such autonomy possible.</strong>
+      It brings together social choice, formal verification, and models of strategic behavior to
+      ask how governance can remain coherent and correctable as capabilities grow toward
+      superintelligence. Lean proofs and executable Rust experiments make parts of that question
+      precise: which guarantees can coexist, what evidence a governing rule must supply, and how
+      useful action can survive the constraints needed for safety.
     </p>
   </section>
 
   <section>
-    <h2>The idea</h2>
+    <h2>See the problem and a repair</h2>
     <p>
-      Legitimacy treats an agent's rule layer as an institution — something that allocates authority
-      among competing claims — and asks whether it does so coherently. Two results, both
-      machine-checked in Lean&nbsp;4:
-    </p>
-    <div class="item">
-      <div class="item-title"><a href="/writing/legitimacy-v1/impossibility-theorem/">An impossibility</a></div>
-      <div class="item-desc">
-        On the surfaces where a rule rations something scarce among competing requests, no rule can
-        satisfy every reasonable fairness guarantee at once. So a legitimate rule can't quietly hold
-        all of them — it has to <em>declare</em> which one it gives up, bound the sacrifice, and say
-        how it is monitored.
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-title"><a href="/writing/legitimacy-v1/semantic-legitimacy-kernels/">A kernel</a></div>
-      <div class="item-desc">
-        A compiled object that carries that declaration plus five checkable obligations: verdicts come
-        with witnesses, decision-relevant state survives audit, authorized supervisors can intervene,
-        locally-safe steps stay safe when composed, and the rule actually governs something. A
-        governance rule you can inspect instead of trust.
-      </div>
-    </div>
-  </section>
-
-  <!-- legitimacy-v1-papers:begin -->
-  <section>
-    <h2>Papers</h2>
-    <p>The <a href="/writing/legitimacy-v1/">Legitimacy v1.0.0 set</a> — six papers, readable on this site or as signed PDFs in the
-      <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">repository</a>.</p>
-      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/what-the-legitimacy-compiler-found/">Paper 1 — What the Legitimacy Compiler Found</a></div></div>
-      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/semantic-legitimacy-kernels/">Paper 2 — Semantic Legitimacy Kernels</a></div></div>
-      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/impossibility-theorem/">Paper 3 — A Verified Impossibility Theorem for Peer-Relative Governance</a></div></div>
-      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/capacity-and-stability/">Paper 4 — Which Governance Structures Survive Unbounded Capability?</a></div></div>
-      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/structural-audits/">Paper 5 — Structural Audits of AI Safety Mechanisms</a></div></div>
-      <div class="item"><div class="item-title"><a href="/writing/legitimacy-v1/legitimacy-in-context/">Paper 6 — The Legitimacy Program in Context</a></div></div>
-  </section>
-<!-- legitimacy-v1-papers:end -->
-
-  <section>
-    <h2>The artifact</h2>
-
-    <div class="item">
-      <div class="item-title">
-        <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">legitimacy</a>
-      </div>
-      <div class="item-meta">Rust + Lean 4 · sorry-free</div>
-      <div class="item-desc">
-        A Rust crate extracts governance graphs from real agent-harness source and audits them
-        against the kernel obligations, backed by a Lean 4 / Mathlib development with zero
-        <code>sorry</code>, <code>admit</code>, or first-party axiom under the verification gate.
-        The diagnostic bites on real code: under the repository's declared extraction convention,
-        the committed OpenAI Codex and Claude Agent SDK models each expose specific monotonicity
-        failures — results about the extracted graph <em>models</em>, not behavioral verdicts on
-        the live products. Source-to-graph extraction is heuristic and empirical, a
-        stated trusted-base boundary, so reviewers can target attacks at the right layer.
-        Orthogonal to gateway products — they enforce; this audits.
-      </div>
-    </div>
-
-  </section>
-
-  <section>
-    <h2>Current state</h2>
-    <p>
-      <span class="status">v1.0.0 · public</span>
+      A policy forbids publishing both fragments of a protected record. Two agents are each allowed
+      to publish their own fragment. Judged separately, both requests pass. Together, their
+      deliveries violate the policy.
     </p>
     <p>
-      Read the
-      <a href="https://github.com/abenenson/legitimacy" target="_blank" rel="noopener">source and verification instructions</a>,
-      or download the
-      <a href="https://github.com/abenenson/legitimacy/releases/tag/v1.0.0" target="_blank" rel="noopener">signed release and paper artifacts</a>.
-      Development continues in a private upstream repository; accepted public contributions
-      are reviewed and integrated through the curated release process.
+      The composition experiment makes this failure concrete. A guard remembers what has already
+      become public and blocks the second disclosure, while still allowing delivery to a private
+      vault or publication of a harmless summary. The forbidden outcome stays the same; useful
+      work remains possible.
+    </p>
+    <p><a href="/projects/legitimacy/reader.html"><strong>Explore the seven outcomes in your browser&nbsp;→</strong></a><br>
+      No installation. Inspect recorded deliveries, compare the repair, and change selected
+      evidence to see how the checker responds.</p>
+    <p>
+      This is a sequential experiment with two supplied identities and synthetic data; it runs no
+      language model. The browser presents captured examples and recomputes finite checks.
+      The separate <a href="https://github.com/abenenson/legitimacy/blob/master/docs/executed-composition-v1.md">reproduction guide</a>
+      covers execution, signed receipts, and the Lean proofs of the repair for every finite request
+      sequence in the model. It is not a claim to prevent arbitrary production incidents.
+    </p>
+  </section>
+
+  <section>
+    <h2>The broader research</h2>
+    <div class="item">
+      <div class="item-title"><a href="https://github.com/abenenson/legitimacy/blob/master/papers/03-impossibility-theorem.md">Which guarantees can coexist?</a></div>
+      <div class="item-desc">
+        For the specified class of symmetric, scarce, coupled allocation rules, consistency,
+        solidarity, and cross-claimant monotonicity cannot all hold. The wider theorem includes
+        the median rule; separating examples show why its conclusion is a choice of sacrifice,
+        not the failure of one fixed guarantee. The governance task is to declare and examine
+        that tradeoff, rather than assume it away.
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title"><a href="https://github.com/abenenson/legitimacy/blob/master/papers/02-semantic-legitimacy-kernels.md">What must a governing rule earn?</a></div>
+      <div class="item-desc">
+        A semantic legitimacy kernel is a mathematical specification connecting a rule to evidence
+        about its decisions, observations, supervisory operations, and interactions with other rules.
+        Its obligations include preserving safety under composition and permitting useful action.
+        Current constructions establish changing-state correction and a real causal handoff in
+        separate examples; a general deployed kernel combining them remains a research objective.
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title"><a href="https://github.com/abenenson/legitimacy/blob/master/papers/04-spectral-scaling.md">What happens as capability grows?</a></div>
+      <div class="item-desc">
+        The capacity and stability results relate a modeled rule's vulnerability to changes in its
+        governing structure to a finite stability limit as capability increases. These are conditional
+        mathematical results with explicit carrier and scaling assumptions, not an empirical forecast
+        of when an AI system becomes uncontrollable.
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-title"><a href="https://github.com/abenenson/legitimacy/blob/master/docs/formal-overview.md#worked-extractions-the-obstruction-on-real-agent-graphs">What can an engineer inspect?</a></div>
+      <div class="item-desc">
+        Rust tools extract and audit governance graphs, while committed harness models connect
+        specific diagnoses to Lean-checked results. Fresh extraction is diagnostic evidence;
+        it does not automatically inherit the fixture proofs. Source interpretation has execution-based
+        tests, and the <a href="https://github.com/abenenson/legitimacy/blob/master/docs/extractor-boundary.md">trust-chain map</a>
+        distinguishes proved, tested, and open connections.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Follow the evidence</h2>
+    <p>
+      Start with the <a href="https://github.com/abenenson/legitimacy/blob/master/docs/claim-ledger.md#read-the-evidence-in-five-minutes">five-minute evidence map</a>
+      for what is proved, executed, or still open. The
+      <a href="https://github.com/abenenson/legitimacy/blob/master/docs/formal-overview.md">formal overview</a>
+      follows the argument to named declarations, and the
+      <a href="https://github.com/abenenson/legitimacy/blob/master/docs/lean-module-architecture.md">module map</a>
+      locates the code. The
+      <a href="https://github.com/abenenson/legitimacy/blob/master/papers/06-positioning.md">research comparison</a>
+      distinguishes the contribution from prior work.
+    </p>
+    <p>
+      The <a href="https://github.com/abenenson/legitimacy/tree/master/papers">six current manuscripts</a>
+      cover the program, kernel, impossibility theorem, stability bounds, structural audits, and
+      related research. The original <a href="/writing/legitimacy-v1/">v1.0.0 paper archive</a>
+      remains readable here; consult the repository for subsequent revisions.
+    </p>
+  </section>
+
+  <section>
+    <h2>Get the release</h2>
+    <p><span class="status">v1.1.1 · public</span> <span class="tag">Rust + Lean 4</span></p>
+    <p>
+      The <a href="https://github.com/abenenson/legitimacy/releases/tag/v1.1.1">signed v1.1.1 release</a>
+      includes the composition experiment and an offline Linux x86_64 bundle.
+      <a href="https://github.com/abenenson/legitimacy">Source and verification instructions</a>
+      are public, with <a href="https://github.com/abenenson/legitimacy/actions/workflows/ci.yml">automatic verification on GitHub</a>.
+      The proof gate checks for zero <code>sorry</code>, <code>admit</code>, or first-party axiom;
+      the repository states the remaining model, toolchain, and execution assumptions.
     </p>
   </section>
 
