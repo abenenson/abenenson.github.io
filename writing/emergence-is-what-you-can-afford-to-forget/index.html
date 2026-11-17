@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergence Is What You Can Afford to Forget — Adam Benenson</title>
+  <meta name="description" content="Accurate AI memory summaries can still fail. A worked example shows when compressed agent memory breaks, and a test that catches it before it costs you.">
+  <meta name="author" content="Adam Benenson">
+  <link rel="canonical" href="https://adambenenson.com/writing/emergence-is-what-you-can-afford-to-forget/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://adambenenson.com/img/thumb-emergence.jpg">
+  <meta property="og:title" content="Emergence Is What You Can Afford to Forget">
+  <meta property="og:description" content="Why AI Memory Can Fail Without Ever Being Wrong">
+  <meta property="og:url" content="https://adambenenson.com/writing/emergence-is-what-you-can-afford-to-forget/">
+  <meta property="og:site_name" content="Adam Benenson">
+  <meta property="article:author" content="Adam Benenson">
+  <meta property="article:published_time" content="2026-11-17">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ashbenen">
+  <meta name="twitter:creator" content="@ashbenen">
+  <meta name="twitter:title" content="Emergence Is What You Can Afford to Forget">
+  <meta name="twitter:description" content="Why AI Memory Can Fail Without Ever Being Wrong">
+  <meta name="twitter:image" content="https://adambenenson.com/img/thumb-emergence.jpg">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Emergence Is What You Can Afford to Forget",
+  "alternativeHeadline": "Why AI Memory Can Fail Without Ever Being Wrong",
+  "author": {
+    "@type": "Person",
+    "name": "Adam Benenson",
+    "url": "https://adambenenson.com/"
+  },
+  "datePublished": "2026-11-17",
+  "url": "https://adambenenson.com/writing/emergence-is-what-you-can-afford-to-forget/",
+  "mainEntityOfPage": "https://adambenenson.com/writing/emergence-is-what-you-can-afford-to-forget/",
+  "image": "https://adambenenson.com/img/thumb-emergence.jpg",
+  "description": "Accurate AI memory summaries can still fail. A worked example shows when compressed agent memory breaks, and a test that catches it before it costs you.",
+  "wordCount": 2476,
+  "publisher": {
+    "@type": "Person",
+    "name": "Adam Benenson"
+  }
+}
+  </script>
+
+  <style>
+    :root {
+      --bg: #1a1a1e;
+      --text: #ffffff;
+      --muted: #71717a;
+      --accent: #93b4d4;
+      --border: #2e2e33;
+      --link: #93b4d4;
+      --link-hover: #c4d8ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+    .topnav {
+      margin-bottom: 40px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .topnav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 18px;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.current { color: var(--text); }
+    .breadcrumb {
+      font-size: 0.82rem;
+      font-family: 'Courier New', monospace;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      color: #ff8c7a;
+      line-height: 1.3;
+    }
+    .article-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 20px;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 10px;
+      text-transform: lowercase;
+    }
+    .venue-link {
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .venue-link:hover { color: var(--link-hover); }
+    .venue-link .external-arrow {
+      margin-left: 2px;
+      font-size: 0.78rem;
+      vertical-align: 1px;
+    }
+    article h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 48px;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
+    }
+    article h3 {
+      font-size: 1.05rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-top: 32px;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+    }
+    article p {
+      margin-bottom: 20px;
+    }
+    article a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+    }
+    article a:hover {
+      color: var(--link-hover);
+      text-decoration-color: var(--link-hover);
+    }
+    article strong { color: var(--text); font-weight: 600; }
+    article em { font-style: italic; }
+    article ul, article ol {
+      margin: 0 0 20px 1.4em;
+    }
+    article li { margin-bottom: 8px; }
+    article blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+      margin: 24px 0;
+      color: #c8bab8;
+      font-style: italic;
+    }
+    article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+    article pre {
+      background: #141417;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      font-size: 0.88rem;
+    }
+    article code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.92em;
+      background: #141417;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    article pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer a { color: var(--muted); text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    @media (max-width: 480px) {
+      body { padding: 48px 20px 80px; }
+      h1 { font-size: 1.35rem; }
+    }
+      article figure { margin: 32px 0; }
+    article figure img { width: 100%; height: auto; display: block; border-radius: 4px; background: #fff; }
+    article figcaption { color: var(--muted); font-size: 0.85rem; font-style: italic; margin-top: 10px; line-height: 1.5; }
+    .subtitle { color: #c8bab8; font-size: 1.05rem; margin-bottom: 12px; }
+    .hero { margin: 8px 0 36px; }
+    .hero img { width: 100%; height: auto; display: block; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="/">Home</a>
+    <a href="/writing/">Writing</a>
+    <a href="/projects/">Projects</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="/writing/">writing</a> / emergence-is-what-you-can-afford-to-forget
+  </div>
+
+  <h1>Emergence Is What You Can Afford to Forget</h1>
+  <p class="subtitle">Why AI Memory Can Fail Without Ever Being Wrong</p>
+  <div class="article-meta">
+    <span class="tag">essay</span>November 2026 · <a href="https://medium.com/@ashbenen/emergence-is-what-you-can-afford-to-forget-412bc4be00e4" target="_blank" rel="noopener" class="venue-link" aria-label="Read on Medium">Medium<span class="external-arrow" aria-hidden="true">↗</span></a>
+  </div>
+
+  <div class="hero"><img src="/img/thumb-emergence.jpg" alt="Watercolour of sixteen small two-room boxes arranged in five columns of 1, 4, 6, 4 and 1, each holding blue and gold dots, with a single red dot in the middle column."></div>
+
+  <article>
+<p>Every summary is a bet about the future.</p>
+<p>A summary can be perfectly accurate about the past and still lose.
+The wager is about which questions come next, and whether the details it
+threw away will be needed to answer them.</p>
+<p>Physics has an exact version of this bet. Every AI agent that
+compacts its own context to keep working is making an inexact one. The
+exact version shows what the inexact one is risking, and it suggests a
+test that a memory can run on itself.</p>
+<h2>Sixteen into five</h2>
+<p>Put four particles in two chambers. Call them A, B, C and D. At each
+step, pick one particle at random and flip a fair coin. Heads, it moves
+to the other chamber. Tails, it stays.</p>
+<figure>
+<img src="anim-particles.gif" alt="Animation: four particles labeled A to D in two chambers. Each step one is picked and a coin decides whether it moves; a counter shows how many are on the left." loading="lazy">
+<figcaption>
+Pick a particle, flip a coin. The counter tracks only how many are on
+the left.
+</figcaption>
+</figure>
+<p>The full description records where each particle is. Four particles,
+two places each: sixteen arrangements.</p>
+<p>Now forget the names. Keep only how many particles are on the
+left.</p>
+<p>That number takes five values, zero through four. Sixteen states have
+collapsed into five. “A and B on the left” and “C and D on the left” are
+now the same state. We have thrown away something real.</p>
+<figure>
+<img src="fig1-sixteen-into-five.png" alt="The sixteen arrangements of particles A to D across two chambers, grouped into five columns by how many are on the left: 1, 4, 6, 4 and 1 arrangements." loading="lazy">
+<figcaption>
+Forget the names, and sixteen arrangements become five counts.
+</figcaption>
+</figure>
+<p>Suppose two particles are on the left. The chance you pick one of
+them is one-half, and the chance the coin then moves it is one-half. So
+the count drops to one with probability one-quarter. By the same
+reasoning it rises to three with probability one-quarter. Otherwise it
+stays at two.</p>
+<p>The names never entered the calculation.</p>
+<p>In general, with <em>z</em> particles on the left, the count falls
+with probability <em>z</em>/8, rises with probability (4 −
+<em>z</em>)/8, and stays put half the time. Every arrangement with the
+same count gives the same odds for the next count. Because the rule
+applies again at every step, it fixes the odds of every future sequence
+of counts too.</p>
+<p>Five states, no predictive loss for future counts. The coarse
+description runs on its own, without ever reopening the sixteen
+arrangements underneath.</p>
+<p>Markov chain theory calls this <em>lumpability</em>, a term from
+Kemeny and Snell’s 1960 <em>Finite Markov Chains</em>: the detailed
+states lumped together agree on the odds of moving between lumps.</p>
+<p>This is a four-particle instance of the Ehrenfest diffusion model,
+which Fernando Rosas and colleagues work through in their 2024 paper <a
+href="https://arxiv.org/html/2402.09090v2"><em>Software in the natural
+world</em></a>, one of the clearest recent attempts to make emergence
+precise. Their question is when a higher level of description can stand
+on its own: when knowing everything underneath adds nothing to
+predicting what the higher level will do next. When it can, the higher
+level behaves like software, running on the physics without consulting
+it.</p>
+<p>That is one kind of emergence you can actually check. A level of
+description that has earned the right to stop looking down.</p>
+<h2>True, and no longer enough</h2>
+<p>Now change one rule.</p>
+<p>Keep picking particles at random, but give them different odds of
+switching once picked. A switches with probability 1/8. B with 1/4. C
+with 1/2. D with 7/8.</p>
+<p>Same sixteen arrangements. Same five counts. But the particles are no
+longer interchangeable, and the count no longer runs on its own.</p>
+<p>Take two arrangements with two particles on the left. In one, the
+left chamber holds C and D, the restless pair. In the other, A and B,
+the sluggish pair.</p>
+<p>To reach three, a particle has to cross over from the right. With C
+and D on the left, the ones that can cross are the sluggish pair, A and
+B: each is picked with probability one-quarter and then switches with
+probability 1/8 or 1/4, so the chance is 1/32 + 2/32 = 3/32. With A and
+B on the left, the restless pair waits on the right, and the chance is
+4/32 + 7/32 = 11/32. Same count, and the chance of reaching three
+differs by twenty-five percentage points between two states the summary
+calls identical.</p>
+<figure>
+<img src="fig2-same-count-different-futures.png" alt="Dot plot. For each of the six ways to have two particles on the left, the chance the next count is three. With identical particles all six are 8/32. With unequal particles they range from 3/32 (C and D on the left) to 11/32 (A and B on the left)." loading="lazy">
+<figcaption>
+With identical particles, every way of having two on the left predicts
+the same next step. With unequal particles, no two agree.
+</figcaption>
+</figure>
+<p>The sentence “two particles are on the left” is still entirely
+true.</p>
+<p>It has stopped being enough.</p>
+<p>An abstraction can go stale without ever becoming false, and ordinary
+factual checks will not notice.</p>
+<h2>Named interventions</h2>
+<p>There is a second way to break the count, even with identical
+particles.</p>
+<p>Go back to the original rule, where every particle switches with the
+same odds. Now add a new operation: <em>move particle A</em>.</p>
+<p>If A is on the left, the count drops. If A is on the right, the count
+rises. The count alone cannot tell you which.</p>
+<p>The random rule is unchanged. We have added an operation it never
+licensed us to predict. The five-state description was sufficient for
+updates that treat every particle alike. An update that singles one out
+needs to know where that particle is. Rosas and colleagues build the
+same condition into their theory: <a
+href="https://arxiv.org/html/2402.09090v2#S2.SS2">counterfactual
+guarantees require full observation or interventions that respect the
+modeled dynamics</a>. <em>Move particle A</em> does not.</p>
+<h2>Every agent is a
+coarse-graining</h2>
+<p>Every long-running AI agent coarse-grains its own past. When the
+context window fills, it summarizes and keeps going. Memory systems do
+the same across sessions: compress the conversation, keep the gist, drop
+the rest. Each compaction is a lump. Each lump is a bet that the merged
+details will not matter.</p>
+<p>Four reviewers are choosing between drafts A and B. Three prefer A;
+one prefers B. The assistant compacts the thread to a single line:
+“Three of four reviewers prefer A.”</p>
+<p>Perfectly accurate. Then a new message arrives: “Lena has
+switched.”</p>
+<p>If Lena was in the majority, support for A falls to two. If she was
+the holdout, it rises to four. The summary and the message are
+consistent with both. No amount of model intelligence recovers the
+answer, because the information is not there. A smarter model might
+explain the ambiguity beautifully. The ambiguity stays.</p>
+<p>Change the message to “One reviewer switched from A to B” and the
+tally updates itself. The message carries its own effect.</p>
+<p>This is <em>move particle A</em> in conversational form. An update
+that states its effect can ride on the summary. An update that depends
+on a discarded identity breaks it.</p>
+<p>And conversation is full of the second kind. <em>Lena switched. Use
+the other one. Go back to what Sam suggested. That number was
+wrong.</em> So the compressions likely to fail are predictable: the ones
+that kept the aggregate and dropped the referent.</p>
+<p>None of this transfers the exactness of the particle model to
+natural-language memory. A summary written in English has no transition
+matrix to check. What transfers is the shape of the failure, and with it
+a way to look for one.</p>
+<h2>What you can afford to
+forget</h2>
+<p>Before turning that into a test, one more particle example, because
+the test has to know when a lost distinction is harmless. Not every lost
+distinction costs something.</p>
+<p>Back to the unequal particles. A risk-neutral player is offered a
+ticket that pays one dollar if, after the next step, three particles are
+on the left. It costs a quarter. Two are on the left now. Buy or
+decline?</p>
+<p>It depends on which two. With A and B on the left, the ticket wins
+with probability 11/32, better than the 8/32 it costs. Buy. With C and D
+on the left, it wins with probability 3/32. Decline. Knowing only the
+count, you cannot make the right call in both cases.</p>
+<p>Now drop the price to a sixteenth of a dollar. Work through all six
+ways to put two particles on the left, and the worst chance of reaching
+three is 3/32. That still beats 2/32. Buy, whichever two they are.</p>
+<p>You can draw the line exactly. Across the six arrangements, the
+chance of reaching three runs from 3/32 to 11/32. Price the ticket below
+3/32 or above 11/32 and the count tells you everything the decision
+needs. Forgetting the names costs nothing. Price it inside the band and
+the same forgetting can cost you the right choice.</p>
+<figure>
+<img src="fig3-when-the-count-decides.png" alt="Two panels with the same six arrangements. At a price of 1/16, every arrangement's chance of three beats the price: buy in every row. At a price of 1/4, three rows decline, one breaks even and two buy. A shaded band from 3/32 to 11/32 marks where the price makes the names matter." loading="lazy">
+<figcaption>
+Price the ticket outside the shaded band and the count decides. Inside
+it, the names matter.
+</figcaption>
+</figure>
+<p>So “afford to forget” is not a metaphor. Whether a lost distinction
+is expensive depends on the decision riding on it. A summary too coarse
+for an exact forecast can still determine the best action.</p>
+<p>The idea has a pedigree. In 2009, Nicolas Brodu showed how a payoff
+function decides which distinctions between states matter, and called
+the resulting groups <a
+href="https://arxiv.org/abs/0902.0600">decisional states</a>: in his
+words, the “emerging” patterns corresponding to the utility function.
+Reinforcement learning has a similar ladder of <a
+href="https://thomasjwalsh.net/pub/aima06Towards.pdf">state
+abstractions</a>, from those that preserve the whole model down to those
+that preserve only the best action. The cheap ticket sits on that bottom
+rung.</p>
+<p>The other extreme makes the point from the opposite side. Label every
+arrangement “system.” That description predicts its own next state
+perfectly: it will be “system.” It has bought complete self-sufficiency
+by forgetting everything anyone could want to know.</p>
+<p>Put the ticket beside <em>move particle A</em> and sufficiency stops
+being a property of a description alone. It belongs to three things
+together: the description, the updates it has to absorb and the
+decisions it has to support.</p>
+<h2>The merge test</h2>
+<p>Put the pieces together and you get a test for agent memory that does
+not depend on whether a summary is accurate.</p>
+<p>Start by saying what the summary has to support without reopening the
+source. Then take two different histories that compress to the same
+summary, and hand both the same next message. If no single response is
+right in both histories, the summary has merged something the future
+needs. Different forecasts are not enough to fail it. The cheap ticket
+already showed that two histories can disagree about the odds and still
+agree about what to do.</p>
+<figure>
+<img src="fig4-merge-test.png" alt="Diagram. History 1 (Lena, Sam and Priya prefer A; Tom prefers B) and History 2 (Lena prefers B; Sam, Priya and Tom prefer A) both compress to the summary 'Three of four prefer A.' After the message 'Lena has switched,' History 1 needs 'Two of four prefer A' and History 2 needs 'Four of four prefer A.'" loading="lazy">
+<figcaption>
+Two histories, one accurate summary, one named update. No single answer
+is right for both.
+</figcaption>
+</figure>
+<p>Run it against the updates your system actually receives, the
+corrections and reversals and references back, not just against recall
+questions about the past. A summary can ace every recall question you
+thought to ask and fail on the first “no, the other one.” And run each
+conversation forward a few turns: two histories that agree on the next
+reply can still part ways later.</p>
+<p>Be clear about what the test can and cannot do. One collision proves
+a summary insufficient for that task. A clean run supports sufficiency
+only for the updates you tried. That asymmetry is the useful part:
+collisions are cheap to construct, and each one points at what was lost.
+If the system can retrieve, test the next step too. Does the update
+trigger the lookup, and does the lookup find what the task needs?</p>
+<p>The test also points at the repair. In the reviewer case, the missing
+distinction is each reviewer’s vote. Keep that small table and the
+summary survives any named switch, not just Lena’s. Where the referents
+cannot be predicted, keep the source and let the agent go back for it.
+Or ask for updates that state their own effect. Each repair puts the
+information somewhere different, and which one is worth paying for is
+the ticket question again: how often the update comes, what a wrong
+answer costs, how cheap the lookup is. What fails is keeping the summary
+as it was and hoping.</p>
+<p>A memory can go out of date in two ways. The world can change, making
+the summary false. Or the work can change, making it insufficient: the
+details it had good reason to drop are suddenly the ones the next step
+needs. The first kind of staleness shows up when you check the facts.
+The second does not show up until you try to keep going.</p>
+<h2>What a memory should dream
+about</h2>
+<p>Memory systems increasingly do their upkeep offline. Between
+sessions, they reread old transcripts, merge duplicate notes and fix
+what has drifted. <a
+href="https://www.anthropic.com/research/components-of-agent-memory">Anthropic
+writes</a> that this process is often called dreaming. In one of its
+examples, Claude checks a note against the original transcript, catches
+an error and rewrites it.</p>
+<p>That catches the first kind of staleness, a note that contradicts the
+record. It does not catch the second: “three of four reviewers prefer A”
+passes any factual check, because it is true. So here is a proposal, not
+yet a measured result: give the night’s work a second question. Replay
+the kinds of update the memory’s conversations actually bring, and ask
+the merge question of each.</p>
+<p>The probes do not have to be invented from nothing. Take the
+corrections that actually arrived later in recorded conversations, add
+hypothetical ones about the people and things the source mentions, and
+ask whether one response would be right for every history consistent
+with what the memory kept.</p>
+<p>For the reviewers, such a pass would find on its own the repair the
+merge test found by hand. “Lena has switched” collides, so the pass
+would keep the four-line table of votes, and nothing else. The thread’s
+wording, the order of the messages, who said what about the font: no
+update the pass tried could tell those histories apart, so they would
+stay forgotten. It could merge in the other direction too. Two notes
+that record Lena’s vote in different words would become one.</p>
+<p>Split where an update collides. Merge where none does. When a new
+kind of update starts arriving, reopen the summaries it touches.</p>
+<p>That gives dreaming a measure other than tidiness. The question in
+the morning is not whether the notes are cleaner. It is whether the next
+correction lands, and how little had to be reopened to land it.</p>
+<h2>Stop looking, look again</h2>
+<p>None of this is an argument against forgetting. Forgetting is the
+point. The five-state description earns its place because we can work
+with it instead of sixteen arrangements, and a memory that kept
+everything in view would not be a memory. It would be the archive.</p>
+<p>The answer is a division of labor. The assistant works from “three of
+four prefer A,” with a note that any named change means checking the
+votes. Behind it sits the four-line table its last dream decided to
+keep, and behind that the thread itself. When “Lena has switched”
+arrives, the summary does not guess. It looks down one level, finds her
+vote, and updates.</p>
+<p>A higher-level description earns its independence for the work it can
+do without consulting the details beneath it. That independence is what
+emergence buys. When the work changes, it has to be earned again.</p>
+<p>A good abstraction lets you stop looking.</p>
+<p>A good memory knows when to look again.</p>
+
+  </article>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://github.com/abenenson">GitHub</a>
+      <a href="https://www.linkedin.com/in/adam-benenson/">LinkedIn</a>
+      <a href="https://x.com/ashbenen">X</a>
+      <a href="https://medium.com/@ashbenen">Medium</a>
+      <a href="mailto:adam.benenson@gmail.com">adam.benenson@gmail.com</a>
+      <a href="mailto:adam@forethink.ai">adam@forethink.ai</a>
+    </div>
+  </footer>
+</body>
+</html>
