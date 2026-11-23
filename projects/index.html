@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Adam Benenson</title>
-  <meta name="description" content="Projects by Adam Benenson: Prism (portfolio-intelligence engine), Snowball (prediction-market engine), Forethink Labs (anticipatory AI), Eudaimon (self-building agent architecture), Digital Twin (causal-reasoning twin infrastructure), channel-capacity (Lean 4), legitimacy (machine-checked AI governance).">
+  <meta name="description" content="Projects by Adam Benenson: Prism (portfolio-intelligence engine), Snowball (prediction-market engine), Forethink Labs (anticipatory AI), Eudaimon (self-building agent architecture), Digital Twin (causal-reasoning twin infrastructure), open-source Lean 4 libraries, legitimacy (machine-checked AI governance).">
   <meta name="author" content="Adam Benenson">
   <link rel="canonical" href="https://adambenenson.com/projects/">
 
@@ -15,7 +15,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:image" content="https://adambenenson.com/og-image.png">
   <meta property="og:title" content="Projects — Adam Benenson">
-  <meta property="og:description" content="Prism, Snowball, Forethink Labs, Eudaimon, Digital Twin, channel-capacity, legitimacy.">
+  <meta property="og:description" content="Prism, Snowball, Forethink Labs, Eudaimon, Digital Twin, open-source Lean 4 libraries, legitimacy.">
   <meta property="og:url" content="https://adambenenson.com/projects/">
   <meta property="og:site_name" content="Adam Benenson">
 
@@ -23,7 +23,7 @@
   <meta name="twitter:site" content="@ashbenen">
   <meta name="twitter:creator" content="@ashbenen">
   <meta name="twitter:title" content="Projects — Adam Benenson">
-  <meta name="twitter:description" content="Prism, Snowball, Forethink Labs, Eudaimon, Digital Twin, channel-capacity, legitimacy.">
+  <meta name="twitter:description" content="Prism, Snowball, Forethink Labs, Eudaimon, Digital Twin, open-source Lean 4 libraries, legitimacy.">
 
   <script type="application/ld+json">
   {
@@ -72,6 +72,9 @@
     }
     .topnav a:hover { color: var(--text); }
     .topnav a.current { color: var(--text); }
+    .lean-library-intro { margin-bottom: 18px; }
+    .lean-library-list { padding-left: 1.2em; }
+    .lean-library-list li + li { margin-top: 5px; }
     h1 {
       font-size: 1.5rem;
       font-weight: normal;
@@ -278,49 +281,43 @@
       </div>
     </div>
 
+    <p class="item-desc lean-library-intro">Open-source Lean 4 libraries built on Mathlib. The repositories describe the theorem scope and pin the Lean and Mathlib versions.</p>
+
     <div class="item">
-      <div class="item-title">
-        <a href="/projects/channel-capacity/">channel-capacity</a>
-      </div>
-      <div class="item-meta">Lean 4 · Mathlib · sorry-free</div>
-      <div class="item-desc">
-        A Lean 4 formalization of Shannon capacity-achieving prior uniqueness for Markov kernels.
-        Three layered theorems: a finite-alphabet result, a compact-Polish discharged result, and a
-        general measure-theoretic packaging result.
-      </div>
+      <h3 class="item-title">Probability and control</h3>
+      <ul class="item-desc lean-library-list">
+        <li><a href="https://github.com/abenenson/finite-markov-processes">finite-markov-processes</a>. Continuous-time jump processes, path large deviations, and particle confidence bounds.</li>
+        <li><a href="https://github.com/abenenson/finite-markov-kernels">finite-markov-kernels</a>. Finite kernels, stationary laws, mixing, disintegration, and perturbation bounds.</li>
+        <li><a href="https://github.com/abenenson/finite-causal-control">finite-causal-control</a>. Entropy-regularized control with Bellman regret and uniqueness on the selected support.</li>
+        <li><a href="https://github.com/abenenson/measure-discrimination">measure-discrimination</a>. Lossless measurable encodings, density transport, and product likelihoods.</li>
+      </ul>
     </div>
 
     <div class="item">
-      <div class="item-title">
-        <a href="https://github.com/abenenson/cencov-petz" target="_blank" rel="noopener">cencov-petz</a>
-      </div>
-      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
-      <div class="item-desc">
-        The finite Čencov–Petz uniqueness theorem: any continuous monotone metric family on the
-        probability simplex is a scalar multiple of the Fisher information metric.
-      </div>
+      <h3 class="item-title">Information theory and geometry</h3>
+      <ul class="item-desc lean-library-list">
+        <li><a href="https://github.com/abenenson/finite-relative-entropy">finite-relative-entropy</a>. Gibbs identities, Leinster’s KL characterization, strong data processing, and censoring loss.</li>
+        <li><a href="https://github.com/abenenson/channel-capacity">channel-capacity</a>. Uniqueness of capacity-achieving priors for Markov kernels. <a href="/projects/channel-capacity/">Overview</a>.</li>
+        <li><a href="https://github.com/abenenson/fisher-information">fisher-information</a>. KL curvature and expected squared score in finite and integral models.</li>
+        <li><a href="https://github.com/abenenson/cencov-petz">cencov-petz</a>. Uniqueness of the Fisher metric under finite Markov morphisms, up to scale.</li>
+      </ul>
     </div>
 
     <div class="item">
-      <div class="item-title">
-        <a href="https://github.com/abenenson/compact-spectral" target="_blank" rel="noopener">compact-spectral</a>
-      </div>
-      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
-      <div class="item-desc">
-        The spectral theorem for compact self-adjoint operators on Hilbert spaces: a Hilbert basis of
-        eigenvectors exists.
-      </div>
+      <h3 class="item-title">Analysis, optimization, and geometry</h3>
+      <ul class="item-desc lean-library-list">
+        <li><a href="https://github.com/abenenson/levi-civita-smoothness">levi-civita-smoothness</a>. Global smoothness of Mathlib’s Levi-Civita connection for smooth Riemannian metrics.</li>
+        <li><a href="https://github.com/abenenson/rellich-kondrachov">rellich-kondrachov</a>. Compact Sobolev embedding on compact Riemannian manifolds.</li>
+        <li><a href="https://github.com/abenenson/compact-spectral">compact-spectral</a>. The spectral theorem for compact self-adjoint operators.</li>
+        <li><a href="https://github.com/abenenson/berge-maximum">berge-maximum</a>. Berge’s maximum theorem for correspondences in a compact decision space.</li>
+      </ul>
     </div>
 
     <div class="item">
-      <div class="item-title">
-        <a href="https://github.com/abenenson/rellich-kondrachov" target="_blank" rel="noopener">rellich-kondrachov</a>
-      </div>
-      <div class="item-meta">Lean 4 · Mathlib candidate · sorry-free</div>
-      <div class="item-desc">
-        Rellich–Kondrachov compact embedding: H¹ → L² is compact on compact Riemannian manifolds.
-        Euclidean heart via Fréchet–Kolmogorov; manifold glue via finite chart decomposition.
-      </div>
+      <h3 class="item-title">Logic</h3>
+      <ul class="item-desc lean-library-list">
+        <li><a href="https://github.com/abenenson/godel-loeb">godel-loeb</a>. Löb’s theorem in a modal provability-logic framework.</li>
+      </ul>
     </div>
   </section>
 
